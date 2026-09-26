@@ -1,1106 +1,912 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لعبة صيدهم - Seyadhom</title>
-  
-  <!-- خط تاجبوال الأصيل للحصول على مظهر أنيق وفخم -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- مكتبة الأيقونات Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <style>
-    :root {
-      --bg-gradient: linear-gradient(135deg, #fbf7f4 0%, #f4eae1 50%, #eae0d5 100%);
-      --card-bg: rgba(255, 255, 255, 0.92);
-      --card-border: rgba(212, 160, 23, 0.3);
-      --gold-primary: #d4a017;
-      --gold-hover: #b8860b;
-      --gold-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-      --royal-gold: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
-      --bronze-accent: #8c6d46;
-      --text-dark: #2c221e;
-      --text-muted: #6b5e54;
-      --shadow-soft: 0 10px 30px rgba(140, 109, 70, 0.12);
-      --shadow-gold: 0 8px 25px rgba(212, 160, 23, 0.25);
-      --radius-lg: 24px;
-      --radius-md: 16px;
-      --radius-sm: 10px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Tajawal', sans-serif;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      background: var(--bg-gradient);
-      min-height: 100vh;
-      color: var(--text-dark);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      overflow-x: hidden;
-    }
-
-    /* الحاوية الرئيسية للتطبيق */
-    .app-container {
-      width: 100%;
-      max-width: 520px;
-      min-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-    }
-
-    /* الشعار الفخم المتحرك */
-    .logo-container {
-      text-align: center;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      position: relative;
-    }
-
-    .logo-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 80px;
-      height: 80px;
-      background: var(--royal-gold);
-      border-radius: 50%;
-      box-shadow: var(--shadow-gold);
-      position: relative;
-      animation: floatLogo 4s ease-in-out infinite;
-    }
-
-    .logo-badge::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 2px dashed #d4a017;
-      animation: rotateRing 20s linear infinite;
-    }
-
-    .logo-badge i {
-      color: #3d2b1f;
-      width: 42px;
-      height: 42px;
-    }
-
-    .logo-title {
-      font-size: 2.5rem;
-      font-weight: 900;
-      margin-top: 12px;
-      background: linear-gradient(45deg, #5c4033, #d4a017, #8c6d46);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
-      text-shadow: 0 2px 10px rgba(212, 160, 23, 0.15);
-    }
-
-    .logo-subtitle {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    @keyframes floatLogo {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-8px) scale(1.03); }
-    }
-
-    @keyframes rotateRing {
-      100% { transform: rotate(360deg); }
-    }
-
-    /* البطاقات الرئيسية */
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      box-shadow: var(--shadow-soft);
-      margin-bottom: 20px;
-      transition: all 0.3s ease;
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
-      color: var(--bronze-accent);
-      border-bottom: 2px dashed rgba(212, 160, 23, 0.2);
-      padding-bottom: 12px;
-    }
-
-    .card-header h2 {
-      font-size: 1.25rem;
-      font-weight: 800;
-    }
-
-    /* العناصر التفاعلية المدخلة */
-    .input-group {
-      margin-bottom: 16px;
-    }
-
-    .input-group label {
-      display: block;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .input-field {
-      width: 100%;
-      padding: 14px 18px;
-      border-radius: var(--radius-md);
-      border: 2px solid #e2d7cd;
-      background: #fff;
-      font-size: 1rem;
-      color: var(--text-dark);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .input-field:focus {
-      border-color: var(--gold-primary);
-    }
-
-    /* قائمة إضافة اللاعبين */
-    .players-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .player-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .btn-remove {
-      background: #fce8e6;
-      color: #d93025;
-      border: none;
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    /* الأزرار الرئيسية */
-    .btn {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: var(--radius-md);
-      font-size: 1.1rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-
-    .btn-primary {
-      background: var(--royal-gold);
-      color: #2a1d0c;
-      box-shadow: var(--shadow-gold);
-    }
-
-    .btn-primary:active {
-      transform: scale(0.98);
-    }
-
-    .btn-secondary {
-      background: #fff;
-      color: var(--bronze-accent);
-      border: 2px solid var(--gold-primary);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 2px dashed var(--gold-primary);
-      color: var(--bronze-accent);
-    }
-
-    /* اختيار القسم */
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(1, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .category-card {
-      background: #fff;
-      border: 2px solid #ebdcd0;
-      border-radius: var(--radius-md);
-      padding: 16px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .category-card.selected {
-      border-color: var(--gold-primary);
-      background: #fffbf0;
-      box-shadow: var(--shadow-gold);
-    }
-
-    .category-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: #fdf5e6;
-      color: var(--gold-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .category-title {
-      font-weight: 800;
-      font-size: 1.05rem;
-    }
-
-    .category-desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    /* شاشة تسليم الهاتف والكشف السرّي */
-    .pass-phone-box {
-      text-align: center;
-      padding: 30px 10px;
-    }
-
-    .pass-icon {
-      width: 90px;
-      height: 90px;
-      background: #fef8ec;
-      border-radius: 50%;
-      color: var(--gold-primary);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
-
-    .role-secret-card {
-      background: #fff;
-      border-radius: var(--radius-md);
-      padding: 20px;
-      border: 2px solid var(--gold-primary);
-      margin: 20px 0;
-      text-align: center;
-    }
-
-    .secret-value {
-      font-size: 1.8rem;
-      font-weight: 900;
-      color: var(--gold-hover);
-      margin: 10px 0;
-    }
-
-    .rule-badge {
-      background: #fff8eb;
-      border: 1px solid #f3d082;
-      border-radius: var(--radius-sm);
-      padding: 12px;
-      font-size: 0.95rem;
-      color: #63430a;
-      margin-top: 10px;
-    }
-
-    /* مرحلة الأسئلة والاستفسارات */
-    .question-box {
-      background: #fff;
-      border-radius: var(--radius-md);
-      padding: 18px;
-      border-right: 5px solid var(--gold-primary);
-      margin-bottom: 16px;
-    }
-
-    .voting-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #fdf6ec;
-      padding: 12px 16px;
-      border-radius: var(--radius-sm);
-      margin-top: 15px;
-    }
-
-    /* شاشة التصويت السرية والتوقيت */
-    .timer-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: #c0392b;
-      margin-bottom: 20px;
-      background: #fdf3f2;
-      padding: 10px;
-      border-radius: var(--radius-sm);
-    }
-
-    .vote-select-item {
-      margin-bottom: 14px;
-    }
-
-    .vote-select-item label {
-      display: block;
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    /* لوحة الصدارة والنتائج */
-    .leaderboard-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 18px;
-      background: #fff;
-      border-radius: var(--radius-md);
-      margin-bottom: 10px;
-      border: 1px solid #ebdcd0;
-    }
-
-    .leaderboard-item.rank-1 {
-      border-color: var(--gold-primary);
-      background: linear-gradient(90deg, #fffdf8 0%, #fff8eb 100%);
-    }
-
-    .player-rank {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #f0e6dd;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 0.9rem;
-    }
-
-    .rank-1 .player-rank {
-      background: var(--royal-gold);
-      color: #fff;
-    }
-
-    .player-score {
-      font-weight: 800;
-      color: var(--gold-hover);
-      font-size: 1.1rem;
-    }
-
-    /* شريط المعاينة والتأكيد */
-    .round-indicator {
-      display: inline-block;
-      padding: 6px 16px;
-      background: var(--bronze-accent);
-      color: #fff;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    /* الحقوق والتذييل */
-    footer {
-      text-align: center;
-      padding: 16px 0;
-      border-top: 1px dashed rgba(212, 160, 23, 0.3);
-      margin-top: 20px;
-    }
-
-    .copyright-text {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>لعبة صيدهم - النسخة الرسمية</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            yellow: '#FFC800',
+                            navy: '#0B192C',
+                            card: '#1E293B',
+                            lightBg: '#F8FAFC',
+                            gray: '#F4F5F7'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0B192C;
+            color: #F4F5F7;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .bg-pattern {
+            background-image: radial-gradient(#FFC800 1px, transparent 1px);
+            background-size: 24px 24px;
+            opacity: 0.08;
+        }
+        .gold-glow {
+            box-shadow: 0 0 25px rgba(255, 200, 0, 0.3);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B192C;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFC800;
+            border-radius: 4px;
+        }
+    </style>
 </head>
-<body>
-
-  <div class="app-container">
-    
-    <!-- الشعار الفخم التفاعلي -->
-    <div class="logo-container">
-      <div class="logo-badge">
-        <i data-lucide="target"></i>
-      </div>
-      <h1 class="logo-title">صيدهم</h1>
-      <p class="logo-subtitle">لعبة الذكاء والتخمين الجماعي الفاخرة</p>
-    </div>
-
-    <!-- 1. شاشة البداية وإدخال اللاعبين -->
-    <div id="screen-setup" class="card">
-      <div class="card-header">
-        <i data-lucide="users"></i>
-        <h2>إعداد اللاعبين</h2>
-      </div>
-
-      <div id="players-container" class="players-list">
-        <!-- سيتم توليد أسماء اللاعبين هنا -->
-      </div>
-
-      <button id="btn-add-player" class="btn btn-outline" style="margin-bottom: 20px;">
-        <i data-lucide="user-plus"></i> إضافة لاعب آخر
-      </button>
-
-      <button id="btn-to-categories" class="btn btn-primary">
-        المتابعة لاختيار القسم <i data-lucide="arrow-left"></i>
-      </button>
-    </div>
-
-    <!-- 2. شاشة اختيار القسم -->
-    <div id="screen-categories" class="card hidden">
-      <div class="card-header">
-        <i data-lucide="grid"></i>
-        <h2>اختر قسم الجولة</h2>
-      </div>
-
-      <div class="categories-grid" id="categories-container">
-        <!-- سيتم التوليد بواسطة JS -->
-      </div>
-
-      <button id="btn-start-game" class="btn btn-primary">
-        بدء التوزيع السرّي <i data-lucide="play"></i>
-      </button>
-    </div>
-
-    <!-- 3. شاشة التمرير السرية -->
-    <div id="screen-pass-phone" class="card hidden">
-      <div class="pass-phone-box">
-        <div class="round-indicator" id="pass-round-num">الجولة 1 من 3</div>
-        <div class="pass-icon">
-          <i data-lucide="smartphone" style="width: 48px; height: 48px;"></i>
-        </div>
-        <h2 style="font-size: 1.5rem; margin-bottom: 8px;">سلم الجوال الآن إلى:</h2>
-        <h1 id="pass-player-name" style="color: var(--gold-hover); font-size: 2rem; margin-bottom: 20px;">-</h1>
-
-        <div id="secret-content-box" class="hidden">
-          <div class="role-secret-card">
-            <span style="font-size: 0.9rem; color: var(--text-muted);">الشغلة الخاصة بك هي:</span>
-            <div id="secret-role-text" class="secret-value">-</div>
-          </div>
-
-          <div class="rule-badge">
-            <strong style="display: block; margin-bottom: 4px;">⚖️ قانون الجولة المقيد:</strong>
-            <span id="secret-rule-text">-</span>
-          </div>
-        </div>
-
-        <div style="margin-top: 30px;">
-          <button id="btn-reveal-role" class="btn btn-primary" style="margin-bottom: 12px;">
-            <i data-lucide="eye"></i> كشف الشغلة
-          </button>
-          <button id="btn-next-pass" class="btn btn-secondary hidden">
-            انتقال للاعب التالي <i data-lucide="arrow-left"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. شاشة الأسئلة والتفاعل -->
-    <div id="screen-questions" class="card hidden">
-      <div class="card-header">
-        <i data-lucide="message-square"></i>
-        <h2>مرحلة النقاش والأسئلة</h2>
-      </div>
-
-      <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 16px;">
-        يطرح كل لاعب سؤالين على لاعبين آخرين لاستكشاف إجاباتهم مع الالتزام بقانون الجولة!
-      </p>
-
-      <div class="question-box">
-        <strong style="display: block; color: var(--bronze-accent); margin-bottom: 6px;">💡 تذكير قانون القسم:</strong>
-        <p id="current-round-rule-display" style="font-size: 0.95rem; font-weight: 600;">-</p>
-      </div>
-
-      <div style="margin: 20px 0;">
-        <button id="btn-optional-question" class="btn btn-outline" style="margin-bottom: 10px;">
-          <i data-lucide="help-circle"></i> إظهار سؤال اختياري (يتطلب تصويت)
-        </button>
-
-        <div id="optional-question-box" class="question-box hidden" style="border-right-color: #27ae60;">
-          <strong style="color: #27ae60;">السؤال الاختياري للجميع:</strong>
-          <p id="optional-question-text" style="font-weight: 700; font-size: 1.05rem; margin-top: 6px;">-</p>
-        </div>
-      </div>
-
-      <button id="btn-to-voting" class="btn btn-primary">
-        الانتقال للتصويت والتخمين <i data-lucide="check-circle-2"></i>
-      </button>
-    </div>
-
-    <!-- 5. شاشة التصويت السرية المتتابعة -->
-    <div id="screen-voting" class="card hidden">
-      <div class="card-header">
-        <i data-lucide="check-square"></i>
-        <h2>مرحلة التصويت السرّي</h2>
-      </div>
-
-      <div id="vote-pass-step">
-        <div class="pass-phone-box">
-          <div class="pass-icon" style="background: #fdf3f2; color: #c0392b;">
-            <i data-lucide="lock" style="width: 44px; height: 44px;"></i>
-          </div>
-          <h3>التصويت السري للاعب:</h3>
-          <h1 id="voter-player-name" style="color: #c0392b; font-size: 1.8rem; margin: 10px 0;">-</h1>
-          <button id="btn-start-voter-turn" class="btn btn-primary" style="margin-top: 20px;">
-            ابدأ التصويت (20 ثانية) <i data-lucide="timer"></i>
-          </button>
-        </div>
-      </div>
-
-      <div id="vote-form-step" class="hidden">
-        <div class="timer-container">
-          <i data-lucide="clock"></i>
-          <span>الوقت المتبقي: <span id="timer-sec">20</span> ثانية</span>
-        </div>
-
-        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
-          خمن الشغلة الخاصة بكل لاعب حسب القسم المختار:
-        </p>
-
-        <div id="voting-inputs-container">
-          <!-- خيارات التخمين لكل لاعب -->
-        </div>
-
-        <button id="btn-submit-vote" class="btn btn-primary" style="margin-top: 16px;">
-          اعتماد التصويت <i data-lucide="send"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- 6. شاشة نتائج الجولة والنتائج النهائية -->
-    <div id="screen-results" class="card hidden">
-      <div class="card-header">
-        <i data-lucide="award"></i>
-        <h2 id="results-title">نتائج الجولة</h2>
-      </div>
-
-      <div id="leaderboard-container">
-        <!-- جدول الصدارة -->
-      </div>
-
-      <div style="margin-top: 24px;">
-        <button id="btn-next-round" class="btn btn-primary" style="margin-bottom: 10px;">
-          الجولة التالية <i data-lucide="rotate-cw"></i>
-        </button>
-        <button id="btn-restart-game" class="btn btn-secondary hidden">
-          لعبة جديدة <i data-lucide="refresh-cw"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- التذييل والحقوق -->
-    <footer>
-      <hr style="border: none; border-top: 1px dashed rgba(212, 160, 23, 0.3); margin-bottom: 12px;">
-      <p class="copyright-text">
-        مجانية بشكل مؤقت ولا يسمح بيعها جميع الحقوق محفوظة لي HAMZAKAF فريق وشكراً
-      </p>
-    </footer>
-
-  </div>
-
-  <script>
-    // قواعد وبيانات اللعبة والأقسام
-    const GAME_DATA = {
-      categories: [
-        {
-          id: 'regions',
-          name: 'مناطق ومدن المملكة',
-          desc: 'مدن ومناطق المملكة العربية السعودية',
-          icon: 'map-pin',
-          labelName: 'المدينة/المنطقة',
-          items: ['الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام', 'الخبر', 'أبها', 'تبوك', 'حائل', 'جازان', 'العلا', 'القصيم', 'الطائف', 'نجران', 'الأحساء'],
-          rules: [
-            'يمنع وصف المنطقة/المدينة بأي كلمة تتعلق بالطقس أو المناخ.',
-            'ممنوع ذكر الاتجاهات الجغرافية (شمال، جنوب، شرق، غرب، وسط).',
-            'يُحظر ذكر أي معلم معروف، جبل، واجهة سياحية أو اسم مطار.',
-            'يمنع تقليد أو محاكاة اللهجة الخاصة بأهل المنطقة/المدينة.',
-            'ممنوع ذكر اسم أي منطقة أو مدينة مجاورة لها.',
-            'ممنوع ذكر المشهور عنها زراعياً أو صناعياً (تمر، ورد، زيتون...).',
-            'يمنع وصف المدينة بحجمها أو عدد سكانها (كبيرة، زحمة...).',
-            'يمنع استخدام أول حرف أو عدد حروف اسم المنطقة في الوصف.',
-            'يمنع التصريح أو التلميح بوجود ساحل أو بحر.',
-            'ممنوع ذكر وسائل الوصول لها (قطار، طائرة، خط سريع).'
-          ]
-        },
-        {
-          id: 'produce',
-          name: 'الخضروات والفواكه',
-          desc: 'فواكه وخضروات متنوعة',
-          icon: 'apple',
-          labelName: 'النوع',
-          items: ['تفاح', 'موز', 'برتقال', 'فراولة', 'مانجو', 'خيارة', 'طماطم', 'جزر', 'بطيخ', 'عنب', 'ليمون', 'خوخ', 'أنناس', 'رمان', 'كوسة'],
-          rules: [
-            'يمنع منعاً باتاً ذكر لون الخضار/الفاكهة أو قشرتها.',
-            'ممنوع استخدام كلمات الوصف العضوية (حامض، حلو، مر، مالح).',
-            'يمنع ذكر طريقة أكلها (تُقشر، تُعصر، تُطبخ، تُقطع).',
-            'ممنوع التلميح لطريقة نموها (على شجرة، تحت التربة...).',
-            'يمنع ذكر وجود بذور أو نوى داخلها أو عددها.',
-            'ممنوع الوصف الدائري/الطولي أو المقارنة بالحجم.',
-            'يمنع ذكر إدخالها في طبخة أو سلطة معروفة بالاسم.',
-            'ممنوع ذكر الفصل الذي تكثر فيه (صيفية، شتوية).',
-            'يمنع وصف قشرتها (سميكة، ناعمة، خشنة).',
-            'يمنع إعطاء أي تلميح بحرف تبدأ أو تنتهي به الكلمة.'
-          ]
-        },
-        {
-          id: 'clothes',
-          name: 'الملابس (للجنسين)',
-          desc: 'قطع ملابس عامة وسهلة للجميع',
-          icon: 'shirt',
-          labelName: 'قطعة الملابس',
-          items: ['ثوب', 'جاكيت', 'قميص', 'قبعة', 'حذاء', 'جوارب', 'بناطيل', 'وشاح', 'سترة', 'نظارة شمسية', 'معطف', 'حزام'],
-          rules: [
-            'يمنع ذكر جزء الجسم الذي يُرتدى عليه هذا الملبس.',
-            'ممنوع ذكر المادة المصنوع منها (قطن، صوف، جلد، جينز...).',
-            'ممنوع ذكر المناسبة أو المكان الذي يُرتدى فيه.',
-            'يمنع ذكر أجزاء القطعة (سحاب، أزرار، خيوط، جيوب).',
-            'ممنوع وصف طول القطعة (طويل، قصير، واسع، ضيق).',
-            'يمنع استخدام أفعال الارتداء المباشرة (تلبس، تنحط على...).',
-            'يمنع الربط بالحرارة أو البرودة (يدفّي، خفيف...).',
-            'يمنع ذكر كويها أو غسيلها بخار/عادي.',
-            'يمنع وصفها بكلمات مثل (قديمة، حديثة، موضة).',
-            'ممنوع ذكر هل تتفصل تفصيل أو تشتريها جاهزة.'
-          ]
-        },
-        {
-          id: 'drinks',
-          name: 'المشروبات',
-          desc: 'مشروبات باردة وساخنة شائعة',
-          icon: 'coffee',
-          labelName: 'المشروب',
-          items: ['شاي', 'قهوة عربية', 'ماتشا', 'موهيتو', 'بيبسي', 'عصير برتقال', 'كرك', 'سبانيش لاتيه', 'ماء', 'عصير مانجو', 'كابتشينو', 'آيس أيسبريسو'],
-          rules: [
-            'ممنوع تماماً ذكر هل المشروب يُشرب ساخناً أو بارداً.',
-            'ممنوع وصف لون المشروب أو لون العلبة الشهيرة له.',
-            'ممنوع ذكر وجود كافيين، غازات، أو نسبة السكر.',
-            'يمنع ربط المشروب بوقت معين (صباح، بعد الأكل...).',
-            'ممنوع ذكر نوع الكوب أو العلبة (كوب ورقي، علبة...).',
-            'يمنع ذكر الإضافات الشائعة (حليب، ثلج، سكر، نعناع).',
-            'يمنع وصف صوت التقديم أو وجود فقاعات/رغوة.',
-            'ممنوع ذكر طريقة الصنع (يُغلى، يُسحب بآلة، يُخض).',
-            'يمنع ذكر حجم المشروب المعتاد.',
-            'ممنوع ذكر أصل المشروب (نبتة، فاكهة، تصنيع شركة).'
-          ]
-        },
-        {
-          id: 'arabic_food',
-          name: 'الأكلات العربية',
-          desc: 'طبخات وأكلات شعبية معروفة',
-          icon: 'utensils',
-          labelName: 'الأكلة',
-          items: ['كبسة', 'شاورما', 'فلافل', 'سمبوسة', 'منسف', 'جريش', 'حنيذ', 'فتوش', 'كبة', 'مطازيز', 'مقلوبة', 'تبولة'],
-          rules: [
-            'يمنع منعاً باتاً ذكر المكون الرئيسي (رز، عجين، لحم، دجاج).',
-            'ممنوع ذكر الدولة أو المنطقة الشهيرة بها الأكلة.',
-            'ممنوع ذكر هل هي (مقلية، مشوية، مطبوخة بفرن).',
-            'يمنع وصف المذاق (حامض، حار، مالح، دسم).',
-            'يمنع وصف قوام الأكلة (سائلة/شوربة، جافة، مقرمشة).',
-            'يمنع ربطها بمناسبة (عزائم، رمضان، فطور، غداء).',
-            'ممنوع ذكر الإناء الذي تُقدم فيه (صينية، قدر، صحن).',
-            'يمنع ذكر ما يُؤكل معها (سلطة، طحينة، صوص، خبز).',
-            'ممنوع وصف لون الوجبة النهائي.',
-            'يمنع ذكر هل تُؤكل باليد، بالملعقة، أو بالشوكة.'
-          ]
-        }
-      ],
-      optionalQuestions: [
-        'لو كانت الشغلة حقتك شخصية، وش بتكون شخصيتها؟ (هادئة، حادة، ممتعة، غامضة)؟',
-        'في أي موعد أو جَو من أجواء اليوم تحس شغلتك تكون متواجدة أكثر؟',
-        'صف شغلتك بكلمة واحدة فقط وبدون أي حرف من أحرف اسمها!',
-        'لو خيروك تتخلى عن شغلتك مدى الحياة، هل الموضوع سهل أو صعب؟ ولماذا؟',
-        'وش أول شعور أو انطباع يخطر ببالك لما تسمع بشغلتك؟',
-        'هل شغلتك تعتبر من الأشياء المألوفة يومياً ولا النادرة؟',
-        'لو شغلتك لها صوت، كيف بيكون هذا الصوت؟',
-        'لو أهدتك اللعبة هذه الشغلة الحين، وين بتحطها أو وش بتسوي فيها؟',
-        'اعطنا كلمة واحدة تشبه شغلتك ولكنها مو هي!',
-        'لو شغلتك اختفت من العالم، مين أكثر شخص بينضر؟'
-      ]
-    };
-
-    // حالة التطبيق واللعبة
-    let gameState = {
-      players: ['لاعب 1', 'لاعب 2', 'لاعب 3'],
-      scores: {},
-      currentRound: 1,
-      totalRounds: 3,
-      selectedCategory: null,
-      assignedRoles: {},
-      currentRule: '',
-      passPlayerIndex: 0,
-      voterIndex: 0,
-      votes: {},
-      timerInterval: null
-    };
-
-    // عناصر الواجهة DOM
-    const screens = {
-      setup: document.getElementById('screen-setup'),
-      categories: document.getElementById('screen-categories'),
-      passPhone: document.getElementById('screen-pass-phone'),
-      questions: document.getElementById('screen-questions'),
-      voting: document.getElementById('screen-voting'),
-      results: document.getElementById('screen-results')
-    };
-
-    // تهيئة التطبيق عند التحميل
-    window.addEventListener('DOMContentLoaded', () => {
-      renderPlayerInputs();
-      renderCategories();
-      lucide.createIcons();
-    });
-
-    // التنقل بين الشاشات
-    function showScreen(screenKey) {
-      Object.keys(screens).forEach(key => {
-        screens[key].classList.add('hidden');
-      });
-      screens[screenKey].classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    // --- 1. إعداد اللاعبين ---
-    function renderPlayerInputs() {
-      const container = document.getElementById('players-container');
-      container.innerHTML = '';
-
-      gameState.players.forEach((player, index) => {
-        const row = document.createElement('div');
-        row.className = 'player-row';
-        row.innerHTML = `
-          <input type="text" class="input-field player-name-input" value="${player}" data-index="${index}" placeholder="اسم اللاعب ${index + 1}">
-          ${gameState.players.length > 3 ? `
-            <button class="btn-remove" onclick="removePlayer(${index})">
-              <i data-lucide="trash-2"></i>
+<body class="min-h-screen flex flex-col justify-between relative overflow-x-hidden font-cairo">
+    <div class="fixed inset-0 bg-pattern pointer-events-none z-0"></div>
+    <!-- MAIN APP CONTAINER -->
+    <div id="app" class="relative z-10 w-full max-w-2xl mx-auto min-h-screen flex flex-col justify-between p-4 sm:p-6">
+        
+        <!-- HEADER -->
+        <header class="flex justify-between items-center bg-brand-navy/90 backdrop-blur border border-brand-yellow/30 rounded-2xl p-4 shadow-lg mb-3">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-yellow text-brand-navy flex items-center justify-center font-black text-2xl shadow-md">
+                    🎯
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold text-brand-yellow tracking-wide">صيدهم</h1>
+                    <p class="text-xs text-gray-400">لعبة التخمين والمواضيع الجماعية</p>
+                </div>
+            </div>
+            <button onclick="openRulesModal()" class="px-3 py-1.5 bg-brand-yellow/10 border border-brand-yellow/40 text-brand-yellow rounded-xl text-xs font-bold hover:bg-brand-yellow hover:text-brand-navy transition">
+                <i class="fa-solid fa-gavel ml-1"></i> قانون الجولة
             </button>
-          ` : ''}
-        `;
-        container.appendChild(row);
-      });
+        </header>
 
-      // حفظ التعديلات في قائمة الأسماء
-      document.querySelectorAll('.player-name-input').forEach(input => {
-        input.addEventListener('change', (e) => {
-          const idx = parseInt(e.target.dataset.index);
-          gameState.players[idx] = e.target.value.trim() || `لاعب ${idx + 1}`;
-        });
-      });
+        <!-- DYNAMIC CONTENT -->
+        <main id="screen-content" class="flex-grow flex flex-col justify-center my-2">
+            <!-- Rendered by JavaScript -->
+        </main>
 
-      lucide.createIcons();
-    }
+        <!-- FOOTER -->
+        <footer class="mt-4 pt-3 border-t border-slate-800 text-center flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-2">
+            <a href="http://www.tiktok.com/@hamza_kaf" target="_blank" rel="noopener noreferrer" class="hover:text-brand-yellow transition flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700">
+                <i class="fa-brands fa-tiktok text-brand-yellow"></i> تابعنا وقيم اللعبة على تيك توك
+            </a>
+            <div class="font-semibold tracking-wide">
+                جميع الحقوق محفوظة © <span class="text-brand-yellow font-bold">HAMZAKAF</span>
+            </div>
+        </footer>
+    </div>
 
-    document.getElementById('btn-add-player').addEventListener('click', () => {
-      if (gameState.players.length < 8) {
-        gameState.players.push(`لاعب ${gameState.players.length + 1}`);
-        renderPlayerInputs();
-      } else {
-        alert('الحد الأقصى للاعبين هو 8 لاعبين.');
-      }
-    });
+    <!-- MODAL: Moral Oath (العهد الأخلاقي) -->
+    <div id="oath-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="bg-brand-card border-2 border-brand-yellow rounded-3xl p-6 max-w-md w-full text-center shadow-2xl relative">
+            <div class="w-16 h-16 bg-brand-yellow/20 text-brand-yellow rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border border-brand-yellow/50 gold-glow">
+                ✋
+            </div>
+            <h2 class="text-2xl font-black text-brand-yellow mb-2">العهد الأخلاقي للعبة</h2>
+            <p class="text-sm text-gray-300 leading-relaxed mb-6">
+                أتعهد وأقسم بالالتزام بالصلاة، وبر الوالدين، والمذاكرة، وأن الهدف الرئيسي من اللعبة هو الوناسة والمتعة باللعب النظيف والسرية التامة!
+            </p>
+            <button onclick="acceptOath()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 active:scale-95 transition">
+                أعد بذلك وأبدأ اللعب 🎯
+            </button>
+        </div>
+    </div>
 
-    function removePlayer(index) {
-      if (gameState.players.length > 3) {
-        gameState.players.splice(index, 1);
-        renderPlayerInputs();
-      }
-    }
+    <!-- MODAL: Category Rules (قوانين القسم) -->
+    <div id="rules-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="bg-brand-card border border-slate-700 rounded-3xl p-5 max-w-lg w-full max-h-[85vh] flex flex-col shadow-2xl">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-700 mb-3">
+                <h3 class="text-lg font-bold text-brand-yellow flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved"></i> المحظورات الـ 10 للقسم الحاضر
+                </h3>
+                <button onclick="closeRulesModal()" class="text-gray-400 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="rules-modal-list" class="overflow-y-auto space-y-2 pr-1 text-xs text-gray-300">
+                <!-- Injected via JS -->
+            </div>
+            <button onclick="closeRulesModal()" class="mt-4 py-2.5 bg-slate-800 text-brand-yellow font-bold rounded-xl border border-brand-yellow/30 hover:bg-slate-700 transition">
+                إغلاق
+            </button>
+        </div>
+    </div>
 
-    document.getElementById('btn-to-categories').addEventListener('click', () => {
-      // إعداد سجل النقاط الأولي
-      gameState.players.forEach(p => {
-        if (!gameState.scores[p]) gameState.scores[p] = 0;
-      });
-      showScreen('categories');
-    });
+    <!-- JAVASCRIPT ENGINE -->
+    <script>
+        // 1. FREE CATEGORIES WITH 25 ITEMS EACH & 10 SPECIFIC FORBIDDEN RULES
+        const CATEGORIES = [
+            {
+                id: 'cities',
+                name: 'مناطق ومدن المملكة 🇸🇦',
+                unlocked: true,
+                singularName: 'المدينة',
+                items: [
+                    'الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام',
+                    'الخبر', 'الظهران', 'الأحساء', 'الجبيل', 'حفر الباطن',
+                    'أبها', 'خميس مشيط', 'جازان', 'نجران', 'الباحة',
+                    'تبوك', 'حائل', 'بريدة', 'عنيزة', 'العلا',
+                    'الطائف', 'ينبع', 'عرعر', 'الجوف', 'الدوادمي'
+                ],
+                rules: [
+                    "ممنوع السؤال عن الاتجاه الجغرافي: (شمال، جنوب، شرق، غرب، وسط).",
+                    "ممنوع السؤال عن البحر والشواطئ: (هل تطل على بحر، شاطئ، كورنيش؟).",
+                    "ممنوع السؤال عن وجود مطار: (هل فيها مطار دولي أو إقليمي؟).",
+                    "ممنوع السؤال عن المعالم الشهيرة صراحة: (مثل الحرم، العلا، الدرعية، جبل أحد).",
+                    "ممنوع السؤال عن الطقس والجو الحالي: (هل عندهم برودة، أمطار، حرارة؟).",
+                    "ممنوع السؤال عن الحروف: (هل تبدأ بـ/فيها حرف كذا؟).",
+                    "ممنوع السؤال عن عدد الحروف: (كم حرف اسم المدينة؟).",
+                    "ممنوع السؤال عن التبعية الإدارية: (هل هي عاصمة منطقة أم محافظة؟).",
+                    "ممنوع السؤال عن المنتجات الشديدة الشهرة: (مثل تمور معينة، فاكهة معينة تزرع فيها).",
+                    "ممنوع السؤال عن طريق الوصول: (هل أقدر أروح لها بقطار السار/الحرمين؟)."
+                ]
+            },
+            {
+                id: 'veggies',
+                name: 'الخضروات والفواكه 🍎',
+                unlocked: true,
+                singularName: 'النوع',
+                items: [
+                    'تفاح', 'موز', 'برتقال', 'فراولة', 'مانجو',
+                    'خيار', 'طماطم', 'جزر', 'بطيخ', 'عنب',
+                    'ليمون', 'خوخ', 'أناناس', 'رمان', 'كوسة',
+                    'باذنجان', 'خوخ', 'كيوي', 'مشمش', 'أفوكادو',
+                    'بطاطس', 'بصل', 'ثوم', 'خس', 'شمام'
+                ],
+                rules: [
+                    "ممنوع السؤال عن اللون تماماً: (أحمر، أخضر، أصفر... إلخ).",
+                    "ممنوع السؤال عن مكان النمو: (فوق الشجرة، تحت الأرض، على شجيرة).",
+                    "ممنوع السؤال عن الطعم الصريح: (حلو، حامض، مر، مالح).",
+                    "ممنوع السؤال عن البذور والنوى: (فيها عجمة/نواة كبيرة ولا بذور صغيرة؟).",
+                    "ممنوع السؤال عن القشرة: (تتقشر قبل الأكل ولا تؤكل بقشرتها؟).",
+                    "ممنوع السؤال عن الحجم والشكل: (دائرية، طويلة، أكبر من التفاحة؟).",
+                    "ممنوع السؤال عن الحروف أو عددها: (الحرف الأول، عدد الحروف).",
+                    "ممنوع السؤال عن العصير: (هل ينعمل منها عصير مشهور؟).",
+                    "ممنوع السؤال عن الموسم: (صيفية ولا شتوية؟).",
+                    "ممنوع السؤال عن الصلابة: (قاسية وتقرمش ولا لينة وطرية؟)."
+                ]
+            },
+            {
+                id: 'drinks',
+                name: 'المشروبات ☕',
+                unlocked: true,
+                singularName: 'المشروب',
+                items: [
+                    'شاي', 'قهوة عربية', 'ماتشا', 'موهيتو', 'بيبسي',
+                    'عصير برتقال', 'كرك', 'سبانيش لاتيه', 'ماء', 'عصير مانجو',
+                    'كابتشينو', 'آيس اسبريسو', 'كركديه', 'ليمون بالنعناع', 'سفن أب',
+                    'كاكاو ساخن', 'شاي أخضر', 'عصير طبقات', 'أمريكانو', 'عصير رمان',
+                    'فلات وايت', 'ميلك شيك', 'لبن', 'عصير تفاح', 'حمضيات'
+                ],
+                rules: [
+                    "ممنوع السؤال عن درجة الحرارة: (يُشرب حار ولا بارد؟).",
+                    "ممنوع السؤال عن وجود الغازات: (مشروب غازي ولا عادي؟).",
+                    "ممنوع السؤال عن المكون الأساسي: (فيه حليب، قهوة، شاي، أو فاكهة؟).",
+                    "ممنوع السؤال عن اللون أو الشفافية: (أسود، بني، شفاف، ملون).",
+                    "ممنوع السؤال عن طريقة التقديم/العلبة: (علبة حديد، كرتون، كوب ورقي، فنجال).",
+                    "ممنوع السؤال عن نسبة السكر: (حالي جداً ولا بدون سكر؟).",
+                    "ممنوع السؤال عن الحروف أو عددها: (تبدأ بالحرف...، عدد حروفها).",
+                    "ممنوع السؤال عن نسبة الكافيين: (فيه كافيين ينبه ولا بدون؟).",
+                    "ممنوع السؤال عن وقت الشرب: (ينشرب على الريق/الصبح ولا بالليل؟).",
+                    "ممنوع السؤال عن الإضافات: (فيه ثلج، نعناع، رغوة؟)."
+                ]
+            },
+            {
+                id: 'dishes',
+                name: 'الأكلات العربية 🍕',
+                unlocked: true,
+                singularName: 'الأكلة',
+                items: [
+                    'كبسة', 'شاورما', 'فلافل', 'سمبوسة', 'منسف',
+                    'جريش', 'حنيذ', 'فتوش', 'كبة', 'مطازيز',
+                    'مقلوبة', 'تبولة', 'سليق', 'مرقوق', 'قرصان',
+                    'مضغوط', 'مظبي', 'مسخن', 'حمص', 'ملوخية',
+                    'كشري', 'عريكة', 'مصقعة', 'مفطح', 'بلاليط'
+                ],
+                rules: [
+                    "ممنوع السؤال عن المكون الرئيسي: (فيها رز، لحم، دجاج، عجين، خضار؟).",
+                    "ممنوع السؤال عن الأصل والجنسية: (سعودية، شامية، مصرية، أردنية؟).",
+                    "ممنوع السؤال عن أسلوب الأكل: (تؤكل باليد/الخبز ولا بالملعقة/الشوكة؟).",
+                    "ممنوع السؤال عن لون الطبق: (حمراء، بيضاء، صفراء).",
+                    "ممنوع السؤال عن طريقة الطبخ: (مقلية، مشوية، مسلوقة، بالفرن).",
+                    "ممنوع السؤال عن طبيعة الوجبة: (وجبة ثقيلة رئيسية ولا مقبلات خفيفة؟).",
+                    "ممنوع السؤال عن الحروف أو عددها: (اسمها من كم حرف؟).",
+                    "ممنوع السؤال عن المناسبات: (تقدم بالعزائم/الأفراح ولا أكلة يومية؟).",
+                    "ممنوع السؤال عن القوام: (سائلة/شربة ولا جافة ومكبوسة؟).",
+                    "ممنوع السؤال عن الصوصات المرافقة: (يتقدم معها طحينة، شطة، لبن؟)."
+                ]
+            },
+            {
+                id: 'animals',
+                name: 'الحيوانات 🐾',
+                unlocked: true,
+                singularName: 'الحيوان',
+                items: [
+                    'أسد', 'نمر', 'فهد', 'غزال', 'صقر',
+                    'جمل', 'حصان', 'أرنب', 'ثعلب', 'ذئب',
+                    'زرافة', 'فيل', 'دلفين', 'بطريق', 'خروف',
+                    'ماعز', 'سنجاب', 'قنفذ', 'بومة', 'عقاب',
+                    'كوالا', 'كانغارو', 'نسر', 'هدهد', 'ضبع'
+                ],
+                rules: [
+                    "قانون الصوت: يمنع السؤال عن/تقليد/وصف الصوت الذي يصدره.",
+                    "قانون البيئة: ممنوع ذكر أو السؤال عن مكان عيشه (غابة، صحراء، بحر، قطب، مزرعة).",
+                    "قانون الغذاء: يمنع السؤال هل هو مفترس/آكل لحوم أم عشبي/آكل أعشاب.",
+                    "قانون الحركة: ممنوع السؤال عن طريقة حركته (يطير، يسبح، يركض، يزحف).",
+                    "قانون الحجم والشكل: يمنع الوصف بالحجم أو مقارنته بحجم حيوان آخر.",
+                    "قانون الغطاء: ممنوع السؤال عن غطاء جسمه (فرو، ريش، شعر، جلد، قشور).",
+                    "قانون التناسل: يمنع السؤال هل يبيض أم يلد.",
+                    "قانون الألوان: ممنوع السؤال عن ألوانه أو التخطيط/البقع على جسمه.",
+                    "قانون العلاقة بالإنسان: يمنع السؤال هل هو أليف/يُربى بالبيت أم بري/مفترس.",
+                    "قانون الأجزاء المميزة: ممنوع السؤال عن أجزاء جسمه الخاصة (قرون، خرطوم، سنام، أجنحة، زعانف)."
+                ]
+            },
+            // 6 Locked Promotional Categories (🔒 قريباً)
+            { id: 'l1', name: 'مطاعم ومقاهي مشهورة 🔒', unlocked: false },
+            { id: 'l2', name: 'أكلات عالمية (أكلات بلس) 🔒', unlocked: false },
+            { id: 'l3', name: 'دول وعواصم العالم 🔒', unlocked: false },
+            { id: 'l4', name: 'مهن وحرف 🔒', unlocked: false },
+            { id: 'l5', name: 'معالم وثقافات 🔒', unlocked: false },
+            { id: 'l6', name: 'معالم وآثار تاريخية 🔒', unlocked: false }
+        ];
 
-    // --- 2. اختيار الأقسام ---
-    function renderCategories() {
-      const container = document.getElementById('categories-container');
-      container.innerHTML = '';
+        // 10 FIXED GENERAL QUESTIONS FOR OPTIONAL VOTED QUESTION PHASE
+        const FIXED_QUESTIONS = [
+            "ما هي الخصيصة أو الصفة الأبرز التي تميز هذا الشيء في رأيك؟",
+            "متى كانت آخر مرة تعاملت فيها مع هذا الشيء أو رأيته؟",
+            "لو طلب منك وصف هذا الشيء برائحة أو لون، ماذا تختار ولماذا؟",
+            "ما هو شعورك الأول عند التفكير في هذا الشيء أو التواجد بقربه؟",
+            "هل هذا الشيء متوفر في غرفتك الآن أو في منزلك بشكل عام؟",
+            "ما هي الفئة العمرية التي تهتم بهذا الشيء أكثر من غيرها؟",
+            "إذا استغنيت عن هذا الشيء لمدة شهر كامل، كيف ستكون حياتك؟",
+            "ما هو الشيء المنافس أو البديل المباشر لهذا الشيء؟",
+            "هل يرتبط هذا الشيء بذكريات قديمة أم هو حديث في حياتك؟",
+            "ما مدى أهمية هذا الشيء بالنسبة لك من 1 إلى 10 ولماذا؟"
+        ];
 
-      GAME_DATA.categories.forEach((cat, index) => {
-        const card = document.createElement('div');
-        card.className = `category-card ${index === 0 ? 'selected' : ''}`;
-        card.dataset.id = cat.id;
-        card.innerHTML = `
-          <div class="category-icon">
-            <i data-lucide="${cat.icon}"></i>
-          </div>
-          <div>
-            <div class="category-title">${cat.name}</div>
-            <div class="category-desc">${cat.desc}</div>
-          </div>
-        `;
-        card.addEventListener('click', () => {
-          document.querySelectorAll('.category-card').forEach(c => c.classList.remove('selected'));
-          card.classList.add('selected');
-          gameState.selectedCategory = cat;
-        });
-        container.appendChild(card);
-      });
+        // LUCK CARDS POOL (Benefits & Penalties)
+        const LUCK_CARDS = [
+            { type: 'benefit', text: '⭐ منفعة: لديك حصانة! لو تم تخمين سرك بشكل صحيح تسحب 5 نقاط من الشخص المفصح.' },
+            { type: 'penalty', text: '⚠️ مضرة: يجب عليك الإجابة عن كل الأسئلة بكلمتين فقط لا أكثر!' },
+            { type: 'benefit', text: '⭐ منفعة: يمكنك طلب إعادة اختيار السؤال الاختياري إذا لم يعجبك.' },
+            { type: 'penalty', text: '⚠️ مضرة: ممنوع التبليغ أو التلميح السلبي مطلقاً في إجابتك.' },
+            { type: 'benefit', text: '⭐ منفعة: تحصل على +5 نقاط مجانية إضافية في نهاية هذه الجولة.' },
+            { type: 'penalty', text: '⚠️ مضرة: يجب عليك التكلم بنبرة صوت مبالغ فيها أثناء الإجابة!' }
+        ];
 
-      // تحديد القسم الأول افتراضياً
-      gameState.selectedCategory = GAME_DATA.categories[0];
-    }
+        // GAME ENGINE STATE
+        let gameState = {
+            step: 'WELCOME', // WELCOME, PLAYERS_SETUP, CATEGORY, SECRET_PASS, DISCUSSION, OPTIONAL_QUESTION, VOTING_PASS, ROUND_RESULT, FINAL_CROWNING
+            oathAccepted: false,
+            playersCount: 3,
+            players: [], // Array of { id, name, secret, card, selectedCardIndex, guessedSecrets: {}, score: 0 }
+            selectedCategory: null,
+            currentRound: 1, // Max 3 Rounds
+            maxRounds: 3,
+            activeRule: '',
+            revealPlayerIndex: 0,
+            voterPlayerIndex: 0,
+            chosenCardIndex: null,
+            votingVotesForOptional: 0,
+            selectedOptionalQuestion: '',
+            timerSeconds: 20,
+            timerInterval: null
+        };
 
-    document.getElementById('btn-start-game').addEventListener('click', () => {
-      startRound();
-    });
+        window.onload = function() {
+            renderScreen();
+        };
 
-    // --- 3. بدء الجولة والتوزيع السرّي ---
-    function startRound() {
-      const cat = gameState.selectedCategory;
-      
-      // التوزيع العشوائي للمهام والقوانين
-      gameState.assignedRoles = {};
-      const randomRule = cat.rules[Math.floor(Math.random() * cat.rules.length)];
-      gameState.currentRule = randomRule;
-
-      gameState.players.forEach(player => {
-        const randomItem = cat.items[Math.floor(Math.random() * cat.items.length)];
-        gameState.assignedRoles[player] = randomItem;
-      });
-
-      gameState.passPlayerIndex = 0;
-      updatePassPhoneScreen();
-      showScreen('passPhone');
-    }
-
-    function updatePassPhoneScreen() {
-      const currentPlayer = gameState.players[gameState.passPlayerIndex];
-      document.getElementById('pass-round-num').textContent = `الجولة ${gameState.currentRound} من ${gameState.totalRounds}`;
-      document.getElementById('pass-player-name').textContent = currentPlayer;
-      
-      // إعادة ضبط زر الكشف
-      document.getElementById('secret-content-box').classList.add('hidden');
-      document.getElementById('btn-reveal-role').classList.remove('hidden');
-      document.getElementById('btn-next-pass').classList.add('hidden');
-
-      document.getElementById('secret-role-text').textContent = gameState.assignedRoles[currentPlayer];
-      document.getElementById('secret-rule-text').textContent = gameState.currentRule;
-    }
-
-    document.getElementById('btn-reveal-role').addEventListener('click', () => {
-      document.getElementById('secret-content-box').classList.remove('hidden');
-      document.getElementById('btn-reveal-role').classList.add('hidden');
-      document.getElementById('btn-next-pass').classList.remove('hidden');
-    });
-
-    document.getElementById('btn-next-pass').addEventListener('click', () => {
-      gameState.passPlayerIndex++;
-      if (gameState.passPlayerIndex < gameState.players.length) {
-        updatePassPhoneScreen();
-      } else {
-        // الانتقال لمرحلة النقاش والأسئلة
-        document.getElementById('current-round-rule-display').textContent = gameState.currentRule;
-        document.getElementById('optional-question-box').classList.add('hidden');
-        showScreen('questions');
-      }
-    });
-
-    // --- 4. مرحلة الأسئلة والزر الاختياري ---
-    document.getElementById('btn-optional-question').addEventListener('click', () => {
-      if (confirm('هل يوافق أغلبية اللاعبين على إظهار السؤال الاختياري؟')) {
-        const randomQ = GAME_DATA.optionalQuestions[Math.floor(Math.random() * GAME_DATA.optionalQuestions.length)];
-        document.getElementById('optional-question-text').textContent = randomQ;
-        document.getElementById('optional-question-box').classList.remove('hidden');
-      }
-    });
-
-    document.getElementById('btn-to-voting').addEventListener('click', () => {
-      gameState.voterIndex = 0;
-      gameState.votes = {};
-      setupVoterTurn();
-      showScreen('voting');
-    });
-
-    // --- 5. التصويت والتخمين السرّي ---
-    function setupVoterTurn() {
-      const voter = gameState.players[gameState.voterIndex];
-      document.getElementById('voter-player-name').textContent = voter;
-      document.getElementById('vote-pass-step').classList.remove('hidden');
-      document.getElementById('vote-form-step').classList.add('hidden');
-    }
-
-    document.getElementById('btn-start-voter-turn').addEventListener('click', () => {
-      document.getElementById('vote-pass-step').classList.add('hidden');
-      document.getElementById('vote-form-step').classList.remove('hidden');
-
-      renderVotingForm();
-      startTimer(20, () => {
-        submitCurrentVote();
-      });
-    });
-
-    function renderVotingForm() {
-      const container = document.getElementById('voting-inputs-container');
-      container.innerHTML = '';
-      const currentVoter = gameState.players[gameState.voterIndex];
-      const cat = gameState.selectedCategory;
-
-      gameState.players.forEach(player => {
-        if (player !== currentVoter) {
-          const div = document.createElement('div');
-          div.className = 'vote-select-item';
-          
-          let optionsHtml = cat.items.map(item => `<option value="${item}">${item}</option>`).join('');
-
-          div.innerHTML = `
-            <label>اختر ${cat.labelName} الخاص بـ (${player}):</label>
-            <select class="input-field vote-input" data-target="${player}">
-              ${optionsHtml}
-            </select>
-          `;
-          container.appendChild(div);
+        function acceptOath() {
+            gameState.oathAccepted = true;
+            document.getElementById('oath-modal').classList.add('hidden');
+            renderScreen();
         }
-      });
-    }
 
-    function startTimer(seconds, onComplete) {
-      clearInterval(gameState.timerInterval);
-      let timeLeft = seconds;
-      document.getElementById('timer-sec').textContent = timeLeft;
-
-      gameState.timerInterval = setInterval(() => {
-        timeLeft--;
-        document.getElementById('timer-sec').textContent = timeLeft;
-        if (timeLeft <= 0) {
-          clearInterval(gameState.timerInterval);
-          onComplete();
+        function openRulesModal() {
+            const listEl = document.getElementById('rules-modal-list');
+            if (gameState.selectedCategory && gameState.selectedCategory.rules) {
+                listEl.innerHTML = gameState.selectedCategory.rules.map((r, i) => `
+                    <div class="p-2.5 bg-slate-900/80 rounded-xl border-r-4 border-brand-yellow font-medium">
+                        ${i + 1}. ${r}
+                    </div>
+                `).join('');
+            } else {
+                listEl.innerHTML = '<div class="p-3 text-center text-gray-400">يرجى اختيار القسم أولاً لرؤية المحظورات الـ 10.</div>';
+            }
+            document.getElementById('rules-modal').classList.remove('hidden');
         }
-      }, 1000);
-    }
 
-    function submitCurrentVote() {
-      clearInterval(gameState.timerInterval);
-      const currentVoter = gameState.players[gameState.voterIndex];
-      gameState.votes[currentVoter] = {};
+        function closeRulesModal() {
+            document.getElementById('rules-modal').classList.add('hidden');
+        }
 
-      document.querySelectorAll('.vote-input').forEach(select => {
-        const targetPlayer = select.dataset.target;
-        gameState.votes[currentVoter][targetPlayer] = select.value;
-      });
+        function renderScreen() {
+            const container = document.getElementById('screen-content');
+            container.innerHTML = '';
 
-      gameState.voterIndex++;
-      if (gameState.voterIndex < gameState.players.length) {
-        setupVoterTurn();
-      } else {
-        calculateScores();
-        renderResults();
-        showScreen('results');
-      }
-    }
+            if (!gameState.oathAccepted) {
+                document.getElementById('oath-modal').classList.remove('hidden');
+            }
 
-    document.getElementById('btn-submit-vote').addEventListener('click', () => {
-      submitCurrentVote();
-    });
+            switch(gameState.step) {
+                case 'WELCOME':
+                    renderWelcomeScreen(container);
+                    break;
+                case 'PLAYERS_SETUP':
+                    renderPlayersSetupScreen(container);
+                    break;
+                case 'CATEGORY':
+                    renderCategoryScreen(container);
+                    break;
+                case 'SECRET_PASS':
+                    renderSecretPassScreen(container);
+                    break;
+                case 'DISCUSSION':
+                    renderDiscussionScreen(container);
+                    break;
+                case 'OPTIONAL_QUESTION':
+                    renderOptionalQuestionScreen(container);
+                    break;
+                case 'VOTING_PASS':
+                    renderVotingPassScreen(container);
+                    break;
+                case 'ROUND_RESULT':
+                    renderRoundResultScreen(container);
+                    break;
+                case 'FINAL_CROWNING':
+                    renderFinalCrowningScreen(container);
+                    break;
+            }
+        }
 
-    // --- 6. حساب النقاط والنتائج ---
-    function calculateScores() {
-      // كل إجابة صحيحة تمنح اللاعب 10 نقاط
-      Object.keys(gameState.votes).forEach(voter => {
-        Object.keys(gameState.votes[voter]).forEach(target => {
-          const guessedValue = gameState.votes[voter][target];
-          const actualRole = gameState.assignedRoles[target];
-          if (guessedValue === actualRole) {
-            gameState.scores[voter] += 10;
-          }
-        });
-      });
-    }
+        // 1. WELCOME SCREEN
+        function renderWelcomeScreen(container) {
+            container.innerHTML = `
+                <div class="text-center py-6 flex flex-col items-center">
+                    <div class="w-24 h-24 bg-brand-yellow/20 rounded-3xl border-2 border-brand-yellow flex items-center justify-center text-5xl mb-6 gold-glow animate-bounce">
+                        🎯
+                    </div>
+                    <h2 class="text-3xl font-black text-brand-yellow mb-3">مرحباً بك في صيدهم</h2>
+                    <p class="text-gray-300 max-w-md text-sm leading-relaxed mb-8">
+                        اللعبة الجماعية الأكثر ذكاءً وتشويقاً! خمن عناصر أصدقائك، واكتشف المواضيع بدون الوقوع في فخ القوانين الـ 10 الممنوعة عبر هاتف واحد.
+                    </p>
+                    <button onclick="gameState.step='PLAYERS_SETUP'; renderScreen();" class="w-full max-w-xs py-4 bg-brand-yellow text-brand-navy font-black text-xl rounded-2xl shadow-xl hover:bg-yellow-400 active:scale-95 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play"></i> ابدأ اللعبة الآن
+                    </button>
+                </div>
+            `;
+        }
 
-    function renderResults() {
-      const container = document.getElementById('leaderboard-container');
-      container.innerHTML = '';
+        // 2. PLAYERS SETUP SCREEN
+        function renderPlayersSetupScreen(container) {
+            container.innerHTML = `
+                <div class="space-y-5 bg-brand-card border border-slate-700 p-5 rounded-3xl shadow-xl">
+                    <div class="text-center">
+                        <h2 class="text-xl font-black text-brand-yellow">إدخال أسماء اللاعبين 👥</h2>
+                        <p class="text-xs text-gray-400 mt-1">حدد عدد وأسماء اللاعبين (من 3 إلى 5 لاعبين)</p>
+                    </div>
 
-      // ترتيب اللاعبين حسب النقاط
-      const sortedPlayers = [...gameState.players].sort((a, b) => gameState.scores[b] - gameState.scores[a]);
+                    <div class="flex items-center justify-center gap-4 bg-slate-900 p-3 rounded-2xl border border-slate-800">
+                        <button onclick="changePlayerCount(-1)" class="w-10 h-10 bg-slate-800 text-brand-yellow rounded-xl font-black text-xl hover:bg-slate-700">-</button>
+                        <span class="text-2xl font-black text-white w-12 text-center">${gameState.playersCount}</span>
+                        <button onclick="changePlayerCount(1)" class="w-10 h-10 bg-slate-800 text-brand-yellow rounded-xl font-black text-xl hover:bg-slate-700">+</button>
+                    </div>
 
-      sortedPlayers.forEach((player, index) => {
-        const item = document.createElement('div');
-        item.className = `leaderboard-item ${index === 0 ? 'rank-1' : ''}`;
-        item.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <div class="player-rank">${index + 1}</div>
-            <div style="font-weight: 800;">${player}</div>
-          </div>
-          <div class="player-score">${gameState.scores[player]} نقطة</div>
-        `;
-        container.appendChild(item);
-      });
+                    <div id="player-inputs" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                        ${generatePlayerInputsHTML()}
+                    </div>
 
-      // التحقق من نهاية الجولات
-      if (gameState.currentRound < gameState.totalRounds) {
-        document.getElementById('results-title').textContent = `نتائج الجولة ${gameState.currentRound}`;
-        document.getElementById('btn-next-round').classList.remove('hidden');
-        document.getElementById('btn-restart-game').classList.add('hidden');
-      } else {
-        document.getElementById('results-title').textContent = '🏆 النتيجة النهائية للعبة!';
-        document.getElementById('btn-next-round').classList.add('hidden');
-        document.getElementById('btn-restart-game').classList.remove('hidden');
-      }
-    }
+                    <div class="pt-2">
+                        <button onclick="savePlayersAndNext()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 transition">
+                            التالي: اختيار القسم 🗂️
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
 
-    document.getElementById('btn-next-round').addEventListener('click', () => {
-      gameState.currentRound++;
-      showScreen('categories');
-    });
+        function generatePlayerInputsHTML() {
+            let html = '';
+            for(let i = 0; i < gameState.playersCount; i++) {
+                const existingName = gameState.players[i] ? gameState.players[i].name : `لاعب ${i + 1}`;
+                html += `
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-brand-yellow font-bold w-12">#${i + 1}</span>
+                        <input type="text" id="player-input-${i}" value="${existingName}" placeholder="اسم اللاعب" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-yellow">
+                    </div>
+                `;
+            }
+            return html;
+        }
 
-    document.getElementById('btn-restart-game').addEventListener('click', () => {
-      gameState.currentRound = 1;
-      gameState.players.forEach(p => gameState.scores[p] = 0);
-      showScreen('setup');
-    });
-  </script>
+        function changePlayerCount(delta) {
+            const newCount = gameState.playersCount + delta;
+            if(newCount >= 3 && newCount <= 5) {
+                gameState.playersCount = newCount;
+                renderScreen();
+            }
+        }
+
+        function savePlayersAndNext() {
+            const players = [];
+            for(let i = 0; i < gameState.playersCount; i++) {
+                const inp = document.getElementById(`player-input-${i}`);
+                const name = inp && inp.value.trim() !== '' ? inp.value.trim() : `لاعب ${i + 1}`;
+                players.push({
+                    id: i,
+                    name: name,
+                    secret: '',
+                    card: null,
+                    selectedCardIndex: null,
+                    guessedSecrets: {},
+                    score: 0
+                });
+            }
+            gameState.players = players;
+            gameState.step = 'CATEGORY';
+            renderScreen();
+        }
+
+        // 3. CATEGORY SELECTION SCREEN
+        function renderCategoryScreen(container) {
+            let html = `
+                <div class="space-y-4">
+                    <div class="text-center">
+                        <span class="text-xs text-brand-yellow font-bold">الجولة ${gameState.currentRound} من 3</span>
+                        <h2 class="text-2xl font-black text-white">اختر قسم الجولة 🗂️</h2>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[55vh] overflow-y-auto pr-1">
+            `;
+
+            CATEGORIES.forEach(cat => {
+                if(cat.unlocked) {
+                    html += `
+                        <button onclick="startRoundWithCategory('${cat.id}')" class="p-4 bg-brand-card hover:border-brand-yellow border border-slate-700 rounded-2xl text-right transition flex justify-between items-center group shadow-md">
+                            <div>
+                                <h3 class="font-bold text-white group-hover:text-brand-yellow transition">${cat.name}</h3>
+                                <p class="text-xs text-gray-400 mt-1">${cat.items.length} عنصر مفاجئ</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-left text-brand-yellow group-hover:-translate-x-1 transition"></i>
+                        </button>
+                    `;
+                } else {
+                    html += `
+                        <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-2xl text-right flex justify-between items-center opacity-60 cursor-not-allowed">
+                            <div>
+                                <h3 class="font-bold text-gray-400">${cat.name}</h3>
+                                <span class="inline-block mt-1 text-[10px] bg-amber-900/40 text-amber-400 border border-amber-800/60 px-2 py-0.5 rounded-md font-bold">🔒 قريباً</span>
+                            </div>
+                            <i class="fa-solid fa-lock text-amber-400"></i>
+                        </div>
+                    `;
+                }
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        function startRoundWithCategory(catId) {
+            gameState.selectedCategory = CATEGORIES.find(c => c.id === catId);
+            
+            // Pick a random rule from the 10 forbidden rules of the chosen category
+            const randomRuleIndex = Math.floor(Math.random() * gameState.selectedCategory.rules.length);
+            gameState.activeRule = gameState.selectedCategory.rules[randomRuleIndex];
+
+            // Assign unique secrets to players from category items
+            const itemsCopy = [...gameState.selectedCategory.items].sort(() => Math.random() - 0.5);
+            gameState.players.forEach((p, idx) => {
+                p.secret = itemsCopy[idx % itemsCopy.length];
+                p.selectedCardIndex = null;
+                p.card = null;
+                p.guessedSecrets = {};
+            });
+
+            gameState.revealPlayerIndex = 0;
+            gameState.chosenCardIndex = null;
+            gameState.step = 'SECRET_PASS';
+            renderScreen();
+        }
+
+        // 4. SECRET & LUCK CARDS PASS SCREEN
+        function renderSecretPassScreen(container) {
+            const player = gameState.players[gameState.revealPlayerIndex];
+
+            if (gameState.chosenCardIndex === null) {
+                // Cover State or Card Selection
+                container.innerHTML = `
+                    <div class="bg-brand-card border border-slate-700 rounded-3xl p-6 text-center space-y-5 shadow-2xl">
+                        <div class="w-14 h-14 bg-brand-yellow/20 text-brand-yellow rounded-full flex items-center justify-center text-2xl mx-auto border border-brand-yellow/50">
+                            🔐
+                        </div>
+                        <div>
+                            <span class="text-xs text-brand-yellow font-bold">تداول الهاتف بالسر</span>
+                            <h2 class="text-2xl font-black text-white mt-1">سلم الجوال إلى: <span class="text-brand-yellow">${player.name}</span></h2>
+                            <p class="text-xs text-gray-400 mt-1">تأكد من عدم رؤية الآخرين للشاشة</p>
+                        </div>
+
+                        <!-- 3 Luck Cards (❓) -->
+                        <div class="pt-2">
+                            <p class="text-xs text-gray-300 font-bold mb-3">اختر أحد كروت الحظ الثلاثة (؟):</p>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button onclick="pickLuckCard(0)" class="h-24 bg-slate-900 border-2 border-brand-yellow/50 hover:border-brand-yellow rounded-2xl flex flex-col items-center justify-center gap-1 transition gold-glow">
+                                    <span class="text-2xl">❓</span>
+                                    <span class="text-[10px] font-bold text-brand-yellow">كرت 1</span>
+                                </button>
+                                <button onclick="pickLuckCard(1)" class="h-24 bg-slate-900 border-2 border-brand-yellow/50 hover:border-brand-yellow rounded-2xl flex flex-col items-center justify-center gap-1 transition gold-glow">
+                                    <span class="text-2xl">❓</span>
+                                    <span class="text-[10px] font-bold text-brand-yellow">كرت 2</span>
+                                </button>
+                                <button onclick="pickLuckCard(2)" class="h-24 bg-slate-900 border-2 border-brand-yellow/50 hover:border-brand-yellow rounded-2xl flex flex-col items-center justify-center gap-1 transition gold-glow">
+                                    <span class="text-2xl">❓</span>
+                                    <span class="text-[10px] font-bold text-brand-yellow">كرت 3</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Recirculate Locked Button -->
+                        <button class="w-full py-2.5 bg-slate-900/80 border border-slate-700 text-gray-400 font-bold text-xs rounded-xl opacity-60 cursor-not-allowed flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-lock text-brand-yellow"></i> إعادة تدوير الكروت 🔒 (متاح بالنسخة الكاملة)
+                        </button>
+                    </div>
+                `;
+            } else {
+                // Secret Revealed State
+                container.innerHTML = `
+                    <div class="bg-brand-card border-2 border-brand-yellow rounded-3xl p-6 text-center space-y-5 shadow-2xl">
+                        <div class="flex justify-between items-center border-b border-slate-700 pb-2 text-xs">
+                            <span class="text-brand-yellow font-bold">اللاعب: ${player.name}</span>
+                            <span class="text-gray-400">${gameState.selectedCategory.name}</span>
+                        </div>
+
+                        <!-- Secret Box -->
+                        <div class="bg-slate-900 border border-brand-yellow/50 p-4 rounded-2xl shadow-inner">
+                            <span class="text-xs text-gray-400 block mb-1">سرّك الخاص والجزء الخاص بك هو:</span>
+                            <h3 class="text-2xl font-black text-brand-yellow tracking-wide">${player.secret}</h3>
+                        </div>
+
+                        <!-- Revealed Luck Card -->
+                        <div class="bg-slate-900/90 border border-slate-700 p-3.5 rounded-2xl text-right">
+                            <span class="text-[11px] text-gray-400 font-bold block mb-1">كرت الحظ المقدر لك:</span>
+                            <p class="text-xs font-bold ${player.card.type === 'benefit' ? 'text-green-400' : 'text-amber-400'} leading-relaxed">
+                                ${player.card.text}
+                            </p>
+                        </div>
+
+                        <p class="text-[11px] text-gray-400 italic">احفظ سرك جيداً ثم اخفِ الشاشة وسلم الهاتف للاعب التالي.</p>
+
+                        <button onclick="nextSecretPass()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 transition">
+                            حفظت السر - اخفاء وتسليم 🙈
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function pickLuckCard(cardIdx) {
+            gameState.chosenCardIndex = cardIdx;
+            const player = gameState.players[gameState.revealPlayerIndex];
+            player.selectedCardIndex = cardIdx;
+            player.card = LUCK_CARDS[Math.floor(Math.random() * LUCK_CARDS.length)];
+            renderScreen();
+        }
+
+        function nextSecretPass() {
+            gameState.chosenCardIndex = null;
+            if (gameState.revealPlayerIndex + 1 < gameState.players.length) {
+                gameState.revealPlayerIndex++;
+                renderScreen();
+            } else {
+                // All players saw their secrets -> Move to Discussion Phase
+                gameState.step = 'DISCUSSION';
+                renderScreen();
+            }
+        }
+
+        // 5. DISCUSSION PHASE & OPTIONAL QUESTION BUTTON
+        function renderDiscussionScreen(container) {
+            container.innerHTML = `
+                <div class="bg-brand-card border border-slate-700 rounded-3xl p-5 text-center space-y-4 shadow-2xl">
+                    <div class="flex justify-between items-center bg-slate-900 px-3.5 py-2 rounded-xl border border-slate-800 text-xs">
+                        <span class="text-brand-yellow font-bold">الجولة ${gameState.currentRound} من 3</span>
+                        <span class="text-gray-300">${gameState.selectedCategory.name}</span>
+                    </div>
+
+                    <!-- Active Round Law Banner -->
+                    <div class="bg-amber-950/40 border-2 border-amber-500/60 p-3.5 rounded-2xl text-right">
+                        <div class="flex items-center gap-2 text-amber-400 font-bold text-xs mb-1">
+                            <i class="fa-solid fa-triangle-exclamation"></i> قانون الجولة الممنوع (الشرط المقيد):
+                        </div>
+                        <p class="text-xs text-white font-semibold leading-relaxed">
+                            ${gameState.activeRule}
+                        </p>
+                    </div>
+
+                    <div class="py-2">
+                        <h3 class="text-xl font-black text-white">طرح الأسئلة والنقاش الجماعي 💬</h3>
+                        <p class="text-xs text-gray-300 mt-1 leading-relaxed">
+                            اسألوا بعضكم بالتداول مع الالتزام بقانون الجولة الممنوع أعلاه!
+                        </p>
+                    </div>
+
+                    <!-- Optional Question Voted Trigger -->
+                    <div class="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="text-xs font-bold text-brand-yellow block">هل ترغبون في طرح سؤال عام موحد؟</span>
+                        <button onclick="triggerOptionalQuestionVote()" class="w-full py-2.5 bg-slate-800 border border-brand-yellow/40 text-brand-yellow font-bold text-xs rounded-xl hover:bg-brand-yellow hover:text-brand-navy transition">
+                            🎯 إظهار السؤال الاختياري (بشرط تصويت الأغلبية)
+                        </button>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="startVotingPhase()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 transition">
+                            انتقال إلى التصويت والتخمين النهائي 🗳️
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function triggerOptionalQuestionVote() {
+            // Pick 1 random question from 10 fixed questions
+            gameState.selectedOptionalQuestion = FIXED_QUESTIONS[Math.floor(Math.random() * FIXED_QUESTIONS.length)];
+            gameState.step = 'OPTIONAL_QUESTION';
+            renderScreen();
+        }
+
+        // 6. OPTIONAL QUESTION SCREEN
+        function renderOptionalQuestionScreen(container) {
+            container.innerHTML = `
+                <div class="bg-brand-card border-2 border-brand-yellow rounded-3xl p-5 text-center space-y-5 shadow-2xl">
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                        <span class="text-xs text-brand-yellow font-bold block mb-1">🎯 السؤال العام الاختياري للجولة:</span>
+                        <h3 class="text-base font-black text-white leading-relaxed">"${gameState.selectedOptionalQuestion}"</h3>
+                    </div>
+
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        يجيب كل لاعب على هذا السؤال بدور متتالي مع الحذر من كشف سِرّه!
+                    </p>
+
+                    <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs text-gray-400">
+                        * يرجى إجابة جميع اللاعبين بالترتيب قبل الضغط على الانتقال للتصويت.
+                    </div>
+
+                    <button onclick="startVotingPhase()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 transition">
+                        الانتقال إجبارياً إلى التصويت والتخمين 🗳️
+                    </button>
+                </div>
+            `;
+        }
+
+        // 7. VOTING PASS & TIMER SCREEN (20s Timer)
+        function startVotingPhase() {
+            gameState.voterPlayerIndex = 0;
+            gameState.step = 'VOTING_PASS';
+            startTimer();
+            renderScreen();
+        }
+
+        function startTimer() {
+            clearInterval(gameState.timerInterval);
+            gameState.timerSeconds = 20;
+            gameState.timerInterval = setInterval(() => {
+                gameState.timerSeconds--;
+                const timerEl = document.getElementById('timer-display');
+                if (timerEl) {
+                    timerEl.innerText = gameState.timerSeconds;
+                }
+                if (gameState.timerSeconds <= 0) {
+                    clearInterval(gameState.timerInterval);
+                    saveVoteAndNext();
+                }
+            }, 1000);
+        }
+
+        function renderVotingPassScreen(container) {
+            const voter = gameState.players[gameState.voterPlayerIndex];
+            const otherPlayers = gameState.players.filter(p => p.id !== voter.id);
+
+            let dropdownsHTML = '';
+            otherPlayers.forEach(p => {
+                dropdownsHTML += `
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl space-y-1.5 text-right">
+                        <label class="text-xs font-bold text-brand-yellow block">تخمين ${gameState.selectedCategory.singularName} للاعب (${p.name}):</label>
+                        <select id="vote-select-${p.id}" class="w-full bg-brand-navy border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-brand-yellow focus:outline-none">
+                            <option value="">-- اختر ${gameState.selectedCategory.singularName} --</option>
+                            ${gameState.selectedCategory.items.map(item => `
+                                <option value="${item}" ${voter.guessedSecrets[p.id] === item ? 'selected' : ''}>${item}</option>
+                            `).join('')}
+                        </select>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="bg-brand-card border-2 border-brand-yellow rounded-3xl p-5 space-y-4 shadow-2xl">
+                    <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                        <div class="text-right">
+                            <span class="text-[10px] text-gray-400 block">التصويت والتخمين السري</span>
+                            <h3 class="text-base font-black text-brand-yellow">${voter.name}</h3>
+                        </div>
+                        <!-- Timer Badge -->
+                        <div class="bg-red-950/80 border border-red-600/80 px-3 py-1 rounded-xl flex items-center gap-1.5 text-red-400 font-bold text-xs">
+                            <i class="fa-solid fa-stopwatch animate-pulse"></i>
+                            <span id="timer-display">${gameState.timerSeconds}</span> ثانية
+                        </div>
+                    </div>
+
+                    <div class="space-y-2.5 max-h-[45vh] overflow-y-auto pr-1">
+                        ${dropdownsHTML}
+                    </div>
+
+                    <button onclick="saveVoteAndNext()" class="w-full py-3 bg-brand-yellow text-brand-navy font-black text-base rounded-2xl shadow-lg hover:brightness-110 transition">
+                        حفظ التخمين والتسليم 🔒
+                    </button>
+                </div>
+            `;
+        }
+
+        function saveVoteAndNext() {
+            clearInterval(gameState.timerInterval);
+            const voter = gameState.players[gameState.voterPlayerIndex];
+            const otherPlayers = gameState.players.filter(p => p.id !== voter.id);
+
+            otherPlayers.forEach(p => {
+                const sel = document.getElementById(`vote-select-${p.id}`);
+                if (sel) {
+                    voter.guessedSecrets[p.id] = sel.value;
+                }
+            });
+
+            if (gameState.voterPlayerIndex + 1 < gameState.players.length) {
+                gameState.voterPlayerIndex++;
+                startTimer();
+                renderScreen();
+            } else {
+                // Calculate round points
+                calculateRoundScores();
+                gameState.step = 'ROUND_RESULT';
+                renderScreen();
+            }
+        }
+
+        function calculateRoundScores() {
+            // +10 points for each correct guess
+            gameState.players.forEach(voter => {
+                Object.keys(voter.guessedSecrets).forEach(targetId => {
+                    const val = voter.guessedSecrets[targetId];
+                    const targetPlayer = gameState.players.find(p => p.id == targetId);
+                    if (targetPlayer && val === targetPlayer.secret) {
+                        voter.score += 10;
+                    }
+                });
+            });
+        }
+
+        // 8. ROUND RESULT SCREEN
+        function renderRoundResultScreen(container) {
+            let listHTML = '';
+            const sorted = [...gameState.players].sort((a,b) => b.score - a.score);
+
+            sorted.forEach(p => {
+                listHTML += `
+                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-2xl flex justify-between items-center text-xs">
+                        <div class="text-right">
+                            <h4 class="font-bold text-white">${p.name}</h4>
+                            <p class="text-[11px] text-gray-400">السر: <span class="text-brand-yellow font-bold">${p.secret}</span></p>
+                        </div>
+                        <div class="text-left">
+                            <span class="text-base font-black text-brand-yellow">${p.score}</span>
+                            <span class="text-[10px] text-gray-400">نقاط</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="bg-brand-card border border-slate-700 rounded-3xl p-5 text-center space-y-4 shadow-2xl">
+                    <div>
+                        <span class="text-xs text-brand-yellow font-bold">ملخص الجولة ${gameState.currentRound} من 3</span>
+                        <h2 class="text-xl font-black text-white mt-1">ترتيب النقاط الحالي 📊</h2>
+                    </div>
+
+                    <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                        ${listHTML}
+                    </div>
+
+                    <button onclick="nextRoundOrFinish()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 transition">
+                        ${gameState.currentRound < 3 ? 'الانتقال للجولة التالية 🔄' : 'تتويج البطل النهائي 🏆'}
+                    </button>
+                </div>
+            `;
+        }
+
+        function nextRoundOrFinish() {
+            if (gameState.currentRound < 3) {
+                gameState.currentRound++;
+                gameState.step = 'CATEGORY';
+                renderScreen();
+            } else {
+                gameState.step = 'FINAL_CROWNING';
+                renderScreen();
+            }
+        }
+
+        // 9. FINAL CROWNING SCREEN
+        function renderFinalCrowningScreen(container) {
+            const sorted = [...gameState.players].sort((a,b) => b.score - a.score);
+            const winner = sorted[0];
+
+            let standingsHTML = '';
+            sorted.forEach((p, i) => {
+                standingsHTML += `
+                    <div class="p-3 ${i === 0 ? 'bg-brand-yellow/15 border-2 border-brand-yellow' : 'bg-slate-900 border border-slate-800'} rounded-2xl flex justify-between items-center text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="font-black text-brand-yellow">#${i + 1}</span>
+                            <span class="font-bold text-white">${p.name} ${i === 0 ? '👑' : ''}</span>
+                        </div>
+                        <span class="font-black text-brand-yellow text-sm">${p.score} نقطة</span>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="bg-brand-card border border-slate-700 rounded-3xl p-5 text-center space-y-5 shadow-2xl">
+                    <div class="py-4 bg-gradient-to-b from-brand-yellow/20 to-transparent border border-brand-yellow/40 rounded-3xl gold-glow">
+                        <div class="text-5xl mb-2 animate-bounce">🏆</div>
+                        <span class="text-xs text-brand-yellow font-bold">بطل لعبة صيدهم</span>
+                        <h2 class="text-3xl font-black text-white mt-1">${winner.name}</h2>
+                        <p class="text-xs text-brand-yellow font-bold mt-1">بإجمالي ${winner.score} نقطة!</p>
+                    </div>
+
+                    <div class="space-y-2 max-h-40 overflow-y-auto pr-1">
+                        ${standingsHTML}
+                    </div>
+
+                    <!-- TikTok Conversion Banner -->
+                    <div class="p-3.5 bg-slate-900 border border-slate-800 rounded-2xl text-xs space-y-2">
+                        <p class="text-gray-300 font-bold">استمتعتوا باللعبة؟ 🎯</p>
+                        <p class="text-[11px] text-gray-400 leading-relaxed">يسعدنا جداً تقييمكم للعبة ومشاركتنا آراءكم عبر حسابنا الرسمي على تيك توك!</p>
+                        <a href="http://www.tiktok.com/@hamza_kaf" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-2 bg-brand-yellow text-brand-navy font-black rounded-xl hover:brightness-110 transition">
+                            <i class="fa-brands fa-tiktok"></i> تقييم اللعبة على تيك توك
+                        </a>
+                    </div>
+
+                    <button onclick="restartFullGame()" class="w-full py-3 bg-slate-800 border border-slate-700 text-gray-300 font-bold rounded-2xl hover:bg-slate-700 transition">
+                        لعب مباراة جديدة 🔄
+                    </button>
+                </div>
+            `;
+        }
+
+        function restartFullGame() {
+            gameState.currentRound = 1;
+            gameState.players.forEach(p => p.score = 0);
+            gameState.step = 'PLAYERS_SETUP';
+            renderScreen();
+        }
+    </script>
 </body>
 </html>
