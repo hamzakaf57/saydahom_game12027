@@ -1,912 +1,165 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>لعبة صيدهم - النسخة الرسمية</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Cairo -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            yellow: '#FFC800',
-                            navy: '#0B192C',
-                            card: '#1E293B',
-                            lightBg: '#F8FAFC',
-                            gray: '#F4F5F7'
-                        }
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #0B192C;
-            color: #F4F5F7;
-            user-select: none;
-            touch-action: manipulation;
-        }
-        .bg-pattern {
-            background-image: radial-gradient(#FFC800 1px, transparent 1px);
-            background-size: 24px 24px;
-            opacity: 0.08;
-        }
-        .gold-glow {
-            box-shadow: 0 0 25px rgba(255, 200, 0, 0.3);
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0B192C;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #FFC800;
-            border-radius: 4px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>صيدهم - لعبة التخمين والمواضيع الجماعية</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f172a;--cd:#1e293b;--bd:#334155;--y:#facc15;--y2:#eab308;--tx:#f8fafc;--mu:#94a3b8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Tajawal',Tahoma,sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg) radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px) 0 0/24px 24px;color:var(--tx);min-height:100vh;padding:16px}
+.app{max-width:480px;margin:auto;display:flex;flex-direction:column;gap:16px;min-height:calc(100vh - 32px)}
+main{display:flex;flex-direction:column;gap:14px;flex:1}
+header,footer{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0}
+header{border-bottom:1px solid rgba(255,255,255,.06)}footer{border-top:1px solid rgba(255,255,255,.06);font-size:11px;color:var(--mu);font-weight:600}
+.lg{display:flex;align-items:center;gap:10px}.lg i{font-style:normal;width:42px;height:42px;border:1.5px solid var(--y);border-radius:50%;display:grid;place-items:center;font-size:20px;background:radial-gradient(circle,rgba(236,72,153,.15),rgba(30,41,59,.8));box-shadow:0 0 12px rgba(250,204,21,.2)}
+.lg b{display:block;color:var(--y);font-size:22px;font-weight:900;line-height:1.1}.lg small{font-size:11px;color:var(--mu)}
+.tp,.tk{background:none;border:1.5px solid var(--y);color:var(--y);padding:7px 13px;border-radius:50px;font:700 13px Tajawal;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:6px}
+.tk{color:var(--tx);font-size:11px;border-width:1px;padding:6px 12px}.tk svg{width:14px;height:14px;fill:var(--y)}
+.cd{background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.c{text-align:center}.y{color:var(--y)}.mu{color:var(--mu);font-size:13px;line-height:1.6;font-weight:500}
+h1{font-size:28px;font-weight:900;color:var(--y);text-align:center}h2{font-size:18px;font-weight:800;color:var(--y);text-align:center}h3{font-size:22px;font-weight:900;color:var(--y)}
+.hero{width:80px;height:80px;margin:6px auto;border:2px solid var(--y);border-radius:20px;display:grid;place-items:center;font-size:38px;background:linear-gradient(135deg,rgba(236,72,153,.15),rgba(30,41,59,.9));box-shadow:0 0 20px rgba(250,204,21,.25)}
+ul{list-style:none;display:flex;flex-direction:column;gap:11px}li{font-size:13.5px;line-height:1.5;display:flex;gap:10px}li b{color:var(--y)}
+.b1,.b2{width:100%;border:0;border-radius:14px;padding:15px;font:900 18px Tajawal;cursor:pointer;transition:.2s}
+.b1{background:linear-gradient(185deg,var(--y),var(--y2));color:#0f172a;box-shadow:0 4px 20px rgba(250,204,21,.35)}.b1:hover{transform:translateY(-2px)}
+.b2{background:var(--cd);color:var(--tx);border:1px solid var(--bd);font-size:16px;font-weight:700;padding:13px}.b2:disabled{opacity:.4}
+.tb{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:10px}
+.bg{border:1.5px solid var(--y);color:var(--y);padding:3px 12px;border-radius:20px;font-size:13px;font-weight:700}
+.pr{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:8px 14px}.pr:focus-within{border-color:var(--y)}
+.pr span{font-weight:800;font-size:14px;min-width:56px}.pr input{background:none;border:0;outline:0;color:var(--tx);font:600 15px Tajawal;width:100%}.x{background:none;border:0;cursor:pointer;font-size:17px}
+.ad{background:none;border:2px dashed var(--y);color:var(--y);padding:12px;border-radius:12px;font:800 15px Tajawal;cursor:pointer}
+.gr{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.ct{background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:14px 12px;min-height:72px;cursor:pointer;color:var(--tx);text-align:right;font-family:Tajawal}.ct b{font-size:14px;display:block}.ct small{font-size:11px;color:var(--mu)}
+.ct:hover{border-color:var(--y)}.ct.lk{opacity:.7;cursor:not-allowed;text-align:center}.ct.lk:hover{border-color:var(--bd)}.ct.w{grid-column:span 2}
+.sn{border:1px solid rgba(250,204,21,.4);color:var(--y);font-size:11px;font-weight:700;padding:2px 10px;border-radius:12px;display:inline-block;margin-top:4px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.q{background:#111827;border:2px solid var(--y);border-radius:14px;min-height:110px;color:#ec4899;font:900 34px Tajawal;cursor:pointer}.q:hover{border-color:#fff;transform:translateY(-4px)}
+.rw{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:14px;font-weight:700}
+.chip{display:inline-block;padding:6px 12px;margin:3px;border-radius:999px;border:1px solid var(--bd);background:var(--bg);font:700 13px Tajawal;color:var(--tx);cursor:pointer}.chip.on{background:var(--y);color:#000}
+.tg{font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;border:1px solid}.tg.v{color:#4ade80;border-color:#22c55e}.tg.h{color:#f87171;border-color:#ef4444}
+.big{font-size:26px;font-weight:900;color:var(--y);text-align:center}
+select{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:10px;color:var(--tx);font:700 14px Tajawal;margin-top:6px}
+.sec{background:var(--bg);border:1px dashed var(--y);border-radius:12px;padding:12px;text-align:center}.sec b{display:block;font-size:22px;color:var(--y)}
+#md{position:fixed;inset:0;background:rgba(15,23,42,.88);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:18px;z-index:9}#md.on{display:flex}
+.mc{background:var(--cd);border:1.5px solid var(--y);border-radius:20px;padding:22px;max-width:440px;width:100%;max-height:88vh;overflow:auto;display:flex;flex-direction:column;gap:12px;text-align:center}
+.cl{text-align:right;border-right:4px solid;background:#111827;border-radius:12px;padding:10px}.cl.v{border-color:#22c55e}.cl.h{border-color:#ef4444}.cl b{color:var(--y)}.cl small{display:block;font-size:12px}
+main>*{animation:up .3s ease}@keyframes up{from{opacity:0;transform:translateY(10px)}}
+.b1:active,.b2:active,.q:active,.ct:active,.ic:active{transform:scale(.97)}
+.ic{background:#111827;border:2px solid var(--y);border-radius:14px;min-height:70px;padding:6px;color:var(--y);font:800 15px Tajawal;cursor:pointer;transition:.2s}.ic:hover{border-color:#fff;transform:translateY(-3px)}
+.ec{background:#111827;border:2px solid var(--y);border-radius:14px;padding:12px 6px;text-align:center;display:flex;flex-direction:column;gap:6px}.ec small{color:var(--mu);font-weight:700;font-size:12px}.ec b{color:var(--y);font-size:16px}.eg{grid-template-columns:repeat(2,1fr)}
+.bar{height:8px;background:var(--bg);border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;width:100%;background:var(--y);transition-property:width;transition-timing-function:linear}
+.dots{display:flex;gap:6px;justify-content:center;margin:6px 0}.dots i{width:28px;height:6px;border-radius:6px;background:var(--bd)}.dots i.on{background:var(--y)}
+</style>
 </head>
-<body class="min-h-screen flex flex-col justify-between relative overflow-x-hidden font-cairo">
-    <div class="fixed inset-0 bg-pattern pointer-events-none z-0"></div>
-    <!-- MAIN APP CONTAINER -->
-    <div id="app" class="relative z-10 w-full max-w-2xl mx-auto min-h-screen flex flex-col justify-between p-4 sm:p-6">
-        
-        <!-- HEADER -->
-        <header class="flex justify-between items-center bg-brand-navy/90 backdrop-blur border border-brand-yellow/30 rounded-2xl p-4 shadow-lg mb-3">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-brand-yellow text-brand-navy flex items-center justify-center font-black text-2xl shadow-md">
-                    🎯
-                </div>
-                <div>
-                    <h1 class="text-xl font-extrabold text-brand-yellow tracking-wide">صيدهم</h1>
-                    <p class="text-xs text-gray-400">لعبة التخمين والمواضيع الجماعية</p>
-                </div>
-            </div>
-            <button onclick="openRulesModal()" class="px-3 py-1.5 bg-brand-yellow/10 border border-brand-yellow/40 text-brand-yellow rounded-xl text-xs font-bold hover:bg-brand-yellow hover:text-brand-navy transition">
-                <i class="fa-solid fa-gavel ml-1"></i> قانون الجولة
-            </button>
-        </header>
-
-        <!-- DYNAMIC CONTENT -->
-        <main id="screen-content" class="flex-grow flex flex-col justify-center my-2">
-            <!-- Rendered by JavaScript -->
-        </main>
-
-        <!-- FOOTER -->
-        <footer class="mt-4 pt-3 border-t border-slate-800 text-center flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-2">
-            <a href="http://www.tiktok.com/@hamza_kaf" target="_blank" rel="noopener noreferrer" class="hover:text-brand-yellow transition flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-700">
-                <i class="fa-brands fa-tiktok text-brand-yellow"></i> تابعنا وقيم اللعبة على تيك توك
-            </a>
-            <div class="font-semibold tracking-wide">
-                جميع الحقوق محفوظة © <span class="text-brand-yellow font-bold">HAMZAKAF</span>
-            </div>
-        </footer>
-    </div>
-
-    <!-- MODAL: Moral Oath (العهد الأخلاقي) -->
-    <div id="oath-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
-        <div class="bg-brand-card border-2 border-brand-yellow rounded-3xl p-6 max-w-md w-full text-center shadow-2xl relative">
-            <div class="w-16 h-16 bg-brand-yellow/20 text-brand-yellow rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border border-brand-yellow/50 gold-glow">
-                ✋
-            </div>
-            <h2 class="text-2xl font-black text-brand-yellow mb-2">العهد الأخلاقي للعبة</h2>
-            <p class="text-sm text-gray-300 leading-relaxed mb-6">
-                أتعهد وأقسم بالالتزام بالصلاة، وبر الوالدين، والمذاكرة، وأن الهدف الرئيسي من اللعبة هو الوناسة والمتعة باللعب النظيف والسرية التامة!
-            </p>
-            <button onclick="acceptOath()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 active:scale-95 transition">
-                أعد بذلك وأبدأ اللعب 🎯
-            </button>
-        </div>
-    </div>
-
-    <!-- MODAL: Category Rules (قوانين القسم) -->
-    <div id="rules-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
-        <div class="bg-brand-card border border-slate-700 rounded-3xl p-5 max-w-lg w-full max-h-[85vh] flex flex-col shadow-2xl">
-            <div class="flex justify-between items-center pb-3 border-b border-slate-700 mb-3">
-                <h3 class="text-lg font-bold text-brand-yellow flex items-center gap-2">
-                    <i class="fa-solid fa-shield-halved"></i> المحظورات الـ 10 للقسم الحاضر
-                </h3>
-                <button onclick="closeRulesModal()" class="text-gray-400 hover:text-white text-xl">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div id="rules-modal-list" class="overflow-y-auto space-y-2 pr-1 text-xs text-gray-300">
-                <!-- Injected via JS -->
-            </div>
-            <button onclick="closeRulesModal()" class="mt-4 py-2.5 bg-slate-800 text-brand-yellow font-bold rounded-xl border border-brand-yellow/30 hover:bg-slate-700 transition">
-                إغلاق
-            </button>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT ENGINE -->
-    <script>
-        // 1. FREE CATEGORIES WITH 25 ITEMS EACH & 10 SPECIFIC FORBIDDEN RULES
-        const CATEGORIES = [
-            {
-                id: 'cities',
-                name: 'مناطق ومدن المملكة 🇸🇦',
-                unlocked: true,
-                singularName: 'المدينة',
-                items: [
-                    'الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام',
-                    'الخبر', 'الظهران', 'الأحساء', 'الجبيل', 'حفر الباطن',
-                    'أبها', 'خميس مشيط', 'جازان', 'نجران', 'الباحة',
-                    'تبوك', 'حائل', 'بريدة', 'عنيزة', 'العلا',
-                    'الطائف', 'ينبع', 'عرعر', 'الجوف', 'الدوادمي'
-                ],
-                rules: [
-                    "ممنوع السؤال عن الاتجاه الجغرافي: (شمال، جنوب، شرق، غرب، وسط).",
-                    "ممنوع السؤال عن البحر والشواطئ: (هل تطل على بحر، شاطئ، كورنيش؟).",
-                    "ممنوع السؤال عن وجود مطار: (هل فيها مطار دولي أو إقليمي؟).",
-                    "ممنوع السؤال عن المعالم الشهيرة صراحة: (مثل الحرم، العلا، الدرعية، جبل أحد).",
-                    "ممنوع السؤال عن الطقس والجو الحالي: (هل عندهم برودة، أمطار، حرارة؟).",
-                    "ممنوع السؤال عن الحروف: (هل تبدأ بـ/فيها حرف كذا؟).",
-                    "ممنوع السؤال عن عدد الحروف: (كم حرف اسم المدينة؟).",
-                    "ممنوع السؤال عن التبعية الإدارية: (هل هي عاصمة منطقة أم محافظة؟).",
-                    "ممنوع السؤال عن المنتجات الشديدة الشهرة: (مثل تمور معينة، فاكهة معينة تزرع فيها).",
-                    "ممنوع السؤال عن طريق الوصول: (هل أقدر أروح لها بقطار السار/الحرمين؟)."
-                ]
-            },
-            {
-                id: 'veggies',
-                name: 'الخضروات والفواكه 🍎',
-                unlocked: true,
-                singularName: 'النوع',
-                items: [
-                    'تفاح', 'موز', 'برتقال', 'فراولة', 'مانجو',
-                    'خيار', 'طماطم', 'جزر', 'بطيخ', 'عنب',
-                    'ليمون', 'خوخ', 'أناناس', 'رمان', 'كوسة',
-                    'باذنجان', 'خوخ', 'كيوي', 'مشمش', 'أفوكادو',
-                    'بطاطس', 'بصل', 'ثوم', 'خس', 'شمام'
-                ],
-                rules: [
-                    "ممنوع السؤال عن اللون تماماً: (أحمر، أخضر، أصفر... إلخ).",
-                    "ممنوع السؤال عن مكان النمو: (فوق الشجرة، تحت الأرض، على شجيرة).",
-                    "ممنوع السؤال عن الطعم الصريح: (حلو، حامض، مر، مالح).",
-                    "ممنوع السؤال عن البذور والنوى: (فيها عجمة/نواة كبيرة ولا بذور صغيرة؟).",
-                    "ممنوع السؤال عن القشرة: (تتقشر قبل الأكل ولا تؤكل بقشرتها؟).",
-                    "ممنوع السؤال عن الحجم والشكل: (دائرية، طويلة، أكبر من التفاحة؟).",
-                    "ممنوع السؤال عن الحروف أو عددها: (الحرف الأول، عدد الحروف).",
-                    "ممنوع السؤال عن العصير: (هل ينعمل منها عصير مشهور؟).",
-                    "ممنوع السؤال عن الموسم: (صيفية ولا شتوية؟).",
-                    "ممنوع السؤال عن الصلابة: (قاسية وتقرمش ولا لينة وطرية؟)."
-                ]
-            },
-            {
-                id: 'drinks',
-                name: 'المشروبات ☕',
-                unlocked: true,
-                singularName: 'المشروب',
-                items: [
-                    'شاي', 'قهوة عربية', 'ماتشا', 'موهيتو', 'بيبسي',
-                    'عصير برتقال', 'كرك', 'سبانيش لاتيه', 'ماء', 'عصير مانجو',
-                    'كابتشينو', 'آيس اسبريسو', 'كركديه', 'ليمون بالنعناع', 'سفن أب',
-                    'كاكاو ساخن', 'شاي أخضر', 'عصير طبقات', 'أمريكانو', 'عصير رمان',
-                    'فلات وايت', 'ميلك شيك', 'لبن', 'عصير تفاح', 'حمضيات'
-                ],
-                rules: [
-                    "ممنوع السؤال عن درجة الحرارة: (يُشرب حار ولا بارد؟).",
-                    "ممنوع السؤال عن وجود الغازات: (مشروب غازي ولا عادي؟).",
-                    "ممنوع السؤال عن المكون الأساسي: (فيه حليب، قهوة، شاي، أو فاكهة؟).",
-                    "ممنوع السؤال عن اللون أو الشفافية: (أسود، بني، شفاف، ملون).",
-                    "ممنوع السؤال عن طريقة التقديم/العلبة: (علبة حديد، كرتون، كوب ورقي، فنجال).",
-                    "ممنوع السؤال عن نسبة السكر: (حالي جداً ولا بدون سكر؟).",
-                    "ممنوع السؤال عن الحروف أو عددها: (تبدأ بالحرف...، عدد حروفها).",
-                    "ممنوع السؤال عن نسبة الكافيين: (فيه كافيين ينبه ولا بدون؟).",
-                    "ممنوع السؤال عن وقت الشرب: (ينشرب على الريق/الصبح ولا بالليل؟).",
-                    "ممنوع السؤال عن الإضافات: (فيه ثلج، نعناع، رغوة؟)."
-                ]
-            },
-            {
-                id: 'dishes',
-                name: 'الأكلات العربية 🍕',
-                unlocked: true,
-                singularName: 'الأكلة',
-                items: [
-                    'كبسة', 'شاورما', 'فلافل', 'سمبوسة', 'منسف',
-                    'جريش', 'حنيذ', 'فتوش', 'كبة', 'مطازيز',
-                    'مقلوبة', 'تبولة', 'سليق', 'مرقوق', 'قرصان',
-                    'مضغوط', 'مظبي', 'مسخن', 'حمص', 'ملوخية',
-                    'كشري', 'عريكة', 'مصقعة', 'مفطح', 'بلاليط'
-                ],
-                rules: [
-                    "ممنوع السؤال عن المكون الرئيسي: (فيها رز، لحم، دجاج، عجين، خضار؟).",
-                    "ممنوع السؤال عن الأصل والجنسية: (سعودية، شامية، مصرية، أردنية؟).",
-                    "ممنوع السؤال عن أسلوب الأكل: (تؤكل باليد/الخبز ولا بالملعقة/الشوكة؟).",
-                    "ممنوع السؤال عن لون الطبق: (حمراء، بيضاء، صفراء).",
-                    "ممنوع السؤال عن طريقة الطبخ: (مقلية، مشوية، مسلوقة، بالفرن).",
-                    "ممنوع السؤال عن طبيعة الوجبة: (وجبة ثقيلة رئيسية ولا مقبلات خفيفة؟).",
-                    "ممنوع السؤال عن الحروف أو عددها: (اسمها من كم حرف؟).",
-                    "ممنوع السؤال عن المناسبات: (تقدم بالعزائم/الأفراح ولا أكلة يومية؟).",
-                    "ممنوع السؤال عن القوام: (سائلة/شربة ولا جافة ومكبوسة؟).",
-                    "ممنوع السؤال عن الصوصات المرافقة: (يتقدم معها طحينة، شطة، لبن؟)."
-                ]
-            },
-            {
-                id: 'animals',
-                name: 'الحيوانات 🐾',
-                unlocked: true,
-                singularName: 'الحيوان',
-                items: [
-                    'أسد', 'نمر', 'فهد', 'غزال', 'صقر',
-                    'جمل', 'حصان', 'أرنب', 'ثعلب', 'ذئب',
-                    'زرافة', 'فيل', 'دلفين', 'بطريق', 'خروف',
-                    'ماعز', 'سنجاب', 'قنفذ', 'بومة', 'عقاب',
-                    'كوالا', 'كانغارو', 'نسر', 'هدهد', 'ضبع'
-                ],
-                rules: [
-                    "قانون الصوت: يمنع السؤال عن/تقليد/وصف الصوت الذي يصدره.",
-                    "قانون البيئة: ممنوع ذكر أو السؤال عن مكان عيشه (غابة، صحراء، بحر، قطب، مزرعة).",
-                    "قانون الغذاء: يمنع السؤال هل هو مفترس/آكل لحوم أم عشبي/آكل أعشاب.",
-                    "قانون الحركة: ممنوع السؤال عن طريقة حركته (يطير، يسبح، يركض، يزحف).",
-                    "قانون الحجم والشكل: يمنع الوصف بالحجم أو مقارنته بحجم حيوان آخر.",
-                    "قانون الغطاء: ممنوع السؤال عن غطاء جسمه (فرو، ريش، شعر، جلد، قشور).",
-                    "قانون التناسل: يمنع السؤال هل يبيض أم يلد.",
-                    "قانون الألوان: ممنوع السؤال عن ألوانه أو التخطيط/البقع على جسمه.",
-                    "قانون العلاقة بالإنسان: يمنع السؤال هل هو أليف/يُربى بالبيت أم بري/مفترس.",
-                    "قانون الأجزاء المميزة: ممنوع السؤال عن أجزاء جسمه الخاصة (قرون، خرطوم، سنام، أجنحة، زعانف)."
-                ]
-            },
-            // 6 Locked Promotional Categories (🔒 قريباً)
-            { id: 'l1', name: 'مطاعم ومقاهي مشهورة 🔒', unlocked: false },
-            { id: 'l2', name: 'أكلات عالمية (أكلات بلس) 🔒', unlocked: false },
-            { id: 'l3', name: 'دول وعواصم العالم 🔒', unlocked: false },
-            { id: 'l4', name: 'مهن وحرف 🔒', unlocked: false },
-            { id: 'l5', name: 'معالم وثقافات 🔒', unlocked: false },
-            { id: 'l6', name: 'معالم وآثار تاريخية 🔒', unlocked: false }
-        ];
-
-        // 10 FIXED GENERAL QUESTIONS FOR OPTIONAL VOTED QUESTION PHASE
-        const FIXED_QUESTIONS = [
-            "ما هي الخصيصة أو الصفة الأبرز التي تميز هذا الشيء في رأيك؟",
-            "متى كانت آخر مرة تعاملت فيها مع هذا الشيء أو رأيته؟",
-            "لو طلب منك وصف هذا الشيء برائحة أو لون، ماذا تختار ولماذا؟",
-            "ما هو شعورك الأول عند التفكير في هذا الشيء أو التواجد بقربه؟",
-            "هل هذا الشيء متوفر في غرفتك الآن أو في منزلك بشكل عام؟",
-            "ما هي الفئة العمرية التي تهتم بهذا الشيء أكثر من غيرها؟",
-            "إذا استغنيت عن هذا الشيء لمدة شهر كامل، كيف ستكون حياتك؟",
-            "ما هو الشيء المنافس أو البديل المباشر لهذا الشيء؟",
-            "هل يرتبط هذا الشيء بذكريات قديمة أم هو حديث في حياتك؟",
-            "ما مدى أهمية هذا الشيء بالنسبة لك من 1 إلى 10 ولماذا؟"
-        ];
-
-        // LUCK CARDS POOL (Benefits & Penalties)
-        const LUCK_CARDS = [
-            { type: 'benefit', text: '⭐ منفعة: لديك حصانة! لو تم تخمين سرك بشكل صحيح تسحب 5 نقاط من الشخص المفصح.' },
-            { type: 'penalty', text: '⚠️ مضرة: يجب عليك الإجابة عن كل الأسئلة بكلمتين فقط لا أكثر!' },
-            { type: 'benefit', text: '⭐ منفعة: يمكنك طلب إعادة اختيار السؤال الاختياري إذا لم يعجبك.' },
-            { type: 'penalty', text: '⚠️ مضرة: ممنوع التبليغ أو التلميح السلبي مطلقاً في إجابتك.' },
-            { type: 'benefit', text: '⭐ منفعة: تحصل على +5 نقاط مجانية إضافية في نهاية هذه الجولة.' },
-            { type: 'penalty', text: '⚠️ مضرة: يجب عليك التكلم بنبرة صوت مبالغ فيها أثناء الإجابة!' }
-        ];
-
-        // GAME ENGINE STATE
-        let gameState = {
-            step: 'WELCOME', // WELCOME, PLAYERS_SETUP, CATEGORY, SECRET_PASS, DISCUSSION, OPTIONAL_QUESTION, VOTING_PASS, ROUND_RESULT, FINAL_CROWNING
-            oathAccepted: false,
-            playersCount: 3,
-            players: [], // Array of { id, name, secret, card, selectedCardIndex, guessedSecrets: {}, score: 0 }
-            selectedCategory: null,
-            currentRound: 1, // Max 3 Rounds
-            maxRounds: 3,
-            activeRule: '',
-            revealPlayerIndex: 0,
-            voterPlayerIndex: 0,
-            chosenCardIndex: null,
-            votingVotesForOptional: 0,
-            selectedOptionalQuestion: '',
-            timerSeconds: 20,
-            timerInterval: null
-        };
-
-        window.onload = function() {
-            renderScreen();
-        };
-
-        function acceptOath() {
-            gameState.oathAccepted = true;
-            document.getElementById('oath-modal').classList.add('hidden');
-            renderScreen();
-        }
-
-        function openRulesModal() {
-            const listEl = document.getElementById('rules-modal-list');
-            if (gameState.selectedCategory && gameState.selectedCategory.rules) {
-                listEl.innerHTML = gameState.selectedCategory.rules.map((r, i) => `
-                    <div class="p-2.5 bg-slate-900/80 rounded-xl border-r-4 border-brand-yellow font-medium">
-                        ${i + 1}. ${r}
-                    </div>
-                `).join('');
-            } else {
-                listEl.innerHTML = '<div class="p-3 text-center text-gray-400">يرجى اختيار القسم أولاً لرؤية المحظورات الـ 10.</div>';
-            }
-            document.getElementById('rules-modal').classList.remove('hidden');
-        }
-
-        function closeRulesModal() {
-            document.getElementById('rules-modal').classList.add('hidden');
-        }
-
-        function renderScreen() {
-            const container = document.getElementById('screen-content');
-            container.innerHTML = '';
-
-            if (!gameState.oathAccepted) {
-                document.getElementById('oath-modal').classList.remove('hidden');
-            }
-
-            switch(gameState.step) {
-                case 'WELCOME':
-                    renderWelcomeScreen(container);
-                    break;
-                case 'PLAYERS_SETUP':
-                    renderPlayersSetupScreen(container);
-                    break;
-                case 'CATEGORY':
-                    renderCategoryScreen(container);
-                    break;
-                case 'SECRET_PASS':
-                    renderSecretPassScreen(container);
-                    break;
-                case 'DISCUSSION':
-                    renderDiscussionScreen(container);
-                    break;
-                case 'OPTIONAL_QUESTION':
-                    renderOptionalQuestionScreen(container);
-                    break;
-                case 'VOTING_PASS':
-                    renderVotingPassScreen(container);
-                    break;
-                case 'ROUND_RESULT':
-                    renderRoundResultScreen(container);
-                    break;
-                case 'FINAL_CROWNING':
-                    renderFinalCrowningScreen(container);
-                    break;
-            }
-        }
-
-        // 1. WELCOME SCREEN
-        function renderWelcomeScreen(container) {
-            container.innerHTML = `
-                <div class="text-center py-6 flex flex-col items-center">
-                    <div class="w-24 h-24 bg-brand-yellow/20 rounded-3xl border-2 border-brand-yellow flex items-center justify-center text-5xl mb-6 gold-glow animate-bounce">
-                        🎯
-                    </div>
-                    <h2 class="text-3xl font-black text-brand-yellow mb-3">مرحباً بك في صيدهم</h2>
-                    <p class="text-gray-300 max-w-md text-sm leading-relaxed mb-8">
-                        اللعبة الجماعية الأكثر ذكاءً وتشويقاً! خمن عناصر أصدقائك، واكتشف المواضيع بدون الوقوع في فخ القوانين الـ 10 الممنوعة عبر هاتف واحد.
-                    </p>
-                    <button onclick="gameState.step='PLAYERS_SETUP'; renderScreen();" class="w-full max-w-xs py-4 bg-brand-yellow text-brand-navy font-black text-xl rounded-2xl shadow-xl hover:bg-yellow-400 active:scale-95 transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-play"></i> ابدأ اللعبة الآن
-                    </button>
-                </div>
-            `;
-        }
-
-        // 2. PLAYERS SETUP SCREEN
-        function renderPlayersSetupScreen(container) {
-            container.innerHTML = `
-                <div class="space-y-5 bg-brand-card border border-slate-700 p-5 rounded-3xl shadow-xl">
-                    <div class="text-center">
-                        <h2 class="text-xl font-black text-brand-yellow">إدخال أسماء اللاعبين 👥</h2>
-                        <p class="text-xs text-gray-400 mt-1">حدد عدد وأسماء اللاعبين (من 3 إلى 5 لاعبين)</p>
-                    </div>
-
-                    <div class="flex items-center justify-center gap-4 bg-slate-900 p-3 rounded-2xl border border-slate-800">
-                        <button onclick="changePlayerCount(-1)" class="w-10 h-10 bg-slate-800 text-brand-yellow rounded-xl font-black text-xl hover:bg-slate-700">-</button>
-                        <span class="text-2xl font-black text-white w-12 text-center">${gameState.playersCount}</span>
-                        <button onclick="changePlayerCount(1)" class="w-10 h-10 bg-slate-800 text-brand-yellow rounded-xl font-black text-xl hover:bg-slate-700">+</button>
-                    </div>
-
-                    <div id="player-inputs" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        ${generatePlayerInputsHTML()}
-                    </div>
-
-                    <div class="pt-2">
-                        <button onclick="savePlayersAndNext()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 transition">
-                            التالي: اختيار القسم 🗂️
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function generatePlayerInputsHTML() {
-            let html = '';
-            for(let i = 0; i < gameState.playersCount; i++) {
-                const existingName = gameState.players[i] ? gameState.players[i].name : `لاعب ${i + 1}`;
-                html += `
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs text-brand-yellow font-bold w-12">#${i + 1}</span>
-                        <input type="text" id="player-input-${i}" value="${existingName}" placeholder="اسم اللاعب" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-yellow">
-                    </div>
-                `;
-            }
-            return html;
-        }
-
-        function changePlayerCount(delta) {
-            const newCount = gameState.playersCount + delta;
-            if(newCount >= 3 && newCount <= 5) {
-                gameState.playersCount = newCount;
-                renderScreen();
-            }
-        }
-
-        function savePlayersAndNext() {
-            const players = [];
-            for(let i = 0; i < gameState.playersCount; i++) {
-                const inp = document.getElementById(`player-input-${i}`);
-                const name = inp && inp.value.trim() !== '' ? inp.value.trim() : `لاعب ${i + 1}`;
-                players.push({
-                    id: i,
-                    name: name,
-                    secret: '',
-                    card: null,
-                    selectedCardIndex: null,
-                    guessedSecrets: {},
-                    score: 0
-                });
-            }
-            gameState.players = players;
-            gameState.step = 'CATEGORY';
-            renderScreen();
-        }
-
-        // 3. CATEGORY SELECTION SCREEN
-        function renderCategoryScreen(container) {
-            let html = `
-                <div class="space-y-4">
-                    <div class="text-center">
-                        <span class="text-xs text-brand-yellow font-bold">الجولة ${gameState.currentRound} من 3</span>
-                        <h2 class="text-2xl font-black text-white">اختر قسم الجولة 🗂️</h2>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[55vh] overflow-y-auto pr-1">
-            `;
-
-            CATEGORIES.forEach(cat => {
-                if(cat.unlocked) {
-                    html += `
-                        <button onclick="startRoundWithCategory('${cat.id}')" class="p-4 bg-brand-card hover:border-brand-yellow border border-slate-700 rounded-2xl text-right transition flex justify-between items-center group shadow-md">
-                            <div>
-                                <h3 class="font-bold text-white group-hover:text-brand-yellow transition">${cat.name}</h3>
-                                <p class="text-xs text-gray-400 mt-1">${cat.items.length} عنصر مفاجئ</p>
-                            </div>
-                            <i class="fa-solid fa-chevron-left text-brand-yellow group-hover:-translate-x-1 transition"></i>
-                        </button>
-                    `;
-                } else {
-                    html += `
-                        <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-2xl text-right flex justify-between items-center opacity-60 cursor-not-allowed">
-                            <div>
-                                <h3 class="font-bold text-gray-400">${cat.name}</h3>
-                                <span class="inline-block mt-1 text-[10px] bg-amber-900/40 text-amber-400 border border-amber-800/60 px-2 py-0.5 rounded-md font-bold">🔒 قريباً</span>
-                            </div>
-                            <i class="fa-solid fa-lock text-amber-400"></i>
-                        </div>
-                    `;
-                }
-            });
-
-            html += `
-                    </div>
-                </div>
-            `;
-            container.innerHTML = html;
-        }
-
-        function startRoundWithCategory(catId) {
-            gameState.selectedCategory = CATEGORIES.find(c => c.id === catId);
-            
-            // Pick a random rule from the 10 forbidden rules of the chosen category
-            const randomRuleIndex = Math.floor(Math.random() * gameState.selectedCategory.rules.length);
-            gameState.activeRule = gameState.selectedCategory.rules[randomRuleIndex];
-
-            // Assign unique secrets to players from category items
-            const itemsCopy = [...gameState.selectedCategory.items].sort(() => Math.random() - 0.5);
-            gameState.players.forEach((p, idx) => {
-                p.secret = itemsCopy[idx % itemsCopy.length];
-                p.selectedCardIndex = null;
-                p.card = null;
-                p.guessedSecrets = {};
-            });
-
-            gameState.revealPlayerIndex = 0;
-            gameState.chosenCardIndex = null;
-            gameState.step = 'SECRET_PASS';
-            renderScreen();
-        }
-
-        // 4. SECRET & LUCK CARDS PASS SCREEN
-        function renderSecretPassScreen(container) {
-            const player = gameState.players[gameState.revealPlayerIndex];
-
-            if (gameState.chosenCardIndex === null) {
-                // Cover State or Card Selection
-                container.innerHTML = `
-                    <div class="bg-brand-card border border-slate-700 rounded-3xl p-6 text-center space-y-5 shadow-2xl">
-                        <div class="w-14 h-14 bg-brand-yellow/20 text-brand-yellow rounded-full flex items-center justify-center text-2xl mx-auto border border-brand-yellow/50">
-                            🔐
-                        </div>
-                        <div>
-                            <span class="text-xs text-brand-yellow font-bold">تداول الهاتف بالسر</span>
-                            <h2 class="text-2xl font-black text-white mt-1">سلم الجوال إلى: <span class="text-brand-yellow">${player.name}</span></h2>
-                            <p class="text-xs text-gray-400 mt-1">تأكد من عدم رؤية الآخرين للشاشة</p>
-                        </div>
-
-                        <!-- 3 Luck Cards (❓) -->
-                        <div class="pt-2">
-                            <p class="text-xs text-gray-300 font-bold mb-3">اختر أحد كروت الحظ الثلاثة (؟):</p>
-                            <div class="grid grid-cols-3 gap-3">
-                                <button onclick="pickLuckCard(0)" class="h-24 bg-slate-900 border-2 border-brand-yellow/50 hover:border-brand-yellow rounded-2xl flex flex-col items-center justify-center gap-1 transition gold-glow">
-                                    <span class="text-2xl">❓</span>
-                                    <span class="text-[10px] font-bold text-brand-yellow">كرت 1</span>
-                                </button>
-                                <button onclick="pickLuckCard(1)" class="h-24 bg-slate-900 border-2 border-brand-yellow/50 hover:border-brand-yellow rounded-2xl flex flex-col items-center justify-center gap-1 transition gold-glow">
-                                    <span class="text-2xl">❓</span>
-                                    <span class="text-[10px] font-bold text-brand-yellow">كرت 2</span>
-                                </button>
-                                <button onclick="pickLuckCard(2)" class="h-24 bg-slate-900 border-2 border-brand-yellow/50 hover:border-brand-yellow rounded-2xl flex flex-col items-center justify-center gap-1 transition gold-glow">
-                                    <span class="text-2xl">❓</span>
-                                    <span class="text-[10px] font-bold text-brand-yellow">كرت 3</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Recirculate Locked Button -->
-                        <button class="w-full py-2.5 bg-slate-900/80 border border-slate-700 text-gray-400 font-bold text-xs rounded-xl opacity-60 cursor-not-allowed flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-lock text-brand-yellow"></i> إعادة تدوير الكروت 🔒 (متاح بالنسخة الكاملة)
-                        </button>
-                    </div>
-                `;
-            } else {
-                // Secret Revealed State
-                container.innerHTML = `
-                    <div class="bg-brand-card border-2 border-brand-yellow rounded-3xl p-6 text-center space-y-5 shadow-2xl">
-                        <div class="flex justify-between items-center border-b border-slate-700 pb-2 text-xs">
-                            <span class="text-brand-yellow font-bold">اللاعب: ${player.name}</span>
-                            <span class="text-gray-400">${gameState.selectedCategory.name}</span>
-                        </div>
-
-                        <!-- Secret Box -->
-                        <div class="bg-slate-900 border border-brand-yellow/50 p-4 rounded-2xl shadow-inner">
-                            <span class="text-xs text-gray-400 block mb-1">سرّك الخاص والجزء الخاص بك هو:</span>
-                            <h3 class="text-2xl font-black text-brand-yellow tracking-wide">${player.secret}</h3>
-                        </div>
-
-                        <!-- Revealed Luck Card -->
-                        <div class="bg-slate-900/90 border border-slate-700 p-3.5 rounded-2xl text-right">
-                            <span class="text-[11px] text-gray-400 font-bold block mb-1">كرت الحظ المقدر لك:</span>
-                            <p class="text-xs font-bold ${player.card.type === 'benefit' ? 'text-green-400' : 'text-amber-400'} leading-relaxed">
-                                ${player.card.text}
-                            </p>
-                        </div>
-
-                        <p class="text-[11px] text-gray-400 italic">احفظ سرك جيداً ثم اخفِ الشاشة وسلم الهاتف للاعب التالي.</p>
-
-                        <button onclick="nextSecretPass()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 transition">
-                            حفظت السر - اخفاء وتسليم 🙈
-                        </button>
-                    </div>
-                `;
-            }
-        }
-
-        function pickLuckCard(cardIdx) {
-            gameState.chosenCardIndex = cardIdx;
-            const player = gameState.players[gameState.revealPlayerIndex];
-            player.selectedCardIndex = cardIdx;
-            player.card = LUCK_CARDS[Math.floor(Math.random() * LUCK_CARDS.length)];
-            renderScreen();
-        }
-
-        function nextSecretPass() {
-            gameState.chosenCardIndex = null;
-            if (gameState.revealPlayerIndex + 1 < gameState.players.length) {
-                gameState.revealPlayerIndex++;
-                renderScreen();
-            } else {
-                // All players saw their secrets -> Move to Discussion Phase
-                gameState.step = 'DISCUSSION';
-                renderScreen();
-            }
-        }
-
-        // 5. DISCUSSION PHASE & OPTIONAL QUESTION BUTTON
-        function renderDiscussionScreen(container) {
-            container.innerHTML = `
-                <div class="bg-brand-card border border-slate-700 rounded-3xl p-5 text-center space-y-4 shadow-2xl">
-                    <div class="flex justify-between items-center bg-slate-900 px-3.5 py-2 rounded-xl border border-slate-800 text-xs">
-                        <span class="text-brand-yellow font-bold">الجولة ${gameState.currentRound} من 3</span>
-                        <span class="text-gray-300">${gameState.selectedCategory.name}</span>
-                    </div>
-
-                    <!-- Active Round Law Banner -->
-                    <div class="bg-amber-950/40 border-2 border-amber-500/60 p-3.5 rounded-2xl text-right">
-                        <div class="flex items-center gap-2 text-amber-400 font-bold text-xs mb-1">
-                            <i class="fa-solid fa-triangle-exclamation"></i> قانون الجولة الممنوع (الشرط المقيد):
-                        </div>
-                        <p class="text-xs text-white font-semibold leading-relaxed">
-                            ${gameState.activeRule}
-                        </p>
-                    </div>
-
-                    <div class="py-2">
-                        <h3 class="text-xl font-black text-white">طرح الأسئلة والنقاش الجماعي 💬</h3>
-                        <p class="text-xs text-gray-300 mt-1 leading-relaxed">
-                            اسألوا بعضكم بالتداول مع الالتزام بقانون الجولة الممنوع أعلاه!
-                        </p>
-                    </div>
-
-                    <!-- Optional Question Voted Trigger -->
-                    <div class="p-3.5 bg-slate-900/90 rounded-2xl border border-slate-800 space-y-2">
-                        <span class="text-xs font-bold text-brand-yellow block">هل ترغبون في طرح سؤال عام موحد؟</span>
-                        <button onclick="triggerOptionalQuestionVote()" class="w-full py-2.5 bg-slate-800 border border-brand-yellow/40 text-brand-yellow font-bold text-xs rounded-xl hover:bg-brand-yellow hover:text-brand-navy transition">
-                            🎯 إظهار السؤال الاختياري (بشرط تصويت الأغلبية)
-                        </button>
-                    </div>
-
-                    <div class="pt-2">
-                        <button onclick="startVotingPhase()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 transition">
-                            انتقال إلى التصويت والتخمين النهائي 🗳️
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function triggerOptionalQuestionVote() {
-            // Pick 1 random question from 10 fixed questions
-            gameState.selectedOptionalQuestion = FIXED_QUESTIONS[Math.floor(Math.random() * FIXED_QUESTIONS.length)];
-            gameState.step = 'OPTIONAL_QUESTION';
-            renderScreen();
-        }
-
-        // 6. OPTIONAL QUESTION SCREEN
-        function renderOptionalQuestionScreen(container) {
-            container.innerHTML = `
-                <div class="bg-brand-card border-2 border-brand-yellow rounded-3xl p-5 text-center space-y-5 shadow-2xl">
-                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <span class="text-xs text-brand-yellow font-bold block mb-1">🎯 السؤال العام الاختياري للجولة:</span>
-                        <h3 class="text-base font-black text-white leading-relaxed">"${gameState.selectedOptionalQuestion}"</h3>
-                    </div>
-
-                    <p class="text-xs text-gray-300 leading-relaxed">
-                        يجيب كل لاعب على هذا السؤال بدور متتالي مع الحذر من كشف سِرّه!
-                    </p>
-
-                    <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs text-gray-400">
-                        * يرجى إجابة جميع اللاعبين بالترتيب قبل الضغط على الانتقال للتصويت.
-                    </div>
-
-                    <button onclick="startVotingPhase()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 transition">
-                        الانتقال إجبارياً إلى التصويت والتخمين 🗳️
-                    </button>
-                </div>
-            `;
-        }
-
-        // 7. VOTING PASS & TIMER SCREEN (20s Timer)
-        function startVotingPhase() {
-            gameState.voterPlayerIndex = 0;
-            gameState.step = 'VOTING_PASS';
-            startTimer();
-            renderScreen();
-        }
-
-        function startTimer() {
-            clearInterval(gameState.timerInterval);
-            gameState.timerSeconds = 20;
-            gameState.timerInterval = setInterval(() => {
-                gameState.timerSeconds--;
-                const timerEl = document.getElementById('timer-display');
-                if (timerEl) {
-                    timerEl.innerText = gameState.timerSeconds;
-                }
-                if (gameState.timerSeconds <= 0) {
-                    clearInterval(gameState.timerInterval);
-                    saveVoteAndNext();
-                }
-            }, 1000);
-        }
-
-        function renderVotingPassScreen(container) {
-            const voter = gameState.players[gameState.voterPlayerIndex];
-            const otherPlayers = gameState.players.filter(p => p.id !== voter.id);
-
-            let dropdownsHTML = '';
-            otherPlayers.forEach(p => {
-                dropdownsHTML += `
-                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl space-y-1.5 text-right">
-                        <label class="text-xs font-bold text-brand-yellow block">تخمين ${gameState.selectedCategory.singularName} للاعب (${p.name}):</label>
-                        <select id="vote-select-${p.id}" class="w-full bg-brand-navy border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-brand-yellow focus:outline-none">
-                            <option value="">-- اختر ${gameState.selectedCategory.singularName} --</option>
-                            ${gameState.selectedCategory.items.map(item => `
-                                <option value="${item}" ${voter.guessedSecrets[p.id] === item ? 'selected' : ''}>${item}</option>
-                            `).join('')}
-                        </select>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = `
-                <div class="bg-brand-card border-2 border-brand-yellow rounded-3xl p-5 space-y-4 shadow-2xl">
-                    <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                        <div class="text-right">
-                            <span class="text-[10px] text-gray-400 block">التصويت والتخمين السري</span>
-                            <h3 class="text-base font-black text-brand-yellow">${voter.name}</h3>
-                        </div>
-                        <!-- Timer Badge -->
-                        <div class="bg-red-950/80 border border-red-600/80 px-3 py-1 rounded-xl flex items-center gap-1.5 text-red-400 font-bold text-xs">
-                            <i class="fa-solid fa-stopwatch animate-pulse"></i>
-                            <span id="timer-display">${gameState.timerSeconds}</span> ثانية
-                        </div>
-                    </div>
-
-                    <div class="space-y-2.5 max-h-[45vh] overflow-y-auto pr-1">
-                        ${dropdownsHTML}
-                    </div>
-
-                    <button onclick="saveVoteAndNext()" class="w-full py-3 bg-brand-yellow text-brand-navy font-black text-base rounded-2xl shadow-lg hover:brightness-110 transition">
-                        حفظ التخمين والتسليم 🔒
-                    </button>
-                </div>
-            `;
-        }
-
-        function saveVoteAndNext() {
-            clearInterval(gameState.timerInterval);
-            const voter = gameState.players[gameState.voterPlayerIndex];
-            const otherPlayers = gameState.players.filter(p => p.id !== voter.id);
-
-            otherPlayers.forEach(p => {
-                const sel = document.getElementById(`vote-select-${p.id}`);
-                if (sel) {
-                    voter.guessedSecrets[p.id] = sel.value;
-                }
-            });
-
-            if (gameState.voterPlayerIndex + 1 < gameState.players.length) {
-                gameState.voterPlayerIndex++;
-                startTimer();
-                renderScreen();
-            } else {
-                // Calculate round points
-                calculateRoundScores();
-                gameState.step = 'ROUND_RESULT';
-                renderScreen();
-            }
-        }
-
-        function calculateRoundScores() {
-            // +10 points for each correct guess
-            gameState.players.forEach(voter => {
-                Object.keys(voter.guessedSecrets).forEach(targetId => {
-                    const val = voter.guessedSecrets[targetId];
-                    const targetPlayer = gameState.players.find(p => p.id == targetId);
-                    if (targetPlayer && val === targetPlayer.secret) {
-                        voter.score += 10;
-                    }
-                });
-            });
-        }
-
-        // 8. ROUND RESULT SCREEN
-        function renderRoundResultScreen(container) {
-            let listHTML = '';
-            const sorted = [...gameState.players].sort((a,b) => b.score - a.score);
-
-            sorted.forEach(p => {
-                listHTML += `
-                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-2xl flex justify-between items-center text-xs">
-                        <div class="text-right">
-                            <h4 class="font-bold text-white">${p.name}</h4>
-                            <p class="text-[11px] text-gray-400">السر: <span class="text-brand-yellow font-bold">${p.secret}</span></p>
-                        </div>
-                        <div class="text-left">
-                            <span class="text-base font-black text-brand-yellow">${p.score}</span>
-                            <span class="text-[10px] text-gray-400">نقاط</span>
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = `
-                <div class="bg-brand-card border border-slate-700 rounded-3xl p-5 text-center space-y-4 shadow-2xl">
-                    <div>
-                        <span class="text-xs text-brand-yellow font-bold">ملخص الجولة ${gameState.currentRound} من 3</span>
-                        <h2 class="text-xl font-black text-white mt-1">ترتيب النقاط الحالي 📊</h2>
-                    </div>
-
-                    <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        ${listHTML}
-                    </div>
-
-                    <button onclick="nextRoundOrFinish()" class="w-full py-3.5 bg-brand-yellow text-brand-navy font-black text-lg rounded-2xl shadow-lg hover:brightness-110 transition">
-                        ${gameState.currentRound < 3 ? 'الانتقال للجولة التالية 🔄' : 'تتويج البطل النهائي 🏆'}
-                    </button>
-                </div>
-            `;
-        }
-
-        function nextRoundOrFinish() {
-            if (gameState.currentRound < 3) {
-                gameState.currentRound++;
-                gameState.step = 'CATEGORY';
-                renderScreen();
-            } else {
-                gameState.step = 'FINAL_CROWNING';
-                renderScreen();
-            }
-        }
-
-        // 9. FINAL CROWNING SCREEN
-        function renderFinalCrowningScreen(container) {
-            const sorted = [...gameState.players].sort((a,b) => b.score - a.score);
-            const winner = sorted[0];
-
-            let standingsHTML = '';
-            sorted.forEach((p, i) => {
-                standingsHTML += `
-                    <div class="p-3 ${i === 0 ? 'bg-brand-yellow/15 border-2 border-brand-yellow' : 'bg-slate-900 border border-slate-800'} rounded-2xl flex justify-between items-center text-xs">
-                        <div class="flex items-center gap-2">
-                            <span class="font-black text-brand-yellow">#${i + 1}</span>
-                            <span class="font-bold text-white">${p.name} ${i === 0 ? '👑' : ''}</span>
-                        </div>
-                        <span class="font-black text-brand-yellow text-sm">${p.score} نقطة</span>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = `
-                <div class="bg-brand-card border border-slate-700 rounded-3xl p-5 text-center space-y-5 shadow-2xl">
-                    <div class="py-4 bg-gradient-to-b from-brand-yellow/20 to-transparent border border-brand-yellow/40 rounded-3xl gold-glow">
-                        <div class="text-5xl mb-2 animate-bounce">🏆</div>
-                        <span class="text-xs text-brand-yellow font-bold">بطل لعبة صيدهم</span>
-                        <h2 class="text-3xl font-black text-white mt-1">${winner.name}</h2>
-                        <p class="text-xs text-brand-yellow font-bold mt-1">بإجمالي ${winner.score} نقطة!</p>
-                    </div>
-
-                    <div class="space-y-2 max-h-40 overflow-y-auto pr-1">
-                        ${standingsHTML}
-                    </div>
-
-                    <!-- TikTok Conversion Banner -->
-                    <div class="p-3.5 bg-slate-900 border border-slate-800 rounded-2xl text-xs space-y-2">
-                        <p class="text-gray-300 font-bold">استمتعتوا باللعبة؟ 🎯</p>
-                        <p class="text-[11px] text-gray-400 leading-relaxed">يسعدنا جداً تقييمكم للعبة ومشاركتنا آراءكم عبر حسابنا الرسمي على تيك توك!</p>
-                        <a href="http://www.tiktok.com/@hamza_kaf" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-2 bg-brand-yellow text-brand-navy font-black rounded-xl hover:brightness-110 transition">
-                            <i class="fa-brands fa-tiktok"></i> تقييم اللعبة على تيك توك
-                        </a>
-                    </div>
-
-                    <button onclick="restartFullGame()" class="w-full py-3 bg-slate-800 border border-slate-700 text-gray-300 font-bold rounded-2xl hover:bg-slate-700 transition">
-                        لعب مباراة جديدة 🔄
-                    </button>
-                </div>
-            `;
-        }
-
-        function restartFullGame() {
-            gameState.currentRound = 1;
-            gameState.players.forEach(p => p.score = 0);
-            gameState.step = 'PLAYERS_SETUP';
-            renderScreen();
-        }
-    </script>
+<body>
+<div class="app">
+<header><div class="lg"><i>🎯</i><div><b>صيدهم</b><small>(لعبة التخمين والمواضيع الجماعية)</small></div></div><button class="tp" id="hb" onclick="how()">📌 طريقة اللعبة</button></header>
+<main id="m"></main>
+<footer><span>جميع الحقوق محفوظة © HAMZAKAF SA</span><a class="tk" href="http://www.tiktok.com/@hamza_kaf" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V258.33a92.43 92.43 0 1 0 70.36 89.69V0h69.8a140.23 140.23 0 0 0 122.84 139.11z"/></svg>تابعنا وقيم اللعبة على تيك توك</a></footer>
+</div>
+<div id="md"></div>
+<script>
+const R=4,$=i=>document.getElementById(i),sh=a=>[...a].sort(()=>Math.random()-.5),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const CATS={
+SA:{n:'مناطق ومدن المملكة SA',i:'الرياض،جدة،مكة المكرمة،المدينة المنورة،الدمام،الخبر،الظهران،الأحساء،الجبيل،حفر الباطن،أبها،خميس مشيط،جازان،نجران،الباحة،تبوك،حائل،بريدة،عنيزة،العلا،الطائف،ينبع،عرعر،الجوف،الدوادمي'},
+fr:{n:'الخضروات والفواكه 🍎',i:'تفاح،موز،برتقال،فراولة،مانجو،خيار،طماطم،جزر،بطيخ،عنب،ليمون،خوخ،أناناس،رمان،كوسة،باذنجان،بروكلي،كيوي،مشمش،أفوكادو،بطاطس،بصل،ثوم،خس،شمام'},
+dr:{n:'المشروبات ☕',i:'شاي،قهوة عربية،ماتشا،موهيتو،بيبسي،عصير برتقال،كرك،سبانيش لاتيه،ماء،عصير مانجو،كابتشينو،آيس اسبريسو،كركديه،ليمون بالنعناع،سفن أب،كاكاو ساخن،شاي أخضر،عصير طبقات،أمريكانو،عصير رمان،فلات وايت،ميلك شيك،لبن،عصير تفاح،قهوة تركية'},
+fd:{n:'الأكلات العربية 🍕',i:'كبسة،شاورما،فلافل،سمبوسة،منسف،جريش،حنيذ،فتوش،كبة،مطازيز،مقلوبة،تبولة،سليق،مرقوق،قرصان،مضغوط،مظبي،مسخن،حمص،ملوخية،كشري،عريكة،مصقعة،مفطح،بلاليط'},
+an:{n:'الحيوانات',i:'أسد،نمر،فهد،غزال،صقر،جمل،حصان،أرنب،ثعلب،ذئب،زرافة،فيل،دلفين،بطريق،خروف،ماعز،سنجاب،قنفذ،بومة،عقاب،كوالا،قرد،تمساح،هدهد،ضبع'}};
+Object.values(CATS).forEach(c=>c.i=c.i.split('،'));
+const LOCK=['مطاعم ومقاهي مشهورة','أكلات عالمية (أكلات بلس)','دول وعواصم العالم','مهن وحرف','معالم وثقافات','معالم وآثار تاريخية'];
+const CARDS=[
+{id:'refuse',n:'رفض الإجابة 🚫',t:'v',w:14,d:'ترفض الإجابة على سؤال واحد هذي الجولة (تتهرب أو تموّه)، ولا يحق لأحد الاعتراض.'},
+{id:'noask',n:'ممنوع السؤال 🔇',t:'v',w:14,d:'ممنوع تسأل أي لاعب طوال الجولة. تجاوب وتستمع وتصوّت عادي.'},
+{id:'flash',n:'سؤال خاطف 🎤',t:'v',w:14,d:'تسأل أي لاعب سؤالاً إضافياً في الوقت اللي تختاره.'},
+{id:'fine',n:'كرت الخصم 💥',t:'v',w:14,d:'تنخصم منك 5 نقاط.'},
+{id:'rest',n:'ارقد واستريح 🛏️',t:'v',w:14,d:'ما فيه أي تأثير، تمر الجولة عليك بسلام.'},
+{id:'tax',n:'الضريبة 💸',t:'v',w:4,d:'تنخصم منك 5 نقاط وتروح للاعب تختاره أنت.'},
+{id:'wanted',n:'المطلوب 🎯',t:'v',w:4,d:'من يصيد {x} يكسب 20 بدل 10، وإذا ما أصابك أحد تكسب أنت 10.'},
+{id:'swap',n:'تبديل السر 🔄',t:'v',w:4,d:'تظهر 3 كروت فيها 3 خيارات أحدها الأصلي، تختار واحداً فيصير هو الجديد.'},
+{id:'trap',n:'الفخ السحري 🪤',t:'h',w:5,d:'كل لاعب يصيد {x} تنخصم منه 5 نقاط بدل ما يكسب 10.'},
+{id:'dbl',n:'دبل النقاط ⚡',t:'h',w:5,d:'نقاط إصاباتك الصحيحة تتضاعف هذي الجولة.'},
+{id:'shield',n:'الدرع 🛡️',t:'h',w:4,d:'يلغي أول خصم يقع عليك هذي الجولة.'},
+{id:'eye',n:'عين الصقر 🔭',t:'h',w:1,d:'تشوف {p} لثوانٍ قليلة ثم تختفي.'},
+{id:'thief',n:'سارق الصدارة 🗝️',t:'h',w:2,d:'في نهاية الجولة تأخذ 10 نقاط من صاحب أعلى مجموع.'},
+{id:'legend',n:'التبديل الأسطوري 🔁',t:'h',w:1,d:'في نهاية الجولة يتبدل مجموعك مع صاحب أقل مجموع.'}];
+const QS={
+SA:['ما الاتجاه الجغرافي لمدينتك؟ (شمال، جنوب، شرق، غرب، وسط)','هل تطل مدينتك على بحر أو شاطئ أو كورنيش؟','هل في مدينتك مطار دولي أو إقليمي؟','ما أشهر معلم في مدينتك؟','كيف الطقس في مدينتك عادة؟ (برودة، أمطار، حرارة)','بأي حرف يبدأ اسم مدينتك؟','كم عدد حروف اسم مدينتك؟','هل مدينتك عاصمة منطقة أم محافظة؟','ما أشهر منتج أو فاكهة تشتهر بها مدينتك؟','كيف يوصل الناس لمدينتك؟ (طائرة، قطار، سيارة)'],
+fr:['ما لون فاكهتك أو خضارك؟','أين تنمو؟ (فوق الشجرة، تحت الأرض، على شجيرة)','ما طعمها؟ (حلو، حامض، مر، مالح)','هل فيها بذور أو نواة؟','هل تتقشر قبل الأكل أم تؤكل بقشرتها؟','ما حجمها وشكلها؟ (دائرية، طويلة، أكبر من التفاحة)','بأي حرف تبدأ؟ وكم عدد حروفها؟','هل ينعمل منها عصير مشهور؟','هل هي صيفية أم شتوية؟','هل هي قاسية وتقرمش أم لينة وطرية؟'],
+dr:['يُشرب حار أم بارد؟','هل هو مشروب غازي أم عادي؟','ما مكونه الأساسي؟ (حليب، قهوة، شاي، فاكهة)','ما لونه؟ هل هو شفاف؟','كيف يُقدَّم؟ (علبة، كوب ورقي، فنجان)','كم نسبة السكر فيه؟ (حلو جداً أو بدون سكر)','بأي حرف يبدأ؟ وكم عدد حروفه؟','هل فيه كافيين؟','متى يُشرب؟ (الصبح، الليل)','هل فيه إضافات؟ (ثلج، نعناع، رغوة)'],
+fd:['ما مكونها الرئيسي؟ (رز، لحم، دجاج، عجين، خضار)','ما أصلها؟ (سعودية، شامية، مصرية، أردنية)','كيف تؤكل؟ (باليد أو الخبز، بالملعقة)','ما لونها؟','كيف تُطبخ؟ (مقلية، مشوية، مسلوقة، بالفرن)','هل هي وجبة رئيسية أم مقبلات خفيفة؟','بأي حرف تبدأ؟ وكم عدد حروفها؟','هل تُقدَّم في العزائم والأفراح أم أكلة يومية؟','ما قوامها؟ (سائلة أو جافة)','ما الصوصات اللي تُقدَّم معها؟ (طحينة، شطة، لبن)'],
+an:['ما الصوت اللي يصدره حيوانك؟','أين يعيش؟ (غابة، صحراء، بحر، مزرعة)','هل هو مفترس أم عشبي؟','كيف يتحرك؟ (يطير، يسبح، يركض، يزحف)','ما حجمه؟ قارنه بحيوان آخر','ما غطاء جسمه؟ (فرو، ريش، شعر، جلد، قشور)','هل يبيض أم يلد؟','ما ألوانه أو بقعه؟','هل هو أليف أم بري؟','ما أجزاؤه المميزة؟ (قرون، خرطوم، سنام، أجنحة)']};
+const X={SA:['مدينتك','مدن اللاعبين','مدينة'],fr:['فاكهتك أو خضارك','فواكه وخضار اللاعبين','فاكهة أو خضار'],dr:['مشروبك','مشروبات اللاعبين','مشروب'],fd:['أكلتك','أكلات اللاعبين','أكلة'],an:['حيوانك','حيوانات اللاعبين','حيوان']};
+const dsc=c=>c.d.replace('{x}',X[S.cat][0]).replace('{p}',X[S.cat][1]);
+let S={pl:['لاعب 1','لاعب 2']};
+const nm=i=>esc(S.pl[i]),n=()=>S.pl.length;
+const scr=(h,m)=>{$('m').innerHTML=h;scrollTo(0,0);const b=$('hb');b.style.display=m=='none'?'none':'';b.textContent=m=='cards'?'🎴 كروت الحظ':'📌 طريقة اللعبة';b.onclick=m=='cards'?allc:how},md=h=>{const e=$('md');if(h==null)return e.classList.remove('on');e.innerHTML='<div class="mc">'+h+'</div>';e.classList.add('on')};
+const draw3=()=>{let p=[...CARDS],o=[];for(let k=0;k<3;k++){let r=Math.random()*p.reduce((a,c)=>a+c.w,0),j=0;for(;j<p.length-1;j++){if(r<p[j].w)break;r-=p[j].w}o.push(p.splice(j,1)[0])}return o};
+
+function home(){scr(`<div class="c"><div class="hero">🎯</div><h1>مرحباً بك في صيدهم</h1><p class="mu" style="margin-top:8px">اللعبة الجماعية الأكثر ذكاءً وتشويقاً! خمن عناصر أصدقائك، واكتشف المواضيع بدون الوقوع في فخ القوانين الممنوعة عبر هاتف واحد.</p></div>
+<div class="cd"><h2 style="border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:10px">🛡️ عهد اللعبة</h2><ul>
+<li><span>🕌</span><div><b>صلاتك أولاً:</b> لا تخلي اللعبة تلهيك عن صلاتك بوقتها.</div></li>
+<li><span>🤍</span><div><b>برك بأهلك:</b> خليك بار بوالديك ومخلص بواجباتك.</div></li>
+<li><span>✨</span><div><b>الاحترام:</b> هدفنا نضحك وننبسط مع بعض بدون زعل.</div></li>
+<li><span>⚖️</span><div><b>ممنوع الكذب:</b> أجب بصدق وأمانة أثناء الأسئلة والردود.</div></li>
+<li><span>📢</span><div><b>انشرها مجاناً:</b> اللعبة مجانية، انشرها مع أصحابك وجروباتك!</div></li>
+<li><span>🔒</span><div><b>الحقوق محفوظة:</b> يمنع بيعها أو سرقة فكرتها وحقوقها الخاصة بـ HAMZAKAF.</div></li></ul></div>
+<button class="b1" onclick="pls()">◀ ابدأ اللعبة الآن</button>`)}
+function how(){md(`<h3>💡 كيف تلعب صيدهم؟</h3><p class="mu">الفكرة وما فيها يا طويل العمر:</p><ul style="text-align:right">
+<li><div><b>1. سرك معك:</b> كل جولة ينزل موضوع، وكل لاعب ياخذ عنصر خاص فيه بالسر بدون ما أحد يدري.</div></li>
+<li><div><b>2. كروت الحظ:</b> بعد ما تكشف سرك، تختار كرت حظ من 14 كرتاً (ممكن ينفعك أو يخرب عليك!). وتقدر تشوف كل الكروت ووظائفها ونسب ظهورها من زر «كروت الحظ» أول ما تبدأ الجولة.</div></li>
+<li><div><b>3. ممنوع الكذب:</b> أجب بصدق وأمانة أثناء الأسئلة والردود.</div></li>
+<li><div><b>4. السؤال الموحد:</b> أغلبية اللاعبين لازم يصوتون بالموافقة عشان يظهر سؤال موحد يجاوب عليه الجميع بالدور.</div></li>
+<li><div><b>5. صيدهم وصوت:</b> مرر الجوال وصوت، حاول تصيد عناصر أصحابك عشان تجيب أعلى النقاط وتصير بطل الجلسة!</div></li></ul>
+<button class="b1" onclick="md()">فهمت، ارجع للعبة ✔</button>`)}
+
+function pls(){scr(`<div class="cd"><div class="tb"><b class="y">أسماء اللاعبين</b><span class="bg">${n()} من 12 لاعبين</span></div>${S.pl.map((p,i)=>`<div class="pr"><span class="y">لاعب ${i+1}</span><input value="${esc(p)}" oninput="S.pl[${i}]=this.value">${n()>2?`<button class="x" onclick="del(${i})">🗑️</button>`:''}</div>`).join('')}${n()<12?'<button class="ad" onclick="S.pl.push(\'لاعب \'+(n()+1));pls()">+ إضافة لاعب</button>':''}</div><button class="b1" onclick="toCats()">التالي (اختيار القسم) ➔</button><button class="b2" onclick="home()">⬅ رجوع</button>`)}
+function del(i){S.pl.splice(i,1);pls()}
+function toCats(){S.pl=S.pl.map((p,i)=>p.trim()||'لاعب '+(i+1));if(new Set(S.pl).size<n())return alert('الأسماء لازم تكون مختلفة');S.sc=S.pl.map(()=>0);S.r=0;cats()}
+function cats(){scr(`<div class="c"><b class="y" style="font-size:13px">الجولة ${S.r+1} من ${R}</b><div class="dots">${Array.from({length:R},(_,k)=>`<i class="${k<=S.r?'on':''}"></i>`).join('')}</div><h2 style="color:#fff;font-size:24px">اختر قسم الجولة 📁</h2></div><div class="gr">${Object.entries(CATS).map(([k,c])=>`<button class="ct" onclick="start('${k}')"><b>${c.n}</b><small>25 عنصر مفاجئ</small></button>`).join('')}${LOCK.map((l,i)=>`<div class="ct lk${i==5?' w':''}"><b>${l}</b><span class="sn">🔒 قريباً</span></div>`).join('')}</div>${S.r?'':'<button class="b2" onclick="pls()">⬅ رجوع</button>'}`)}
+
+function start(k){S.cat=k;S.items=sh(CATS[k].i).slice(0,n());S.cards=[];S.opt=[];S.tax={};S.gs=[];S.i=0;hand()}
+function hand(){const i=S.i;S.opt[i]=draw3();scr(`<div class="c"><b class="y" style="font-size:13px">الجولة ${S.r+1} من ${R} - ${CATS[S.cat].n}</b></div><div class="cd c"><div style="font-size:40px">🔐</div><b class="y" style="font-size:13px">تداول الهاتف بالسر</b><div style="font-size:26px;font-weight:900">سلم الجوال إلى:<br><span class="y">${nm(i)}</span></div><p class="mu">تأكد من عدم رؤية الآخرين للشاشة</p><div id="rb"><button class="b1" onclick="rv()">كشف</button></div></div>`,'cards')}
+function rv(){$('rb').innerHTML=`<div class="sec"><small class="mu">${X[S.cat][0]} في هذه الجولة</small><b id="it">${esc(S.items[S.i])}</b></div><b style="font-size:14px;display:block;margin:12px 0 8px">اختر أحد كروت الحظ الثلاثة (؟):</b><div class="g3">${[0,1,2].map(k=>`<button class="q" onclick="pick(${k})">؟</button>`).join('')}</div>`}
+function allc(){md(`<h3>🎴 كروت الحظ الـ14</h3><div style="display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto">${CARDS.map(c=>`<div class="cl ${c.t}"><b>${c.n}</b> <span class="mu">(${c.t=='v'?'مكشوف':'مخفي'} - نسبة الظهور ${c.w}%)</span><small>${dsc(c)}</small></div>`).join('')}</div><button class="b1" onclick="md()">إغلاق ✖</button>`)}
+function pick(k){navigator.vibrate&&navigator.vibrate(40);const i=S.i,c=S.opt[i][k];S.cards[i]=c;let ex='',hide='';
+if(c.id=='swap'){const rest=CATS[S.cat].i.filter(x=>!S.items.includes(x)),o=sh([S.items[i],...sh(rest).slice(0,2)]);hide=' style="display:none"';ex=`<div id="sw"><p class="mu">اختر من الكروت المكشوفة (أحدها عنصرك الحالي):</p><div class="g3">${o.map(v=>`<button class="ic" onclick="swp(this.dataset.v)" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div></div>`}
+if(c.id=='tax'){const o=S.pl.map((p,j)=>j).filter(j=>j!=i);S.tax[i]=o[0];ex=`<label class="mu">اختر اللاعب اللي تروح له النقاط:<select onchange="S.tax[${i}]=+this.value">${o.map(j=>`<option value="${j}">${nm(j)}</option>`).join('')}</select></label>`}
+if(c.id=='eye')ex=`<p class="mu">بعد ما يخلص كل اللاعبين من الاختيار، تستلم الجوال وتشوف ${X[S.cat][1]} لثوانٍ قليلة فقط.</p>`;
+md(`<span class="tg ${c.t}" style="align-self:center">${c.t=='v'?'كرت مكشوف':'كرت مخفي'}</span><h3>${c.n}</h3><p class="mu" style="color:var(--tx)">${dsc(c)}</p>${ex}<button class="b1" id="ok"${hide} onclick="nextP()">تم، حفظت عنصري ✔</button>`)}
+function swp(v){S.items[S.i]=v;$('it').textContent=v;$('sw').remove();$('ok').style.display=''}
+function eyeNext(){if(!S.eq.length)return board();const p=S.eq.shift();S.ep=p;scr(`<div class="cd c"><div style="font-size:40px">🔭</div><b class="y" style="font-size:13px">عين الصقر</b><div style="font-size:26px;font-weight:900">سلم الجوال إلى:<br><span class="y">${nm(p)}</span></div><p class="mu">عندك ثوانٍ قليلة فقط تشوف فيها ${X[S.cat][1]}، ركز ولا تضيع الفرصة!</p><button class="b1" onclick="eye()">أظهر الآن</button></div>`,'cards')}
+function eye(){const k=n(),d=k==2?1:Math.round(2+.7*(k-1));let t=d;scr(`<div class="cd"><div class="tb"><b>${X[S.cat][1]}</b><b class="y" id="cn">${d}</b></div><div class="bar"><i id="br" style="transition-duration:${d}s"></i></div><div class="g3 eg">${S.pl.map((p,j)=>j==S.ep?'':`<div class="ec"><small>${esc(p)}</small><b>${esc(S.items[j])}</b></div>`).join('')}</div></div>`,'cards');requestAnimationFrame(()=>requestAnimationFrame(()=>{const b=$('br');if(b)b.style.width='0'}));const h=setInterval(()=>{t--;if(t<=0){clearInterval(h);scr(`<div class="cd c"><p class="mu">انتهى الوقت وتغطّت البطاقات</p></div><button class="b1" onclick="eyeNext()">التالي ➔</button>`,'cards')}else if($('cn'))$('cn').textContent=t},1000)}
+function nextP(){md();S.i++;S.i<n()?hand():(S.eq=S.cards.map((c,p)=>c.id=='eye'?p:-1).filter(p=>p>=0),eyeNext())}
+
+function board(){scr(`<div class="cd"><h2>🎴 نشرة الكروت</h2>${S.pl.map((p,i)=>`<div class="rw"><span>${esc(p)}</span><b class="${S.cards[i].t=='v'?'y':''}">${S.cards[i].t=='v'?S.cards[i].n:'كرت مخفي'}</b></div>`).join('')}</div><p class="mu c">كل لاعب يسأل سؤالين لمن يبغى، واللعبة تدير الأدوار.</p><button class="b1" onclick="S.tl=[];for(let q=0;q<2;q++)S.pl.forEach((_,p)=>{if(S.cards[p].id!='noask')S.tl.push(p)});S.t=0;turn()">ابدأ النقاش</button>`,'cards')}
+function turn(){if(S.t>=S.tl.length)return opq();const p=S.tl[S.t],c=S.cards[p].id,bd=c=='refuse'?'يحق له رفض الإجابة على سؤال':c=='flash'?'معه سؤال خاطف':'';scr(`<div class="cd c"><span class="bg" style="align-self:center">${S.t+1} / ${S.tl.length}</span><div class="mu">الدور على</div><div class="big" style="font-size:34px">${nm(p)}</div><p class="mu" style="color:var(--tx)">اسأل من تبغى سؤالاً واحداً</p>${bd?`<span class="tg v" style="align-self:center">${bd}</span>`:''}</div><button class="b1" onclick="S.t++;turn()">التالي ➔</button>`,'cards')}
+function opq(){S.v=new Set;S.q=null;oq()}
+function oq(){const need=Math.floor(n()/2)+1;scr(`<div class="cd c"><h2>❓ السؤال الاختياري</h2><p class="mu">صوّت بالضغط على اسمك (المطلوب ${need} من ${n()})</p><div>${S.pl.map((p,i)=>`<span class="chip ${S.v.has(i)?'on':''}" onclick="S.v.has(${i})?S.v.delete(${i}):S.v.add(${i});oq()">${esc(p)}</span>`).join('')}</div>${S.q?`<div class="big" style="font-size:19px;color:#fff">${S.q}</div><p class="mu">يجاوب الجميع بالدور</p>`:`<button class="b2" ${S.v.size>=need?'':'disabled'} onclick="S.q=sh(QS[S.cat])[0];oq()">أظهر السؤال الاختياري</button>`}</div><button class="b1" onclick="vp(0)">انتقل إلى التصويت 🗳️</button>`,'cards')}
+
+function vp(i){scr(`<div class="cd c"><h2>وقت التصويت</h2><div style="font-size:26px;font-weight:900">سلم الجوال إلى:<br><span class="y">${nm(i)}</span></div></div><button class="b1" onclick="vote(${i})">ابدأ التخمين</button>`,'none')}
+function vote(i){const all=CATS[S.cat].i;scr(`<div class="cd"><h2>${nm(i)}، خمّن ${X[S.cat][2]} كل لاعب</h2>${S.pl.map((p,j)=>{if(j==i)return'';const o=sh([S.items[j],...sh(all.filter(x=>x!=S.items[i]&&x!=S.items[j])).slice(0,n())]);return`<label style="font-weight:800;font-size:14px">${esc(p)}<select id="g${j}"><option value="">— اختر —</option>${o.map(x=>`<option>${esc(x)}</option>`).join('')}</select></label>`}).join('')}</div><button class="b1" onclick="sub(${i})">تأكيد ✔</button>`,'none')}
+function sub(i){const g=[];for(let j=0;j<n();j++)if(j!=i){const v=$('g'+j).value;if(!v)return alert('اختر لكل لاعب');g[j]=v}S.gs[i]=g;i+1<n()?vp(i+1):calc()}
+
+function calc(){const k=n(),pts=Array(k).fill(0),lg=S.pl.map(()=>[]),su=Array(k).fill(0),C=S.cards.map(c=>c.id),hit=Array(k).fill(0),T=p=>S.sc[p]+pts[p];
+const ded=(p,a,w)=>{if(C[p]=='shield'&&!su[p]){su[p]=1;lg[p].push('الدرع منع خصم -'+a+' ('+w+')');return 0}pts[p]-=a;lg[p].push('-'+a+' '+w);return 1};
+for(let g=0;g<k;g++)for(let t=0;t<k;t++){if(g==t||S.gs[g][t]!==S.items[t])continue;hit[t]=1;if(C[t]=='trap')ded(g,5,'الفخ السحري عند إصابة '+nm(t));else pts[g]+=(C[t]=='wanted'?20:10)*(C[g]=='dbl'?2:1)}
+for(let p=0;p<k;p++){if(C[p]=='dbl')lg[p].push('⚡ دبل النقاط: إصاباته الصحيحة تضاعفت');if(C[p]=='wanted'&&!hit[p])pts[p]+=10;if(C[p]=='fine')ded(p,5,'كرت الخصم');if(C[p]=='tax'&&ded(p,5,'الضريبة لـ '+nm(S.tax[p])))pts[S.tax[p]]+=5}
+for(let o=0;o<k;o++)if(C[o]=='thief'){const m=Math.max(...S.pl.map((_,p)=>T(p)));if(T(o)<m){const v=S.pl.findIndex((_,p)=>T(p)==m);if(ded(v,10,'سارق الصدارة ('+nm(o)+')'))pts[o]+=10}}
+S.cur={pts,lg,T};const o=C.indexOf('legend');
+if(o<0)return fin();const ot=S.pl.map((_,p)=>p).filter(p=>p!=o),mn=Math.min(...ot.map(T)),cd=ot.filter(p=>T(p)==mn);
+if(T(o)<=mn){lg[o].push('التبديل الأسطوري لم يُنفَّذ: أنت صاحب أقل مجموع');return fin()}
+if(cd.length==1)return leg(o,cd[0]);
+scr(`<div class="cd c"><h2>التبديل الأسطوري</h2><p class="mu">${nm(o)}، اختر من تبدّل معه (أقل مجموع):</p><div>${cd.map(p=>`<span class="chip" onclick="leg(${o},${p})">${nm(p)}</span>`).join('')}</div></div>`)}
+function leg(o,m){const {pts,lg,T}=S.cur,a=T(o),b=T(m);pts[o]+=b-a;pts[m]+=a-b;lg[o].push('التبديل الأسطوري: بدّل مجموعه مع '+nm(m));lg[m].push('التبديل الأسطوري: بدّل مجموعه مع '+nm(o));fin()}
+function fin(){const {pts,lg}=S.cur,last=S.r==R-1;S.pl.forEach((_,p)=>S.sc[p]+=pts[p]);
+scr(`<h2>نتيجة الجولة ${S.r+1} من ${R}</h2>${S.pl.map((p,i)=>`<div class="cd"><div class="rw" style="border:0;padding:0"><span>${esc(p)} - <b class="y">${esc(S.items[i])}</b></span><b>${pts[i]>0?'+':''}${pts[i]} (المجموع ${S.sc[i]})</b></div>${S.cards[i].t=='v'?`<small class="mu">الكرت: ${S.cards[i].n}</small>`:''}${lg[i].map(x=>`<small class="mu" style="color:#f87171">${x}</small>`).join('')}</div>`).join('')}<div class="cd"><h2>الترتيب المؤقت</h2>${S.pl.map((p,i)=>({p,s:S.sc[i]})).sort((a,b)=>b.s-a.s).map((x,i)=>`<div class="rw"><span>${i+1}. ${esc(x.p)}</span><b class="y">${x.s}</b></div>`).join('')}</div><button class="b1" onclick="${last?'final()':'S.r++;cats()'}">${last?'عرض المراكز 🏆':'الجولة التالية ➔'}</button>`)}
+function final(){const r=S.pl.map((p,i)=>({p,s:S.sc[i]})).sort((a,b)=>b.s-a.s);scr(`<div class="c"><div class="hero">🏆</div><h1>بطل الجلسة: ${esc(r[0].p)}</h1></div><div class="cd"><h2>المراكز</h2>${r.map((x,i)=>`<div class="rw"><span>${i+1}. ${esc(x.p)}</span><b class="y">${x.s} نقطة</b></div>`).join('')}</div><div class="cd c"><p class="mu" style="color:var(--tx)">الرجاء تقييم اللعبة في حسابنا على تيك توك</p><a class="tk" style="justify-content:center" href="http://www.tiktok.com/@hamza_kaf" target="_blank" rel="noopener">تابعنا وقيم اللعبة على تيك توك</a></div><button class="b1" onclick="home()">العب من جديد</button>`)}
+onbeforeunload=e=>{if(S.sc&&S.r!=null)e.preventDefault()};
+home();
+</script>
 </body>
 </html>
