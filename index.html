@@ -52,6 +52,7 @@ main>*{animation:up .3s ease}@keyframes up{from{opacity:0;transform:translateY(1
 .ec{background:#111827;border:2px solid var(--y);border-radius:14px;padding:12px 6px;text-align:center;display:flex;flex-direction:column;gap:6px}.ec small{color:var(--mu);font-weight:700;font-size:12px}.ec b{color:var(--y);font-size:16px}.eg{grid-template-columns:repeat(2,1fr)}
 .bar{height:8px;background:var(--bg);border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;width:100%;background:var(--y);transition-property:width;transition-timing-function:linear}
 .dots{display:flex;gap:6px;justify-content:center;margin:6px 0}.dots i{width:28px;height:6px;border-radius:6px;background:var(--bd)}.dots i.on{background:var(--y)}
+.pr input::placeholder{color:#64748b;opacity:1}.pd{align-items:center;gap:6px;border-width:2px}
 </style>
 </head>
 <body>
@@ -72,19 +73,19 @@ an:{n:'الحيوانات',i:'أسد،نمر،فهد،غزال،صقر،جمل،
 Object.values(CATS).forEach(c=>c.i=c.i.split('،'));
 const LOCK=['مطاعم ومقاهي مشهورة','أكلات عالمية (أكلات بلس)','دول وعواصم العالم','مهن وحرف','معالم وثقافات','معالم وآثار تاريخية'];
 const CARDS=[
-{id:'refuse',n:'رفض الإجابة 🚫',t:'v',w:14,d:'ترفض الإجابة على سؤال واحد هذي الجولة (تتهرب أو تموّه)، ولا يحق لأحد الاعتراض.'},
-{id:'noask',n:'ممنوع السؤال 🔇',t:'v',w:14,d:'ممنوع تسأل أي لاعب طوال الجولة. تجاوب وتستمع وتصوّت عادي.'},
-{id:'flash',n:'سؤال خاطف 🎤',t:'v',w:14,d:'تسأل أي لاعب سؤالاً إضافياً في الوقت اللي تختاره.'},
-{id:'fine',n:'كرت الخصم 💥',t:'v',w:14,d:'تنخصم منك 5 نقاط.'},
-{id:'rest',n:'ارقد واستريح 🛏️',t:'v',w:14,d:'ما فيه أي تأثير، تمر الجولة عليك بسلام.'},
-{id:'tax',n:'الضريبة 💸',t:'v',w:4,d:'تنخصم منك 5 نقاط وتروح للاعب تختاره أنت.'},
-{id:'wanted',n:'المطلوب 🎯',t:'v',w:4,d:'من يصيد {x} يكسب 20 بدل 10، وإذا ما أصابك أحد تكسب أنت 10.'},
-{id:'swap',n:'تبديل السر 🔄',t:'v',w:4,d:'تظهر 3 كروت فيها 3 خيارات أحدها الأصلي، تختار واحداً فيصير هو الجديد.'},
-{id:'trap',n:'الفخ السحري 🪤',t:'h',w:5,d:'كل لاعب يصيد {x} تنخصم منه 5 نقاط بدل ما يكسب 10.'},
-{id:'dbl',n:'دبل النقاط ⚡',t:'h',w:5,d:'نقاط إصاباتك الصحيحة تتضاعف هذي الجولة.'},
-{id:'shield',n:'الدرع 🛡️',t:'h',w:4,d:'يلغي أول خصم يقع عليك هذي الجولة.'},
-{id:'eye',n:'عين الصقر 🔭',t:'h',w:1,d:'تشوف {p} لثوانٍ قليلة ثم تختفي.'},
-{id:'thief',n:'سارق الصدارة 🗝️',t:'h',w:2,d:'في نهاية الجولة تأخذ 10 نقاط من صاحب أعلى مجموع.'},
+{id:'refuse',n:'رفض الإجابة 🚫',t:'v',w:11,d:'ترفض الإجابة على سؤال واحد هذي الجولة (تتهرب أو تموّه)، ولا يحق لأحد الاعتراض.'},
+{id:'noask',n:'ممنوع السؤال 🔇',t:'v',w:11,d:'ممنوع تسأل أي لاعب طوال الجولة. تجاوب وتستمع وتصوّت عادي.'},
+{id:'flash',n:'سؤال خاطف 🎤',t:'v',w:11,d:'تسأل أي لاعب سؤالاً إضافياً في الوقت اللي تختاره.'},
+{id:'fine',n:'كرت الخصم 💥',t:'v',w:10,d:'تنخصم منك 5 نقاط.'},
+{id:'rest',n:'ارقد واستريح 🛏️',t:'v',w:10,d:'ما فيه أي تأثير، تمر الجولة عليك بسلام.'},
+{id:'tax',n:'الضريبة 💸',t:'v',w:6,d:'تنخصم منك 5 نقاط وتروح للاعب تختاره أنت.'},
+{id:'wanted',n:'المطلوب 🎯',t:'v',w:6,d:'من يصيد {x} يكسب 20 بدل 10، وإذا ما أصابك أحد تكسب أنت 10.'},
+{id:'swap',n:'تبديل السر 🔄',t:'v',w:6,d:'تظهر 3 كروت فيها 3 خيارات أحدها الأصلي، تختار واحداً فيصير هو الجديد.'},
+{id:'trap',n:'الفخ السحري 🪤',t:'h',w:8,d:'كل لاعب يصيد {x} تنخصم منه 5 نقاط بدل ما يكسب 10.'},
+{id:'dbl',n:'دبل النقاط ⚡',t:'h',w:8,d:'نقاط إصاباتك الصحيحة تتضاعف هذي الجولة.'},
+{id:'shield',n:'الدرع 🛡️',t:'h',w:6,d:'يلغي أول خصم يقع عليك هذي الجولة.'},
+{id:'eye',n:'عين الصقر 🔭',t:'h',w:3,d:'تشوف {p} لثوانٍ قليلة ثم تختفي.'},
+{id:'thief',n:'سارق الصدارة 🗝️',t:'h',w:3,d:'في نهاية الجولة تأخذ 10 نقاط من صاحب أعلى مجموع.'},
 {id:'legend',n:'التبديل الأسطوري 🔁',t:'h',w:1,d:'في نهاية الجولة يتبدل مجموعك مع صاحب أقل مجموع.'}];
 const QS={
 SA:['ما الاتجاه الجغرافي لمدينتك؟ (شمال، جنوب، شرق، غرب، وسط)','هل تطل مدينتك على بحر أو شاطئ أو كورنيش؟','هل في مدينتك مطار دولي أو إقليمي؟','ما أشهر معلم في مدينتك؟','كيف الطقس في مدينتك عادة؟ (برودة، أمطار، حرارة)','بأي حرف يبدأ اسم مدينتك؟','كم عدد حروف اسم مدينتك؟','هل مدينتك عاصمة منطقة أم محافظة؟','ما أشهر منتج أو فاكهة تشتهر بها مدينتك؟','كيف يوصل الناس لمدينتك؟ (طائرة، قطار، سيارة)'],
@@ -94,10 +95,10 @@ fd:['ما مكونها الرئيسي؟ (رز، لحم، دجاج، عجين، �
 an:['ما الصوت اللي يصدره حيوانك؟','أين يعيش؟ (غابة، صحراء، بحر، مزرعة)','هل هو مفترس أم عشبي؟','كيف يتحرك؟ (يطير، يسبح، يركض، يزحف)','ما حجمه؟ قارنه بحيوان آخر','ما غطاء جسمه؟ (فرو، ريش، شعر، جلد، قشور)','هل يبيض أم يلد؟','ما ألوانه أو بقعه؟','هل هو أليف أم بري؟','ما أجزاؤه المميزة؟ (قرون، خرطوم، سنام، أجنحة)']};
 const X={SA:['مدينتك','مدن اللاعبين','مدينة'],fr:['فاكهتك أو خضارك','فواكه وخضار اللاعبين','فاكهة أو خضار'],dr:['مشروبك','مشروبات اللاعبين','مشروب'],fd:['أكلتك','أكلات اللاعبين','أكلة'],an:['حيوانك','حيوانات اللاعبين','حيوان']};
 const dsc=c=>c.d.replace('{x}',X[S.cat][0]).replace('{p}',X[S.cat][1]);
-let S={pl:['لاعب 1','لاعب 2']};
+let S={raw:['',''],pl:['','']};
 const nm=i=>esc(S.pl[i]),n=()=>S.pl.length;
 const scr=(h,m)=>{$('m').innerHTML=h;scrollTo(0,0);const b=$('hb');b.style.display=m=='none'?'none':'';b.textContent=m=='cards'?'🎴 كروت الحظ':'📌 طريقة اللعبة';b.onclick=m=='cards'?allc:how},md=h=>{const e=$('md');if(h==null)return e.classList.remove('on');e.innerHTML='<div class="mc">'+h+'</div>';e.classList.add('on')};
-const draw3=()=>{let p=[...CARDS],o=[];for(let k=0;k<3;k++){let r=Math.random()*p.reduce((a,c)=>a+c.w,0),j=0;for(;j<p.length-1;j++){if(r<p[j].w)break;r-=p[j].w}o.push(p.splice(j,1)[0])}return o};
+const draw3=()=>{const U=S.used||(S.used={}),W=c=>c.w/(1+(U[c.id]||0));let p=[...CARDS],o=[];for(let k=0;k<3;k++){let r=Math.random()*p.reduce((a,c)=>a+W(c),0),j=0;for(;j<p.length-1;j++){if(r<W(p[j]))break;r-=W(p[j])}o.push(p.splice(j,1)[0])}return o};
 
 function home(){scr(`<div class="c"><div class="hero">🎯</div><h1>مرحباً بك في صيدهم</h1><p class="mu" style="margin-top:8px">اللعبة الجماعية الأكثر ذكاءً وتشويقاً! خمن عناصر أصدقائك، واكتشف المواضيع بدون الوقوع في فخ القوانين الممنوعة عبر هاتف واحد.</p></div>
 <div class="cd"><h2 style="border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:10px">🛡️ عهد اللعبة</h2><ul>
@@ -116,16 +117,16 @@ function how(){md(`<h3>💡 كيف تلعب صيدهم؟</h3><p class="mu">ال�
 <li><div><b>5. صيدهم وصوت:</b> مرر الجوال وصوت، حاول تصيد عناصر أصحابك عشان تجيب أعلى النقاط وتصير بطل الجلسة!</div></li></ul>
 <button class="b1" onclick="md()">فهمت، ارجع للعبة ✔</button>`)}
 
-function pls(){scr(`<div class="cd"><div class="tb"><b class="y">أسماء اللاعبين</b><span class="bg">${n()} من 12 لاعبين</span></div>${S.pl.map((p,i)=>`<div class="pr"><span class="y">لاعب ${i+1}</span><input value="${esc(p)}" oninput="S.pl[${i}]=this.value">${n()>2?`<button class="x" onclick="del(${i})">🗑️</button>`:''}</div>`).join('')}${n()<12?'<button class="ad" onclick="S.pl.push(\'لاعب \'+(n()+1));pls()">+ إضافة لاعب</button>':''}</div><button class="b1" onclick="toCats()">التالي (اختيار القسم) ➔</button><button class="b2" onclick="home()">⬅ رجوع</button>`)}
-function del(i){S.pl.splice(i,1);pls()}
-function toCats(){S.pl=S.pl.map((p,i)=>p.trim()||'لاعب '+(i+1));if(new Set(S.pl).size<n())return alert('الأسماء لازم تكون مختلفة');S.sc=S.pl.map(()=>0);S.r=0;cats()}
+function pls(){scr(`<div class="cd"><div class="tb"><b class="y">أسماء اللاعبين</b><span class="bg">${S.raw.length} من 12 لاعبين</span></div>${S.raw.map((p,i)=>`<div class="pr"><span class="y">لاعب ${i+1}</span><input value="${esc(p)}" placeholder="لاعب ${i+1}" maxlength="14" oninput="S.raw[${i}]=this.value">${S.raw.length>2?`<button class="x" onclick="del(${i})">🗑️</button>`:''}</div>`).join('')}${S.raw.length<12?'<button class="ad" onclick="S.raw.push(\'\');pls()">+ إضافة لاعب</button>':''}</div><button class="b1" onclick="toCats()">التالي (اختيار القسم) ➔</button><button class="b2" onclick="home()">⬅ رجوع</button>`)}
+function del(i){S.raw.splice(i,1);pls()}
+function toCats(){S.pl=S.raw.map((p,i)=>p.trim()||'لاعب '+(i+1));if(new Set(S.pl).size<n())return alert('الأسماء لازم تكون مختلفة');S.sc=S.pl.map(()=>0);S.r=0;S.ap=null;S.tbd=0;S.tw=[];cats()}
 function cats(){scr(`<div class="c"><b class="y" style="font-size:13px">الجولة ${S.r+1} من ${R}</b><div class="dots">${Array.from({length:R},(_,k)=>`<i class="${k<=S.r?'on':''}"></i>`).join('')}</div><h2 style="color:#fff;font-size:24px">اختر قسم الجولة 📁</h2></div><div class="gr">${Object.entries(CATS).map(([k,c])=>`<button class="ct" onclick="start('${k}')"><b>${c.n}</b><small>25 عنصر مفاجئ</small></button>`).join('')}${LOCK.map((l,i)=>`<div class="ct lk${i==5?' w':''}"><b>${l}</b><span class="sn">🔒 قريباً</span></div>`).join('')}</div>${S.r?'':'<button class="b2" onclick="pls()">⬅ رجوع</button>'}`)}
 
-function start(k){S.cat=k;S.items=sh(CATS[k].i).slice(0,n());S.cards=[];S.opt=[];S.tax={};S.gs=[];S.i=0;hand()}
-function hand(){const i=S.i;S.opt[i]=draw3();scr(`<div class="c"><b class="y" style="font-size:13px">الجولة ${S.r+1} من ${R} - ${CATS[S.cat].n}</b></div><div class="cd c"><div style="font-size:40px">🔐</div><b class="y" style="font-size:13px">تداول الهاتف بالسر</b><div style="font-size:26px;font-weight:900">سلم الجوال إلى:<br><span class="y">${nm(i)}</span></div><p class="mu">تأكد من عدم رؤية الآخرين للشاشة</p><div id="rb"><button class="b1" onclick="rv()">كشف</button></div></div>`,'cards')}
+function start(k){S.cat=k;S.items=sh(CATS[k].i).slice(0,n());S.cards=[];S.opt=[];S.tax={};S.gs=[];S.i=0;S.used={};S.eq=[];S.cur=null;S.v=new Set;S.q=null;S.tl=[];S.t=0;hand()}
+function hand(){const i=S.i;S.picked=-1;S.opt[i]=draw3();scr(`<div class="c"><b class="y" style="font-size:13px">الجولة ${S.r+1} من ${R} - ${CATS[S.cat].n}</b></div><div class="cd c"><div style="font-size:40px">🔐</div><b class="y" style="font-size:13px">تداول الهاتف بالسر</b><div style="font-size:26px;font-weight:900">سلم الجوال إلى:<br><span class="y">${nm(i)}</span></div><p class="mu">تأكد من عدم رؤية الآخرين للشاشة</p><div id="rb"><button class="b1" onclick="rv()">كشف</button></div></div>`,'cards')}
 function rv(){$('rb').innerHTML=`<div class="sec"><small class="mu">${X[S.cat][0]} في هذه الجولة</small><b id="it">${esc(S.items[S.i])}</b></div><b style="font-size:14px;display:block;margin:12px 0 8px">اختر أحد كروت الحظ الثلاثة (؟):</b><div class="g3">${[0,1,2].map(k=>`<button class="q" onclick="pick(${k})">؟</button>`).join('')}</div>`}
 function allc(){md(`<h3>🎴 كروت الحظ الـ14</h3><div style="display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto">${CARDS.map(c=>`<div class="cl ${c.t}"><b>${c.n}</b> <span class="mu">(${c.t=='v'?'مكشوف':'مخفي'} - نسبة الظهور ${c.w}%)</span><small>${dsc(c)}</small></div>`).join('')}</div><button class="b1" onclick="md()">إغلاق ✖</button>`)}
-function pick(k){navigator.vibrate&&navigator.vibrate(40);const i=S.i,c=S.opt[i][k];S.cards[i]=c;let ex='',hide='';
+function pick(k){if(S.picked===S.i)return;S.picked=S.i;navigator.vibrate&&navigator.vibrate(40);const i=S.i,c=S.opt[i][k];S.cards[i]=c;S.used[c.id]=(S.used[c.id]||0)+1;let ex='',hide='';
 if(c.id=='swap'){const rest=CATS[S.cat].i.filter(x=>!S.items.includes(x)),o=sh([S.items[i],...sh(rest).slice(0,2)]);hide=' style="display:none"';ex=`<div id="sw"><p class="mu">اختر من الكروت المكشوفة (أحدها عنصرك الحالي):</p><div class="g3">${o.map(v=>`<button class="ic" onclick="swp(this.dataset.v)" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div></div>`}
 if(c.id=='tax'){const o=S.pl.map((p,j)=>j).filter(j=>j!=i);S.tax[i]=o[0];ex=`<label class="mu">اختر اللاعب اللي تروح له النقاط:<select onchange="S.tax[${i}]=+this.value">${o.map(j=>`<option value="${j}">${nm(j)}</option>`).join('')}</select></label>`}
 if(c.id=='eye')ex=`<p class="mu">بعد ما يخلص كل اللاعبين من الاختيار، تستلم الجوال وتشوف ${X[S.cat][1]} لثوانٍ قليلة فقط.</p>`;
@@ -141,23 +142,33 @@ function opq(){S.v=new Set;S.q=null;oq()}
 function oq(){const need=Math.floor(n()/2)+1;scr(`<div class="cd c"><h2>❓ السؤال الاختياري</h2><p class="mu">صوّت بالضغط على اسمك (المطلوب ${need} من ${n()})</p><div>${S.pl.map((p,i)=>`<span class="chip ${S.v.has(i)?'on':''}" onclick="S.v.has(${i})?S.v.delete(${i}):S.v.add(${i});oq()">${esc(p)}</span>`).join('')}</div>${S.q?`<div class="big" style="font-size:19px;color:#fff">${S.q}</div><p class="mu">يجاوب الجميع بالدور</p>`:`<button class="b2" ${S.v.size>=need?'':'disabled'} onclick="S.q=sh(QS[S.cat])[0];oq()">أظهر السؤال الاختياري</button>`}</div><button class="b1" onclick="vp(0)">انتقل إلى التصويت 🗳️</button>`,'cards')}
 
 function vp(i){scr(`<div class="cd c"><h2>وقت التصويت</h2><div style="font-size:26px;font-weight:900">سلم الجوال إلى:<br><span class="y">${nm(i)}</span></div></div><button class="b1" onclick="vote(${i})">ابدأ التخمين</button>`,'none')}
-function vote(i){const all=CATS[S.cat].i;scr(`<div class="cd"><h2>${nm(i)}، خمّن ${X[S.cat][2]} كل لاعب</h2>${S.pl.map((p,j)=>{if(j==i)return'';const o=sh([S.items[j],...sh(all.filter(x=>x!=S.items[i]&&x!=S.items[j])).slice(0,n())]);return`<label style="font-weight:800;font-size:14px">${esc(p)}<select id="g${j}"><option value="">— اختر —</option>${o.map(x=>`<option>${esc(x)}</option>`).join('')}</select></label>`}).join('')}</div><button class="b1" onclick="sub(${i})">تأكيد ✔</button>`,'none')}
+function mkOpts(i,ids,items,cat){const real=ids.filter(j=>j!=i).map(j=>items[j]),dec=sh(CATS[cat].i.filter(x=>!items.includes(x))).slice(0,2);return sh([...real,...dec])}
+function dis(){const ss=[...document.querySelectorAll('select.gs')],v=ss.map(s=>s.value);ss.forEach((s,k)=>[...s.options].forEach(o=>{o.disabled=!!o.value&&v.some((x,m)=>m!=k&&x==o.value)}))}
+function vote(i){const o=mkOpts(i,S.pl.map((_,j)=>j),S.items,S.cat);scr(`<div class="cd"><h2>${nm(i)}، خمّن ${X[S.cat][2]} كل لاعب</h2>${S.pl.map((p,j)=>{if(j==i)return'';return`<label style="font-weight:800;font-size:14px">${esc(p)}<select class="gs" id="g${j}" onchange="dis()"><option value="">— اختر —</option>${o.map(x=>`<option>${esc(x)}</option>`).join('')}</select></label>`}).join('')}</div><button class="b1" onclick="sub(${i})">تأكيد ✔</button>`,'none')}
 function sub(i){const g=[];for(let j=0;j<n();j++)if(j!=i){const v=$('g'+j).value;if(!v)return alert('اختر لكل لاعب');g[j]=v}S.gs[i]=g;i+1<n()?vp(i+1):calc()}
 
 function calc(){const k=n(),pts=Array(k).fill(0),lg=S.pl.map(()=>[]),su=Array(k).fill(0),C=S.cards.map(c=>c.id),hit=Array(k).fill(0),T=p=>S.sc[p]+pts[p];
 const ded=(p,a,w)=>{if(C[p]=='shield'&&!su[p]){su[p]=1;lg[p].push('الدرع منع خصم -'+a+' ('+w+')');return 0}pts[p]-=a;lg[p].push('-'+a+' '+w);return 1};
 for(let g=0;g<k;g++)for(let t=0;t<k;t++){if(g==t||S.gs[g][t]!==S.items[t])continue;hit[t]=1;if(C[t]=='trap')ded(g,5,'الفخ السحري عند إصابة '+nm(t));else pts[g]+=(C[t]=='wanted'?20:10)*(C[g]=='dbl'?2:1)}
 for(let p=0;p<k;p++){if(C[p]=='dbl')lg[p].push('⚡ دبل النقاط: إصاباته الصحيحة تضاعفت');if(C[p]=='wanted'&&!hit[p])pts[p]+=10;if(C[p]=='fine')ded(p,5,'كرت الخصم');if(C[p]=='tax'&&ded(p,5,'الضريبة لـ '+nm(S.tax[p])))pts[S.tax[p]]+=5}
-for(let o=0;o<k;o++)if(C[o]=='thief'){const m=Math.max(...S.pl.map((_,p)=>T(p)));if(T(o)<m){const v=S.pl.findIndex((_,p)=>T(p)==m);if(ded(v,10,'سارق الصدارة ('+nm(o)+')'))pts[o]+=10}}
-S.cur={pts,lg,T};const o=C.indexOf('legend');
-if(o<0)return fin();const ot=S.pl.map((_,p)=>p).filter(p=>p!=o),mn=Math.min(...ot.map(T)),cd=ot.filter(p=>T(p)==mn);
-if(T(o)<=mn){lg[o].push('التبديل الأسطوري لم يُنفَّذ: أنت صاحب أقل مجموع');return fin()}
-if(cd.length==1)return leg(o,cd[0]);
-scr(`<div class="cd c"><h2>التبديل الأسطوري</h2><p class="mu">${nm(o)}، اختر من تبدّل معه (أقل مجموع):</p><div>${cd.map(p=>`<span class="chip" onclick="leg(${o},${p})">${nm(p)}</span>`).join('')}</div></div>`)}
+S.cur={pts,lg,T,ded,C};S.tq=C.map((c,p)=>c=='thief'?p:-1).filter(p=>p>=0);thf()}
+function thf(){const q=S.tq;if(!q.length)return lgd();const o=q.shift(),T=S.cur.T,m=Math.max(...S.pl.map((_,p)=>T(p)));if(T(o)>=m)return thf();const L=S.pl.map((_,p)=>p).filter(p=>T(p)==m);if(L.length==1)return thv(o,L[0]);pickList('سارق الصدارة','اختر من تسرق منه (أعلى مجموع):',o,L,v=>thv(o,v))}
+function thv(o,v){const {pts,ded}=S.cur;if(ded(v,10,'سارق الصدارة ('+nm(o)+')'))pts[o]+=10;thf()}
+function lgd(){const {lg,T,C}=S.cur,o=C.indexOf('legend');if(o<0)return fin();const ot=S.pl.map((_,p)=>p).filter(p=>p!=o),mn=Math.min(...ot.map(T)),cd=ot.filter(p=>T(p)==mn);if(T(o)<=mn){lg[o].push('التبديل الأسطوري لم يُنفَّذ: أنت صاحب أقل مجموع');return fin()}if(cd.length==1)return leg(o,cd[0]);pickList('التبديل الأسطوري','اختر من تبدّل معه (أقل مجموع):',o,cd,m=>leg(o,m))}
+function pickList(t,msg,o,valid,cb){S.pcb=cb;const T=S.cur.T;scr(`<div class="cd c"><h2>${t}</h2><p class="mu">${nm(o)}، ${msg}</p><div>${S.pl.map((p,j)=>j==o?'':valid.includes(j)?`<span class="chip" onclick="S.pcb(${j})">${esc(p)} (${T(j)})</span>`:`<span class="chip" style="opacity:.35;cursor:not-allowed">${esc(p)} (${T(j)})</span>`).join('')}</div><p class="mu">اللاعبون المعطّلون لا ينطبق عليهم الكرت</p></div>`,'none')}
 function leg(o,m){const {pts,lg,T}=S.cur,a=T(o),b=T(m);pts[o]+=b-a;pts[m]+=a-b;lg[o].push('التبديل الأسطوري: بدّل مجموعه مع '+nm(m));lg[m].push('التبديل الأسطوري: بدّل مجموعه مع '+nm(o));fin()}
-function fin(){const {pts,lg}=S.cur,last=S.r==R-1;S.pl.forEach((_,p)=>S.sc[p]+=pts[p]);
-scr(`<h2>نتيجة الجولة ${S.r+1} من ${R}</h2>${S.pl.map((p,i)=>`<div class="cd"><div class="rw" style="border:0;padding:0"><span>${esc(p)} - <b class="y">${esc(S.items[i])}</b></span><b>${pts[i]>0?'+':''}${pts[i]} (المجموع ${S.sc[i]})</b></div>${S.cards[i].t=='v'?`<small class="mu">الكرت: ${S.cards[i].n}</small>`:''}${lg[i].map(x=>`<small class="mu" style="color:#f87171">${x}</small>`).join('')}</div>`).join('')}<div class="cd"><h2>الترتيب المؤقت</h2>${S.pl.map((p,i)=>({p,s:S.sc[i]})).sort((a,b)=>b.s-a.s).map((x,i)=>`<div class="rw"><span>${i+1}. ${esc(x.p)}</span><b class="y">${x.s}</b></div>`).join('')}</div><button class="b1" onclick="${last?'final()':'S.r++;cats()'}">${last?'عرض المراكز 🏆':'الجولة التالية ➔'}</button>`)}
-function final(){const r=S.pl.map((p,i)=>({p,s:S.sc[i]})).sort((a,b)=>b.s-a.s);scr(`<div class="c"><div class="hero">🏆</div><h1>بطل الجلسة: ${esc(r[0].p)}</h1></div><div class="cd"><h2>المراكز</h2>${r.map((x,i)=>`<div class="rw"><span>${i+1}. ${esc(x.p)}</span><b class="y">${x.s} نقطة</b></div>`).join('')}</div><div class="cd c"><p class="mu" style="color:var(--tx)">الرجاء تقييم اللعبة في حسابنا على تيك توك</p><a class="tk" style="justify-content:center" href="http://www.tiktok.com/@hamza_kaf" target="_blank" rel="noopener">تابعنا وقيم اللعبة على تيك توك</a></div><button class="b1" onclick="home()">العب من جديد</button>`)}
+function fin(){const {pts,lg}=S.cur,last=S.r==R-1;if(S.ap!==S.r){S.pl.forEach((_,p)=>S.sc[p]+=pts[p]);S.ap=S.r}
+scr(`<h2>نتيجة الجولة ${S.r+1} من ${R}</h2>${S.pl.map((p,i)=>`<div class="cd"><div class="rw" style="border:0;padding:0"><span>${esc(p)} - <b class="y">${esc(S.items[i])}</b></span><b>${pts[i]>0?'+':''}${pts[i]} (المجموع ${S.sc[i]})</b></div>${S.cards[i].t=='v'?`<small class="mu">الكرت: ${S.cards[i].n}</small>`:''}${lg[i].map(x=>`<small class="mu" style="color:#f87171">${x}</small>`).join('')}</div>`).join('')}<div class="cd"><h2>الترتيب المؤقت</h2>${(r=>r.map(x=>`<div class="rw"><span>${1+new Set(r.map(y=>y.s).filter(v=>v>x.s)).size}. ${esc(x.p)}</span><b class="y">${x.s}</b></div>`).join(''))(S.pl.map((p,i)=>({p,s:S.sc[i]})).sort((a,b)=>b.s-a.s))}</div><button class="b1" onclick="${last?'final()':'S.r++;cats()'}">${last?'عرض المراكز 🏆':'الجولة التالية ➔'}</button>`)}
+function final(){const m=Math.max(...S.sc),t=S.pl.map((_,i)=>i).filter(i=>S.sc[i]==m);if(t.length>1&&!S.tbd)return tbIntro(t);podium()}
+function tbIntro(t){S.tid=t;scr(`<div class="cd c"><div class="hero">⚖️</div><h2>تعادل على الصدارة!</h2><p class="mu" style="color:var(--tx)">${t.map(nm).join(' و ')} متعادلون بـ ${S.sc[t[0]]} نقطة.<br>جولة تعادل بينهم لتحديد البطل.</p></div><button class="b1" onclick="tbGo(0)">ابدأ جولة التعادل</button>`,'none')}
+function tbGo(k){const t=S.tid;if(k==0){const c=Object.keys(CATS)[Math.random()*5|0],pl=sh(CATS[c].i);S.tc=c;S.tbi=[];t.forEach((id,q)=>S.tbi[id]=pl[q]);S.tg={}}
+if(k>=t.length)return tbVote(0);const id=t[k];scr(`<div class="cd c"><h2>جولة التعادل - ${CATS[S.tc].n}</h2><div style="font-size:26px;font-weight:900">سلم الجوال إلى:<br><span class="y">${nm(id)}</span></div><div id="rb"><button class="b1" onclick="tbRv(${k})">كشف</button></div></div>`,'none')}
+function tbRv(k){const id=S.tid[k];$('rb').innerHTML=`<div class="sec"><small class="mu">${X[S.tc][0]} في جولة التعادل</small><b>${esc(S.tbi[id])}</b></div><button class="b1" style="margin-top:12px" onclick="tbGo(${k+1})">تم، حفظت ✔</button>`}
+function tbVote(k){const t=S.tid;if(k>=t.length)return tbEnd();const id=t[k],o=mkOpts(id,t,S.tbi,S.tc);scr(`<div class="cd"><h2>${nm(id)}، خمّن ${X[S.tc][2]} الباقين</h2>${t.map(j=>j==id?'':`<label style="font-weight:800;font-size:14px">${nm(j)}<select class="gs" id="g${j}" onchange="dis()"><option value="">— اختر —</option>${o.map(x=>`<option>${esc(x)}</option>`).join('')}</select></label>`).join('')}</div><button class="b1" onclick="tbSub(${k})">تأكيد ✔</button>`,'none')}
+function tbSub(k){const t=S.tid,id=t[k];let c=0;for(const j of t)if(j!=id){const v=$('g'+j).value;if(!v)return alert('اختر لكل لاعب');if(v===S.tbi[j])c++}S.tg[id]=c;tbVote(k+1)}
+function tbEnd(){const t=S.tid,v=t.map(i=>S.tg[i]),mx=Math.max(...v),mn=Math.min(...v);S.tw=mx>mn?t.filter(i=>S.tg[i]==mx):[];S.tbd=1;scr(`<div class="cd"><h2>نتيجة جولة التعادل</h2>${t.map(i=>`<div class="rw"><span>${nm(i)} - <b class="y">${esc(S.tbi[i])}</b></span><b>${S.tg[i]} إصابة</b></div>`).join('')}<p class="mu c">${S.tw.length?'الفائز في جولة التعادل: '+S.tw.map(nm).join(' و '):'تعادل مرة ثانية: الصدارة مشتركة'}</p></div><button class="b1" onclick="podium()">عرض المراكز 🏆</button>`,'none')}
+function podium(){const ks=i=>S.sc[i]+(S.tw&&S.tw.includes(i)?.5:0),all=S.pl.map((p,i)=>i).sort((a,b)=>ks(b)-ks(a)),rk=i=>1+[...new Set(all.map(ks))].filter(v=>v>ks(i)).length,G=r=>all.filter(i=>rk(i)==r),M=[['🥇','#facc15','المركز الأول'],['🥈','#cbd5e1','المركز الثاني'],['🥉','#cd7f32','المركز الثالث']],top=G(1),rest=all.filter(i=>rk(i)>3);
+scr(`<div class="c"><div class="hero">🏆</div><h1>${top.length>1?'الأبطال: '+top.map(nm).join(' و '):'بطل الجلسة: '+nm(top[0])}</h1></div>${M.map((m,k)=>{const g=G(k+1);return g.length?`<div class="cd pd" style="border-color:${m[1]};padding:${24-k*6}px 18px"><div style="font-size:${36-k*7}px">${m[0]}</div><b style="color:${m[1]};text-align:center;font-size:${24-k*3}px">${g.map(nm).join(' و ')}</b><span class="mu">${m[2]} - ${S.sc[g[0]]} نقطة</span></div>`:''}).join('')}${rest.length?`<div class="cd"><h2>باقي المراكز</h2>${rest.map(i=>`<div class="rw"><span>${rk(i)}. ${nm(i)}</span><b class="y">${S.sc[i]} نقطة</b></div>`).join('')}</div>`:''}<div class="cd c"><p class="mu" style="color:var(--tx)">الرجاء تقييم اللعبة في حسابنا على تيك توك</p><a class="tk" style="justify-content:center" href="http://www.tiktok.com/@hamza_kaf" target="_blank" rel="noopener">تابعنا وقيم اللعبة على تيك توك</a></div><button class="b1" onclick="home()">العب من جديد</button>`)}
 onbeforeunload=e=>{if(S.sc&&S.r!=null)e.preventDefault()};
 home();
 </script>
