@@ -53,6 +53,7 @@ main>*{animation:up .3s ease}@keyframes up{from{opacity:0;transform:translateY(1
 .bar{height:8px;background:var(--bg);border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;width:100%;background:var(--y);transition-property:width;transition-timing-function:linear}
 .dots{display:flex;gap:6px;justify-content:center;margin:6px 0}.dots i{width:28px;height:6px;border-radius:6px;background:var(--bd)}.dots i.on{background:var(--y)}
 .pr input::placeholder{color:#64748b;opacity:1}.xb{position:absolute;top:10px;left:12px;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--y);background:none;color:var(--y);font:900 15px Tajawal;cursor:pointer}.pd{align-items:center;gap:6px;border-width:2px}
+body,html{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-touch-callout:none}input,select,textarea{-webkit-user-select:text;user-select:text}
 </style>
 </head>
 <body>
@@ -174,6 +175,12 @@ function tbSub(k){const t=S.tid,id=t[k];let c=0;for(const j of t)if(j!=id){const
 function tbEnd(){const t=S.tid,v=t.map(i=>S.tg[i]),mx=Math.max(...v),mn=Math.min(...v);S.tw=mx>mn?t.filter(i=>S.tg[i]==mx):[];S.tbd=1;scr(`<div class="cd"><h2>نتيجة جولة التعادل</h2>${t.map(i=>`<div class="rw"><span>${nm(i)} - <b class="y">${esc(S.tbi[i])}</b></span><b>${S.tg[i]} إصابة</b></div>`).join('')}<p class="mu c">${S.tw.length?'الفائز في جولة التعادل: '+S.tw.map(nm).join(' و '):'تعادل مرة ثانية: الصدارة مشتركة'}</p></div><button class="b1" onclick="podium()">عرض المراكز 🏆</button>`,'none')}
 function podium(){const ks=i=>S.sc[i]+(S.tw&&S.tw.includes(i)?.5:0),all=S.pl.map((p,i)=>i).sort((a,b)=>ks(b)-ks(a)),rk=i=>1+[...new Set(all.map(ks))].filter(v=>v>ks(i)).length,G=r=>all.filter(i=>rk(i)==r),M=[['🥇','#facc15','المركز الأول'],['🥈','#cbd5e1','المركز الثاني'],['🥉','#cd7f32','المركز الثالث']],top=G(1),rest=all.filter(i=>rk(i)>3);
 scr(`<div class="c"><div class="hero">🏆</div><h1>${top.length>1?'الأبطال: '+top.map(nm).join(' و '):'بطل الجلسة: '+nm(top[0])}</h1></div>${M.map((m,k)=>{const g=G(k+1);return g.length?`<div class="cd pd" style="border-color:${m[1]};padding:${24-k*6}px 18px"><div style="font-size:${36-k*7}px">${m[0]}</div><b style="color:${m[1]};text-align:center;font-size:${24-k*3}px">${g.map(nm).join(' و ')}</b><span class="mu">${m[2]} - ${S.sc[g[0]]} نقطة</span></div>`:''}).join('')}${rest.length?`<div class="cd"><h2>باقي المراكز</h2>${rest.map(i=>`<div class="rw"><span>${rk(i)}. ${nm(i)}</span><b class="y">${S.sc[i]} نقطة</b></div>`).join('')}</div>`:''}<div class="cd c"><p class="mu" style="color:var(--tx)">الرجاء تقييم اللعبة في حسابنا على تيك توك</p><a class="tk" style="justify-content:center" href="http://www.tiktok.com/@hamza_kaf" target="_blank" rel="noopener">تابعنا وقيم اللعبة على تيك توك</a></div><button class="b1" onclick="home()">العب من جديد</button>`)}
+(function(){const ok=e=>{const t=e.target&&(e.target.nodeType==3?e.target.parentNode:e.target);return !!t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)};
+document.addEventListener('contextmenu',e=>{if(!ok(e))e.preventDefault()});
+document.addEventListener('selectstart',e=>{if(!ok(e))e.preventDefault()});
+document.addEventListener('dragstart',e=>e.preventDefault());
+document.addEventListener('copy',e=>{if(!ok(e))e.preventDefault()});
+document.addEventListener('keydown',e=>{const k=(e.key||'').toLowerCase(),m=e.ctrlKey||e.metaKey;if(e.key==='F12'||(m&&e.shiftKey&&['i','j','c'].includes(k))||(m&&['u','s'].includes(k))||(m&&['c','a'].includes(k)&&!ok(e)))e.preventDefault()})})();
 onbeforeunload=e=>{if(S.sc&&S.r!=null)e.preventDefault()};
 home();how();
 </script>
