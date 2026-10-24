@@ -180,7 +180,7 @@ document.addEventListener('contextmenu',e=>{if(!ok(e))e.preventDefault()});
 document.addEventListener('selectstart',e=>{if(!ok(e))e.preventDefault()});
 document.addEventListener('dragstart',e=>e.preventDefault());
 document.addEventListener('copy',e=>{if(!ok(e))e.preventDefault()});
-document.addEventListener('keydown',e=>{const k=(e.key||'').toLowerCase(),m=e.ctrlKey||e.metaKey;if(e.key==='F12'||(m&&e.shiftKey&&['i','j','c'].includes(k))||(m&&['u','s'].includes(k))||(m&&['c','a'].includes(k)&&!ok(e)))e.preventDefault()})})();
+window.addEventListener('keydown',e=>{const c=e.code,m=e.ctrlKey||e.metaKey;if(e.key==='F12'||(e.shiftKey&&['F5','F7','F9'].includes(e.key))||(m&&['KeyU','KeyS'].includes(c))||(m&&e.shiftKey&&['KeyI','KeyJ','KeyC','KeyK','KeyE','KeyM'].includes(c))||(e.metaKey&&e.altKey&&['KeyI','KeyJ','KeyC','KeyU'].includes(c))||(m&&['KeyC','KeyA'].includes(c)&&!ok(e))){e.preventDefault();e.stopPropagation()}},true)})();
 onbeforeunload=e=>{if(S.sc&&S.r!=null)e.preventDefault()};
 home();how();
 </script>
