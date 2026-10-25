@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="copyright" content="HAMZAKAF SA">
+<meta name="robots" content="noai, noimageai">
+<!--
+© HAMZAKAF SA - جميع الحقوق محفوظة.
+هذا الكود ملكية خاصة. يمنع نسخه أو تعديله أو إعادة نشره أو بيعه أو استخدامه (يدوياً أو عبر أدوات آلية أو ذكاء اصطناعي) دون إذن كتابي من المالك.
+Copyright (c) HAMZAKAF SA. All rights reserved. This source code is proprietary. Copying, modification, redistribution, resale, or use (manually or through automated or AI tools) without the owner's written permission is prohibited. The owner reserves all legal rights.
+-->
 <title>صيدهم - لعبة التخمين والمواضيع الجماعية</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -64,6 +71,7 @@ body,html{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webki
 </div>
 <div id="md"></div>
 <script>
+/* (c) HAMZAKAF SA - جميع الحقوق محفوظة / All rights reserved. يمنع النسخ أو التعديل أو إعادة النشر دون إذن كتابي من المالك. Copying, modifying or redistributing this code without the owner's written permission is prohibited. */
 const R=4,$=i=>document.getElementById(i),sh=a=>[...a].sort(()=>Math.random()-.5),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
 const CATS={
 SA:{n:'مناطق ومدن المملكة SA',i:'الرياض،جدة،مكة المكرمة،المدينة المنورة،الدمام،الخبر،الظهران،الأحساء،الجبيل،حفر الباطن،أبها،خميس مشيط،جازان،نجران،الباحة،تبوك،حائل،بريدة،عنيزة،العلا،الطائف،ينبع،عرعر،الجوف،الدوادمي'},
@@ -97,12 +105,18 @@ an:['ما الصوت اللي يصدره حيوانك؟','أين يعيش؟ (غ�
 const X={SA:['مدينتك','مدن اللاعبين','مدينة'],fr:['فاكهتك أو خضارك','فواكه وخضار اللاعبين','فاكهة أو خضار'],dr:['مشروبك','مشروبات اللاعبين','مشروب'],fd:['أكلتك','أكلات اللاعبين','أكلة'],an:['حيوانك','حيوانات اللاعبين','حيوان']};
 const dsc=c=>c.d.replace('{x}',X[S.cat][0]).replace('{p}',X[S.cat][1]);
 const ME={SA:'مدينتي',fr:'فاكهتي أو خضاري',dr:'مشروبي',fd:'أكلتي',an:'حيواني'};
+const GR={SA:'الرياض،الدوادمي،بريدة،عنيزة|جدة،مكة المكرمة،المدينة المنورة،الطائف،ينبع|الدمام،الخبر،الظهران،الأحساء،الجبيل،حفر الباطن|أبها،خميس مشيط،جازان،نجران،الباحة|تبوك،حائل،العلا،عرعر،الجوف',
+fr:'برتقال،ليمون،مانجو،أناناس،موز،كيوي|تفاح،خوخ،مشمش،رمان،أفوكادو|عنب،بطيخ،شمام،فراولة|خيار،طماطم،كوسة،باذنجان،بروكلي،خس|جزر،بطاطس،بصل،ثوم',
+dr:'شاي،كرك،شاي أخضر،ماتشا،كركديه|قهوة عربية،قهوة تركية،سبانيش لاتيه،كابتشينو،آيس اسبريسو،أمريكانو،فلات وايت|عصير برتقال،عصير مانجو،عصير طبقات،عصير رمان،عصير تفاح|بيبسي،سفن أب،موهيتو،ليمون بالنعناع،ماء|كاكاو ساخن،ميلك شيك،لبن',
+fd:'كبسة،منسف،حنيذ،مضغوط،مظبي،مفطح،مقلوبة،سليق|جريش،مطازيز،مرقوق،قرصان،عريكة|شاورما،فلافل،سمبوسة،كبة،مسخن|فتوش،تبولة،حمص،مصقعة|ملوخية،كشري،بلاليط',
+an:'أسد،نمر،فهد،ذئب،ثعلب،ضبع|صقر،بومة،عقاب،هدهد،بطريق|غزال،جمل،حصان،زرافة،خروف،ماعز|أرنب،سنجاب،قنفذ،كوالا،قرد|فيل،دلفين،تمساح'};
+Object.keys(GR).forEach(k=>GR[k]=GR[k].split('|').map(g=>g.split('،')));
 const SEEN={},pickItems=(c,k)=>{const all=CATS[c].i,s=SEEN[c]||(SEEN[c]=new Set);let u=sh(all.filter(x=>!s.has(x)));if(u.length<k){const r=sh(all.filter(x=>s.has(x)));s.clear();u=[...u,...r]}const o=u.slice(0,k);o.forEach(x=>s.add(x));return o};
 const QSEEN={},nextQ=c=>{const s=QSEEN[c]||(QSEEN[c]=new Set);let a=QS[c].filter(q=>!s.has(q));if(!a.length){s.clear();a=QS[c]}const q=a[Math.random()*a.length|0];s.add(q);return q};
 let S={raw:['',''],pl:['','']};
 const nm=i=>esc(S.pl[i]),n=()=>S.pl.length;
 const scr=(h,m)=>{$('m').innerHTML=h;scrollTo(0,0);const b=$('hb');b.style.display=m=='none'?'none':'';b.textContent=m=='cards'?'🎴 كروت الحظ':'📌 طريقة اللعبة';b.onclick=m=='cards'?allc:how},md=h=>{const e=$('md');if(h==null)return e.classList.remove('on');e.innerHTML='<div class="mc">'+h+'</div>';e.classList.add('on')};
-const draw3=()=>{const U=S.used||(S.used={}),W=c=>c.w/(1+(U[c.id]||0));let p=[...CARDS],o=[];for(let k=0;k<3;k++){let r=Math.random()*p.reduce((a,c)=>a+W(c),0),j=0;for(;j<p.length-1;j++){if(r<W(p[j]))break;r-=W(p[j])}o.push(p.splice(j,1)[0])}return o};
+const draw3=()=>{const U=S.used||(S.used={}),W=c=>c.w/(1+(U[c.id]||0)),ex=[],nn=n(),cn=(S.cards||[]).filter(c=>c&&c.id=='noask').length;if(nn==2)ex.push('noask','eye');if(cn>=Math.max(1,nn/3|0))ex.push('noask');let p=CARDS.filter(c=>!ex.includes(c.id)),o=[];for(let k=0;k<3;k++){let r=Math.random()*p.reduce((a,c)=>a+W(c),0),j=0;for(;j<p.length-1;j++){if(r<W(p[j]))break;r-=W(p[j])}o.push(p.splice(j,1)[0])}return o};
 
 function home(){scr(`<div class="c"><div class="hero">🎯</div><h1>مرحباً بك في صيدهم</h1><p class="mu" style="margin-top:8px">اللعبة الجماعية الأكثر ذكاءً وتشويقاً! خمن عناصر أصدقائك، واكتشف المواضيع بدون الوقوع في فخ القوانين الممنوعة عبر هاتف واحد.</p></div>
 <div class="cd"><h2 style="border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:10px">🛡️ عهد اللعبة</h2><ul>
@@ -128,7 +142,7 @@ function cats(){scr(`<div class="c"><b class="y" style="font-size:13px">الجو
 function start(k){S.cat=k;S.pc=(S.pc||[]).concat(k);S.items=pickItems(k,n());S.cards=[];S.opt=[];S.tax={};S.gs=[];S.i=0;S.used={};S.eq=[];S.cur=null;S.v=new Set;S.q=null;S.tl=[];S.t=0;hand()}
 function hand(){const i=S.i;S.picked=-1;S.opt[i]=draw3();scr(`<div class="c"><b class="y" style="font-size:13px">الجولة ${S.r+1} من ${R} - ${CATS[S.cat].n}</b></div><div class="cd c"><div style="font-size:40px">🔐</div><b class="y" style="font-size:13px">تداول الهاتف بالسر</b><div style="font-size:26px;font-weight:900">سلم الجوال إلى:<br><span class="y">${nm(i)}</span></div><p class="mu">تأكد من عدم رؤية الآخرين للشاشة</p><div id="rb"><button class="b1" onclick="rv()">كشف</button></div></div>`,'cards')}
 function rv(){$('rb').innerHTML=`<div class="sec"><small class="mu">${X[S.cat][0]} في هذه الجولة</small><b id="it">${esc(S.items[S.i])}</b></div><b style="font-size:14px;display:block;margin:12px 0 8px">اختر أحد كروت الحظ الثلاثة (؟):</b><div class="g3">${[0,1,2].map(k=>`<button class="q" onclick="pick(${k})">؟</button>`).join('')}</div>`}
-function allc(){md(`<h3>🎴 كروت الحظ الـ14</h3><div style="display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto">${CARDS.map(c=>`<div class="cl ${c.t}"><b>${c.n}</b> <span class="mu">(${c.t=='v'?'مكشوف':'مخفي'} - نسبة الظهور ${c.w}%)</span><small>${dsc(c)}</small></div>`).join('')}</div><button class="b1" onclick="md()">إغلاق ✖</button>`)}
+function allc(){md(`<h3>🎴 كروت الحظ الـ14</h3><div style="display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto">${CARDS.map(c=>`<div class="cl ${c.t}"><b>${c.n}</b> <span class="mu">(${c.t=='v'?'مكشوف':'مخفي'} - نسبة الظهور ${c.w}%)</span><small>${dsc(c)}</small></div>`).join('')}</div>${n()==2?'<p class="mu">في لعبة لاعبين اثنين لا تظهر بعض الكروت (ممنوع السؤال، عين الصقر) عشان ما تخل بالعدالة.</p>':''}<button class="b1" onclick="md()">إغلاق ✖</button>`)}
 function pick(k){if(S.picked===S.i)return;S.picked=S.i;navigator.vibrate&&navigator.vibrate(40);const i=S.i,c=S.opt[i][k];S.cards[i]=c;S.used[c.id]=(S.used[c.id]||0)+1;let ex='',hide='';
 if(c.id=='swap'){const rest=CATS[S.cat].i.filter(x=>!S.items.includes(x)),o=sh([S.items[i],...sh(rest).slice(0,2)]);hide=' style="display:none"';ex=`<div id="sw"><p class="mu">اختر من الكروت المكشوفة (أحدها عنصرك الحالي):</p><div class="g3">${o.map(v=>`<button class="ic" onclick="swp(this.dataset.v)" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div></div>`}
 if(c.id=='tax'){const o=S.pl.map((p,j)=>j).filter(j=>j!=i);S.tax[i]=o[0];ex=`<label class="mu">اختر اللاعب اللي تروح له النقاط:<select onchange="S.tax[${i}]=+this.value">${o.map(j=>`<option value="${j}">${nm(j)}</option>`).join('')}</select></label>`}
@@ -142,14 +156,14 @@ function eyeNext(){if(!S.eq.length)return board();const p=S.eq.shift();S.ep=p;sc
 function eye(){const k=n(),d=k==2?1:Math.round(2+.7*(k-1));let t=d;scr(`<div class="cd"><div class="tb"><b>${X[S.cat][1]}</b><b class="y" id="cn">${d}</b></div><div class="bar"><i id="br" style="transition-duration:${d}s"></i></div><div class="g3 eg">${S.pl.map((p,j)=>j==S.ep?'':`<div class="ec"><small>${esc(p)}</small><b>${esc(S.items[j])}</b></div>`).join('')}</div></div>`,'cards');requestAnimationFrame(()=>requestAnimationFrame(()=>{const b=$('br');if(b)b.style.width='0'}));const h=setInterval(()=>{t--;if(t<=0){clearInterval(h);scr(`<div class="cd c"><p class="mu">انتهى الوقت وتغطّت البطاقات</p></div><button class="b1" onclick="eyeNext()">التالي ➔</button>`,'cards')}else if($('cn'))$('cn').textContent=t},1000)}
 function nextP(){md();S.i++;S.i<n()?hand():(S.eq=S.cards.map((c,p)=>c.id=='eye'?p:-1).filter(p=>p>=0),eyeNext())}
 
-function board(){scr(`<div class="cd"><h2>🎴 نشرة الكروت</h2>${S.pl.map((p,i)=>`<div class="rw"><span>${esc(p)}</span><b class="${S.cards[i].t=='v'?'y':''}">${S.cards[i].t=='v'?S.cards[i].n:'كرت مخفي'}</b></div>`).join('')}</div><p class="mu c">كل لاعب يسأل سؤالين لمن يبغى، واللعبة تدير الأدوار.</p><button class="b1" onclick="S.tl=[];for(let q=0;q<2;q++)S.pl.forEach((_,p)=>{if(S.cards[p].id!='noask')S.tl.push(p)});S.t=0;turn()">ابدأ النقاش</button>`,'cards')}
+function board(){scr(`<div class="cd"><h2>🎴 نشرة الكروت</h2>${S.pl.map((p,i)=>`<div class="rw"><span>${esc(p)}</span><b class="${S.cards[i].t=='v'?'y':''}">${S.cards[i].t=='v'?S.cards[i].n:'كرت مخفي'}</b></div>`).join('')}</div><p class="mu c">كل لاعب يسأل سؤالين لمن يبغى، واللعبة تدير الأدوار.</p><button class="b1" onclick="S.tl=[];for(let q=0;q<2;q++)S.pl.forEach((_,p)=>{if(S.cards[p].id!='noask')S.tl.push(p)});if(!S.tl.length)S.tl=S.pl.map((_,p)=>p);S.t=0;turn()">ابدأ النقاش</button>`,'cards')}
 function turn(){if(S.t>=S.tl.length)return opq();const p=S.tl[S.t],c=S.cards[p].id,bd=c=='refuse'?'يحق له رفض الإجابة على سؤال':c=='flash'?'معه سؤال خاطف':'';scr(`<div class="cd c"><span class="bg" style="align-self:center">${S.t+1} / ${S.tl.length}</span><div class="mu">الدور على</div><div class="big" style="font-size:34px">${nm(p)}</div><p class="mu" style="color:var(--tx)">اسأل من تبغى سؤالاً واحداً</p>${bd?`<span class="tg v" style="align-self:center">${bd}</span>`:''}</div><button class="b1" onclick="S.t++;turn()">التالي ➔</button>`,'cards')}
 function opq(){S.v=new Set;S.q=null;oq()}
 function oq(){const need=Math.floor(n()/2)+1;scr(`<div class="cd c"><h2>❓ السؤال الاختياري</h2><p class="mu">صوّت بالضغط على اسمك (المطلوب ${need} من ${n()})</p><div>${S.pl.map((p,i)=>`<span class="chip ${S.v.has(i)?'on':''}" onclick="S.v.has(${i})?S.v.delete(${i}):S.v.add(${i});oq()">${esc(p)}</span>`).join('')}</div>${S.q?`<div class="big" style="font-size:19px;color:#fff">${S.q}</div><p class="mu">يجاوب الجميع بالدور</p>`:`<button class="b2" ${S.v.size>=need?'':'disabled'} onclick="S.q=nextQ(S.cat);oq()">أظهر السؤال الاختياري</button>`}</div><button class="b1" onclick="vp(0)">انتقل إلى التصويت 🗳️</button>`,'cards')}
 
 function vp(i){scr(`<div class="cd c"><h2>وقت التصويت</h2><div style="font-size:26px;font-weight:900">سلم الجوال إلى:<br><span class="y">${nm(i)}</span></div></div><button class="b1" onclick="vote(${i})">ابدأ التخمين</button>`,'none')}
-function mkOpts(i,ids,items,cat){const real=ids.filter(j=>j!=i).map(j=>items[j]),dec=sh(CATS[cat].i.filter(x=>!items.includes(x))).slice(0,2);return sh([...real,...dec])}
-function dis(){const ss=[...document.querySelectorAll('select.gs')],v=ss.map(s=>s.value);ss.forEach((s,k)=>[...s.options].forEach(o=>{o.disabled=!!o.value&&v.some((x,m)=>m!=k&&x==o.value)}))}
+function mkOpts(i,ids,items,cat){const real=ids.filter(j=>j!=i).map(j=>items[j]),G=GR[cat],gi=x=>G.findIndex(g=>g.includes(x)),pool=CATS[cat].i.filter(x=>!items.includes(x)),dec=[],base=sh(real);for(let k=0;k<3;k++){const g=gi(base[k%base.length]);let c=pool.filter(x=>!dec.includes(x)&&gi(x)==g);if(!c.length)c=pool.filter(x=>!dec.includes(x));if(c.length)dec.push(c[Math.random()*c.length|0])}return sh([...real,...dec])}
+function dis(){}
 function vote(i){const o=mkOpts(i,S.pl.map((_,j)=>j),S.items,S.cat);scr(`<div class="cd"><h2>${nm(i)}، خمّن ${X[S.cat][2]} كل لاعب</h2>${S.pl.map((p,j)=>{if(j==i)return'';return`<label style="font-weight:800;font-size:14px">${esc(p)}<select class="gs" id="g${j}" onchange="dis()"><option value="">— اختر —</option>${o.map(x=>`<option>${esc(x)}</option>`).join('')}</select></label>`}).join('')}</div><button class="b1" onclick="sub(${i})">تأكيد ✔</button>`,'none')}
 function sub(i){const g=[];for(let j=0;j<n();j++)if(j!=i){const v=$('g'+j).value;if(!v)return alert('اختر لكل لاعب');g[j]=v}S.gs[i]=g;i+1<n()?vp(i+1):calc()}
 
