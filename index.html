@@ -69,11 +69,49 @@ footer{flex-wrap:wrap}.fb{display:flex;gap:6px;flex-wrap:wrap}.lkb{border-style:
 .bn{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:2px}.bn span{font:800 19px Tajawal;background:linear-gradient(to left,#fff1cc,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lgo{display:flex;align-items:center;justify-content:center;gap:6px;direction:rtl;line-height:1.7;margin:-2px 0 2px}.lgo span:first-child{font:900 clamp(40px,13vw,56px) Tajawal;background:linear-gradient(to left,#fde8a8,#fff9ec);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 14px rgba(250,204,21,.28))}.lgo .pl{font:900 clamp(36px,11vw,50px) Tajawal;color:#f59e0b;text-shadow:0 0 18px rgba(245,158,11,.55)}
 .hb2{background:#150d22;border:1px solid rgba(124,58,237,.4);color:#fbbf24;border-radius:12px;font:800 13px Tajawal;padding:10px 14px;display:flex;justify-content:center;align-items:center;gap:6px;text-decoration:none;cursor:pointer}.hb2.tt{border-color:rgba(34,211,238,.5);color:#22d3ee}
+
+/* Prayer module: normal document flow, never covers game controls. */
+[hidden]{display:none!important}
+.b1:disabled{opacity:.45;cursor:not-allowed;transform:none}
+#prayer-panel{display:flex;align-items:center;gap:5px;padding:6px 8px;border:1px solid rgba(250,204,21,.35);border-radius:12px;box-shadow:none;max-width:220px;background:var(--cd)}
+#prayer-approx{font-size:10px;color:var(--mu);font-weight:500}
+.header-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
+header{flex-wrap:wrap}.header-actions .tp{font-size:11px;padding:7px 9px}
+#prayer-next{white-space:nowrap}
+#prayer-countdown{white-space:nowrap}
+@media(max-width:420px){header .lg small{display:none}header .lg b{font-size:20px}header .lg i{width:32px;height:32px;font-size:16px}header .lg{gap:5px}.header-actions{gap:4px}#prayer-panel{padding:5px;gap:3px}#prayer-next{font-size:11px!important}#prayer-countdown{font-size:10px!important}.header-actions .tp{font-size:10px;padding:6px}.prayer-settings{width:24px!important;height:24px!important}}
+#prayer-manual{padding:14px;background:var(--cd);border:1px solid var(--bd);border-radius:12px}
+.prayer-summary{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.prayer-info{display:flex;flex-direction:column;gap:3px;min-width:0}
+#prayer-next{font-size:14px;color:var(--y)}
+#prayer-place{font-size:11px;color:var(--mu);overflow-wrap:anywhere}
+.prayer-clock{text-align:center;flex-shrink:0;display:flex;flex-direction:column;gap:3px}
+#prayer-countdown{font-weight:700;font-size:12px;font-variant-numeric:tabular-nums}
+#prayer-phase{font-size:10px;color:var(--mu)}
+#prayer-status:empty{display:none}
+.prayer-settings{background:none;border:1px solid var(--bd);border-radius:8px;color:var(--y);cursor:pointer;width:30px;height:30px;flex-shrink:0}
+#prayer-manual{border-top:1px solid var(--bd);margin-top:10px;padding-top:10px}
+.prayer-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.prayer-tools button{background:none;border:1px solid var(--bd);color:var(--y);border-radius:9px;padding:6px 10px;font:700 12px Tajawal;cursor:pointer}
+#prayer-manual select{margin-bottom:8px}
+#prayer-notice{border:1px solid #4ade80;border-radius:14px;background:#123229;padding:14px;position:relative;line-height:1.8;overflow-wrap:anywhere}
+#prayer-notice>b{display:block;padding-left:34px;color:#86efac;font-size:18px}
+#prayer-notice p{margin:8px 0;font-size:15px}
+#prayer-notice .prayer-hadith{font-size:17px;line-height:2}
+#prayer-notice small{display:block;font-size:12px;color:#d1fae5}
+#prayer-notice a{color:#fde68a;text-decoration:underline}
+.prayer-close{position:absolute;top:10px;left:10px;background:none;color:#d1fae5;border:1px solid #4ade80;border-radius:8px;width:30px;height:30px;cursor:pointer}
+.prayer-call{font-weight:700}
+
 </style>
 </head>
 <body>
 <div class="app">
-<header><div class="lg"><i>🎯</i><div><b>صيدهم</b><small>(لعبة التخمين والمواضيع الجماعية)</small></div></div><button class="tp" id="hb" onclick="how()">📌 طريقة اللعبة</button></header>
+<header><div class="lg"><i>🎯</i><div><b>صيدهم</b><small>(لعبة التخمين والمواضيع الجماعية)</small></div></div><div class="header-actions"><div id="prayer-panel" aria-label="مواقيت الصلاة" hidden><div class="prayer-info"><b id="prayer-next">مواقيت الصلاة</b><span><span id="prayer-countdown" role="timer" aria-live="off"></span> <small id="prayer-approx" hidden>تقريبًا</small></span></div><button type="button" class="prayer-settings" onclick="Prayer.manual()" aria-label="إعدادات الموقع والإقامة">⚙</button></div><button class="tp" id="hb" onclick="how()">📌 طريقة اللعبة</button></div></header>
+
+<section id="prayer-notice" role="status" aria-live="polite" aria-atomic="true" hidden></section>
+<p id="prayer-status" class="mu" role="status"></p>
+<section id="prayer-manual" hidden><b id="prayer-place" class="y"></b><label class="mu" for="prayer-iqama">المدة التقديرية بين الأذان والإقامة (بالدقائق)</label><select id="prayer-iqama" onchange="Prayer.setIqama(this.value)"><option value="1">1 دقيقة</option><option value="2">2 دقيقة</option><option value="3">3 دقيقة</option><option value="4">4 دقيقة</option><option value="5">5 دقيقة</option><option value="6">6 دقيقة</option><option value="7">7 دقيقة</option><option value="8">8 دقيقة</option><option value="9">9 دقيقة</option><option value="10">10 دقيقة</option><option value="11">11 دقيقة</option><option value="12">12 دقيقة</option><option value="13">13 دقيقة</option><option value="14">14 دقيقة</option><option value="15">15 دقيقة</option><option value="16">16 دقيقة</option><option value="17">17 دقيقة</option><option value="18">18 دقيقة</option><option value="19">19 دقيقة</option><option value="20">20 دقيقة</option><option value="21">21 دقيقة</option><option value="22">22 دقيقة</option><option value="23">23 دقيقة</option><option value="24">24 دقيقة</option><option value="25">25 دقيقة</option><option value="26">26 دقيقة</option><option value="27">27 دقيقة</option><option value="28">28 دقيقة</option><option value="29">29 دقيقة</option><option value="30">30 دقيقة</option><option value="31">31 دقيقة</option><option value="32">32 دقيقة</option><option value="33">33 دقيقة</option><option value="34">34 دقيقة</option><option value="35">35 دقيقة</option><option value="36">36 دقيقة</option><option value="37">37 دقيقة</option><option value="38">38 دقيقة</option><option value="39">39 دقيقة</option><option value="40">40 دقيقة</option><option value="41">41 دقيقة</option><option value="42">42 دقيقة</option><option value="43">43 دقيقة</option><option value="44">44 دقيقة</option><option value="45">45 دقيقة</option><option value="46">46 دقيقة</option><option value="47">47 دقيقة</option><option value="48">48 دقيقة</option><option value="49">49 دقيقة</option><option value="50">50 دقيقة</option><option value="51">51 دقيقة</option><option value="52">52 دقيقة</option><option value="53">53 دقيقة</option><option value="54">54 دقيقة</option><option value="55">55 دقيقة</option><option value="56">56 دقيقة</option><option value="57">57 دقيقة</option><option value="58">58 دقيقة</option><option value="59">59 دقيقة</option><option value="60">60 دقيقة</option></select><p class="mu">الإقامة تقديرية وليست موعد مسجدك؛ الافتراضي 20 دقيقة لكل صلاة. عدّلها حسب مسجدك. المواقيت بطريقة أم القرى وقد تختلف عن التقويم المحلي. التنبيه داخل الصفحة فقط.</p><button type="button" class="b2" onclick="Prayer.manual()">تم</button></section>
 <main id="m"></main>
 <footer><span>جميع الحقوق محفوظة © HAMZAKAF SA</span><div class="fb"><button class="pb sm" onclick="plus()">🔒 شراء صيدهم بلس</button><a class="tk" href="http://www.tiktok.com/@hamza_kaf" target="_blank" rel="noopener"><svg viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V258.33a92.43 92.43 0 1 0 70.36 89.69V0h69.8a140.23 140.23 0 0 0 122.84 139.11z"/></svg>تابعنا وقيم اللعبة على تيك توك</a></div></footer>
 </div>
@@ -129,7 +167,7 @@ const SEEN={},pickItems=(c,k)=>{const all=CATS[c].i,s=SEEN[c]||(SEEN[c]=new Set)
 const QSEEN={},nextQ=c=>{const s=QSEEN[c]||(QSEEN[c]=new Set);let a=QS[c].filter(q=>!s.has(q));if(!a.length){s.clear();a=QS[c]}const q=a[Math.random()*a.length|0];s.add(q);return q};
 let S={raw:['',''],pl:['','']};
 const nm=i=>esc(S.pl[i]),n=()=>S.pl.length;
-const scr=(h,m)=>{$('m').innerHTML=h;scrollTo(0,0);const b=$('hb');b.style.display=m=='none'?'none':'';b.textContent=m=='cards'?'🎴 كروت الحظ':'📌 طريقة اللعبة';b.onclick=m=='cards'?allc:how},md=(h,c)=>{const e=$('md');if(h==null)return e.classList.remove('on');e.innerHTML='<div class="mc'+(c?' '+c:'')+'">'+h+'</div>';e.classList.add('on')};
+const scr=(h,m)=>{$('m').innerHTML=h;scrollTo(0,0);const b=$('hb');b.style.display=m=='none'?'none':'';b.textContent=m=='cards'?'🎴 كروت الحظ':'📌 طريقة اللعبة';b.onclick=m=='cards'?allc:how},gameModal=(h,c)=>{const e=$('md');if(h==null)return e.classList.remove('on');e.innerHTML='<div class="mc'+(c?' '+c:'')+'">'+h+'</div>';e.classList.add('on')};
 const draw3=()=>{const U=S.used||(S.used={}),W=c=>c.w/(1+(U[c.id]||0)),ex=[],nn=n(),cn=(S.cards||[]).filter(c=>c&&c.id=='noask').length;if(nn==2)ex.push('noask','eye');if(cn>=Math.max(1,nn/3|0))ex.push('noask');let p=CARDS.filter(c=>!ex.includes(c.id)),o=[];for(let k=0;k<3;k++){let r=Math.random()*p.reduce((a,c)=>a+W(c),0),j=0;for(;j<p.length-1;j++){if(r<W(p[j]))break;r-=W(p[j])}o.push(p.splice(j,1)[0])}return o};
 
 function home(){scr(`<div class="c"><div class="hero">🎯</div><h1>مرحباً بك في صيدهم</h1><p class="mu" style="margin-top:8px">اللعبة الجماعية الأكثر ذكاءً وتشويقاً! خمن عناصر أصدقائك، واكتشف المواضيع بدون الوقوع في فخ القوانين الممنوعة عبر هاتف واحد.</p></div>
@@ -141,15 +179,15 @@ function home(){scr(`<div class="c"><div class="hero">🎯</div><h1>مرحباً
 <li><span>📢</span><div><b>انشرها مجاناً:</b> اللعبة مجانية، انشرها مع أصحابك وجروباتك!</div></li>
 <li><span>🔒</span><div><b>الحقوق محفوظة:</b> يمنع بيعها أو سرقة فكرتها وحقوقها الخاصة بـ HAMZAKAF.</div></li></ul></div>
 <button class="b1" onclick="pls()">◀ ابدأ اللعبة الآن</button>`)}
-function how(){md(`<button class="xb" onclick="md()">✖</button><h3>💡 كيف تلعب صيدهم؟</h3><p class="mu">نص دقيقة وتفهم كل شي:</p><ul style="text-align:right;gap:10px">
+function how(){gameModal(`${Prayer.enabled?'<button class="xb" onclick="gameModal()">✖</button>':''}<h3>💡 كيف تلعب صيدهم؟</h3><p class="mu">نص دقيقة وتفهم كل شي:</p><ul style="text-align:right;gap:10px">
 <li><div><b>1. سرّك معك:</b> كل جولة نختار قسم، وكل واحد يستلم عنصر سري ما يدري عنه أحد.</div></li>
 <li><div><b>2. كروت الحظ:</b> بعد ما تشوف عنصرك تسحب كرت: يا ينفعك يا يخرب عليك!<span style="display:block;margin-top:8px">🔓 <b>المكشوف:</b> ينعرض قدام الكل، والكل يعرف وش معك.</span><span style="display:block;margin-top:6px">🔒 <b>المخفي:</b> يطلع للبقية «كرت مخفي» بس، ويمديك تشوف كل الكروت ووظايفها من زر «كروت الحظ» فوق.</span></div></li>
 <li><div><b>3. اسألوا وجاوبوا:</b> كل واحد يسأل سؤالين لمن يبغى، والكل يجاوب بصدق، ممنوع الكذب!</div></li>
 <li><div><b>4. صيّد وصوّت:</b> مرّر الجوال وخمّن عنصر كل واحد. الإصابة بـ10 نقاط، وبعد 4 جولات الأعلى نقاط هو البطل 🏆</div></li></ul>
-<button class="b1" onclick="md()">فهمت، يلا نلعب ✔</button>`)}
+${Prayer.enabled?'<button class="b1" onclick="gameModal()">فهمت، يلا نلعب ✔</button>':Prayer.consentHTML()}`)}
 
-function pls(){scr(`<div class="cd"><div class="tb"><b class="y">أسماء اللاعبين</b><span class="bg">${S.raw.length} من 12 لاعبين</span></div>${S.raw.map((p,i)=>`<div class="pr"><span class="y">لاعب ${i+1}</span><input value="${esc(p)}" placeholder="لاعب ${i+1}" maxlength="14" oninput="S.raw[${i}]=this.value">${S.raw.length>2?`<button class="x" onclick="del(${i})">🗑️</button>`:''}</div>`).join('')}${S.raw.length<12?'<button class="ad" onclick="S.raw.push(\'\');pls()">+ إضافة لاعب</button>':''}</div><button class="b1" onclick="toCats()">التالي (اختيار القسم) ➔</button><button class="b2" onclick="home()">⬅ رجوع</button>`)}
-function plus(i){const k=LKI[i];md(`<button class="xb" onclick="md()">✖</button><div class="bn"><svg viewBox="0 0 24 24" width="26" height="26" fill="#fef4d9"><path d="M4 18h16l1.6-8.6-5 3.6L12 6.4 7.4 13 2.4 9.4z"/><circle cx="2.4" cy="8" r="1.7"/><circle cx="12" cy="4.6" r="1.7"/><circle cx="21.6" cy="8" r="1.7"/><rect x="4" y="19.4" width="16" height="2.4" rx="1.2"/></svg><span>همزة كاف</span></div><div class="lgo"><span>صِيـدْهُـمْ</span><span class="pl">+</span></div>${k?`<h2 class="pt" style="font-size:22px">${LOCK[i]}</h2><span class="pp" style="align-self:center">🔒 قريباً في صيدهم بلس</span><p class="mu" style="color:#e9d5ff">${k[0]}</p><div><small class="mu">أمثلة من عناصره:</small><div style="margin-top:4px">${k[1].split('،').map(s=>`<span class="chip" style="cursor:default">${s}</span>`).join('')}</div></div>`:`<span class="pp" style="align-self:center">🔒 قريباً</span><p class="mu" style="color:#e9d5ff">أقسام جديدة وكروت أكثر وتحديات أقوى، تنتظركم في النسخة الكاملة «صيدهم بلس».</p>`}<p class="mu">تابعونا على تيك توك وكونوا أول من يعرف يوم ينزل!</p><a class="hb2 tt" href="http://www.tiktok.com/@hamza_kaf" target="_blank" rel="noopener">تابعنا على تيك توك</a><button class="pb" onclick="md()">تمام، بننتظره ✔</button>`,'pm')}
+function pls(){if(!Prayer.enabled){how();return;}scr(`<div class="cd"><div class="tb"><b class="y">أسماء اللاعبين</b><span class="bg">${S.raw.length} من 12 لاعبين</span></div>${S.raw.map((p,i)=>`<div class="pr"><span class="y">لاعب ${i+1}</span><input value="${esc(p)}" placeholder="لاعب ${i+1}" maxlength="14" oninput="S.raw[${i}]=this.value">${S.raw.length>2?`<button class="x" onclick="del(${i})">🗑️</button>`:''}</div>`).join('')}${S.raw.length<12?'<button class="ad" onclick="S.raw.push(\'\');pls()">+ إضافة لاعب</button>':''}</div><button class="b1" onclick="toCats()">التالي (اختيار القسم) ➔</button><button class="b2" onclick="home()">⬅ رجوع</button>`)}
+function plus(i){const k=LKI[i];gameModal(`<button class="xb" onclick="gameModal()">✖</button><div class="bn"><svg viewBox="0 0 24 24" width="26" height="26" fill="#fef4d9"><path d="M4 18h16l1.6-8.6-5 3.6L12 6.4 7.4 13 2.4 9.4z"/><circle cx="2.4" cy="8" r="1.7"/><circle cx="12" cy="4.6" r="1.7"/><circle cx="21.6" cy="8" r="1.7"/><rect x="4" y="19.4" width="16" height="2.4" rx="1.2"/></svg><span>همزة كاف</span></div><div class="lgo"><span>صِيـدْهُـمْ</span><span class="pl">+</span></div>${k?`<h2 class="pt" style="font-size:22px">${LOCK[i]}</h2><span class="pp" style="align-self:center">🔒 قريباً في صيدهم بلس</span><p class="mu" style="color:#e9d5ff">${k[0]}</p><div><small class="mu">أمثلة من عناصره:</small><div style="margin-top:4px">${k[1].split('،').map(s=>`<span class="chip" style="cursor:default">${s}</span>`).join('')}</div></div>`:`<span class="pp" style="align-self:center">🔒 قريباً</span><p class="mu" style="color:#e9d5ff">أقسام جديدة وكروت أكثر وتحديات أقوى، تنتظركم في النسخة الكاملة «صيدهم بلس».</p>`}<p class="mu">تابعونا على تيك توك وكونوا أول من يعرف يوم ينزل!</p><a class="hb2 tt" href="http://www.tiktok.com/@hamza_kaf" target="_blank" rel="noopener">تابعنا على تيك توك</a><button class="pb" onclick="gameModal()">تمام، بننتظره ✔</button>`,'pm')}
 function del(i){S.raw.splice(i,1);pls()}
 function toCats(){S.pl=S.raw.map((p,i)=>p.trim()||'لاعب '+(i+1));if(new Set(S.pl).size<n())return alert('الأسماء لازم تكون مختلفة');S.sc=S.pl.map(()=>0);S.r=0;S.ap=null;S.tbd=0;S.tw=[];S.pc=[];cats()}
 function cats(){scr(`<div class="c"><b class="y" style="font-size:13px">الجولة ${S.r+1} من ${R}</b><div class="dots">${Array.from({length:R},(_,k)=>`<i class="${k<=S.r?'on':''}"></i>`).join('')}</div><h2 style="color:#fff;font-size:24px">اختر قسم الجولة 📁</h2></div><div class="gr">${Object.entries(CATS).map(([k,c])=>`<button class="ct" onclick="start('${k}')"><b>${c.n}</b><small>${(S.pc||[]).includes(k)?'لعبتوه قبل، جرّبوا غيره':'25 عنصر مفاجئ'}</small></button>`).join('')}${LOCK.map((l,i)=>`<button class="pc${i==5?' w':''}" onclick="plus(${i})"><b>${l}</b><span class="pp">🔒 قريباً</span></button>`).join('')}</div>${S.r?'':'<button class="b2" onclick="pls()">⬅ رجوع</button>'}`)}
@@ -157,19 +195,19 @@ function cats(){scr(`<div class="c"><b class="y" style="font-size:13px">الجو
 function start(k){S.cat=k;S.pc=(S.pc||[]).concat(k);S.items=pickItems(k,n());S.cards=[];S.opt=[];S.tax={};S.gs=[];S.i=0;S.used={};S.eq=[];S.cur=null;S.v=new Set;S.q=null;S.tl=[];S.t=0;hand()}
 function hand(){const i=S.i;S.picked=-1;S.opt[i]=draw3();scr(`<div class="c"><b class="y" style="font-size:13px">الجولة ${S.r+1} من ${R} - ${CATS[S.cat].n}</b></div><div class="cd c"><div style="font-size:40px">🔐</div><b class="y" style="font-size:13px">تداول الهاتف بالسر</b><div style="font-size:26px;font-weight:900">سلم الجوال إلى:<br><span class="y">${nm(i)}</span></div><p class="mu">تأكد من عدم رؤية الآخرين للشاشة</p><div id="rb"><button class="b1" onclick="rv()">كشف</button></div></div>`,'cards')}
 function rv(){$('rb').innerHTML=`<div class="sec"><small class="mu">${X[S.cat][0]} في هذه الجولة</small><b id="it">${esc(S.items[S.i])}</b></div><b style="font-size:14px;display:block;margin:12px 0 8px">اختر أحد كروت الحظ الثلاثة (؟):</b><div class="g3">${[0,1,2].map(k=>`<button class="q" onclick="pick(${k})">؟</button>`).join('')}</div>`}
-function allc(){md(`<h3>🎴 كروت الحظ الـ14</h3><div style="display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto">${CARDS.map(c=>`<div class="cl ${c.t}"><b>${c.n}</b> <span class="mu">(${c.t=='v'?'مكشوف':'مخفي'} - نسبة الظهور ${c.w}%)</span><small>${dsc(c)}</small></div>`).join('')}</div>${n()==2?'<p class="mu">في لعبة لاعبين اثنين لا تظهر بعض الكروت (ممنوع السؤال، عين الصقر) عشان ما تخل بالعدالة.</p>':''}<button class="b1" onclick="md()">إغلاق ✖</button>`)}
+function allc(){gameModal(`<h3>🎴 كروت الحظ الـ14</h3><div style="display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto">${CARDS.map(c=>`<div class="cl ${c.t}"><b>${c.n}</b> <span class="mu">(${c.t=='v'?'مكشوف':'مخفي'} - نسبة الظهور ${c.w}%)</span><small>${dsc(c)}</small></div>`).join('')}</div>${n()==2?'<p class="mu">في لعبة لاعبين اثنين لا تظهر بعض الكروت (ممنوع السؤال، عين الصقر) عشان ما تخل بالعدالة.</p>':''}<button class="b1" onclick="gameModal()">إغلاق ✖</button>`)}
 function pick(k){if(S.picked===S.i)return;S.picked=S.i;navigator.vibrate&&navigator.vibrate(40);const i=S.i,c=S.opt[i][k];S.cards[i]=c;S.used[c.id]=(S.used[c.id]||0)+1;let ex='',hide='';
 if(c.id=='swap'){const rest=CATS[S.cat].i.filter(x=>!S.items.includes(x)),o=sh([S.items[i],...sh(rest).slice(0,2)]);hide=' style="display:none"';ex=`<div id="sw"><p class="mu">اختر من الكروت المكشوفة (أحدها عنصرك الحالي):</p><div class="g3">${o.map(v=>`<button class="ic" onclick="swp(this.dataset.v)" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div></div>`}
 if(c.id=='tax'){const o=S.pl.map((p,j)=>j).filter(j=>j!=i);S.tax[i]=o[0];ex=`<label class="mu">اختر اللاعب اللي تروح له النقاط:<select onchange="S.tax[${i}]=+this.value">${o.map(j=>`<option value="${j}">${nm(j)}</option>`).join('')}</select></label>`}
 if(c.id=='eye')ex=`<p class="mu">بعد ما يخلص كل اللاعبين من الاختيار، تستلم الجوال وتشوف ${X[S.cat][1]} لثوانٍ قليلة فقط.</p>`;
-S.pk=k;md(cardBody(c,ex,hide));rbDone()}
-function cardBody(c,ex,xh){return `<button class="xb" id="xb"${xh} onclick="md()">✖</button><span class="tg ${c.t}" style="align-self:center">${c.t=='v'?'كرت مكشوف':'كرت مخفي'}</span><h3>${c.n}</h3><p class="mu" style="color:var(--tx)">${dsc(c)}</p>${ex}`}
+S.pk=k;gameModal(cardBody(c,ex,hide));rbDone()}
+function cardBody(c,ex,xh){return `<button class="xb" id="xb"${xh} onclick="gameModal()">✖</button><span class="tg ${c.t}" style="align-self:center">${c.t=='v'?'كرت مكشوف':'كرت مخفي'}</span><h3>${c.n}</h3><p class="mu" style="color:var(--tx)">${dsc(c)}</p>${ex}`}
 function rbDone(){$('rb').innerHTML=`<div class="sec"><small class="mu">${X[S.cat][0]} في هذه الجولة</small><b id="it">${esc(S.items[S.i])}</b></div><div class="g3" style="margin-top:12px">${[0,1,2].map(k=>`<button class="q" disabled style="${S.pk==k?'border-color:#fff;color:var(--y)':'opacity:.35'};cursor:default">${S.pk==k?'✔':'؟'}</button>`).join('')}</div><button class="b2" style="margin-top:12px" onclick="showCard()">شوف كرتي</button><button class="b1" style="margin-top:10px" onclick="nextP()">تم، حفظت ${ME[S.cat]} ✔</button>`}
-function showCard(){md(cardBody(S.cards[S.i],'',''))}
+function showCard(){gameModal(cardBody(S.cards[S.i],'',''))}
 function swp(v){S.items[S.i]=v;$('it').textContent=v;$('sw').remove();$('xb').style.display=''}
 function eyeNext(){if(!S.eq.length)return board();const p=S.eq.shift();S.ep=p;scr(`<div class="cd c"><div style="font-size:40px">🔭</div><b class="y" style="font-size:13px">عين الصقر</b><div style="font-size:26px;font-weight:900">سلم الجوال إلى:<br><span class="y">${nm(p)}</span></div><p class="mu">عندك ثوانٍ قليلة فقط تشوف فيها ${X[S.cat][1]}، ركز ولا تضيع الفرصة!</p><button class="b1" onclick="eye()">أظهر الآن</button></div>`,'cards')}
 function eye(){const k=n(),d=k==2?1:Math.round(2+.7*(k-1));let t=d;scr(`<div class="cd"><div class="tb"><b>${X[S.cat][1]}</b><b class="y" id="cn">${d}</b></div><div class="bar"><i id="br" style="transition-duration:${d}s"></i></div><div class="g3 eg">${S.pl.map((p,j)=>j==S.ep?'':`<div class="ec"><small>${esc(p)}</small><b>${esc(S.items[j])}</b></div>`).join('')}</div></div>`,'cards');requestAnimationFrame(()=>requestAnimationFrame(()=>{const b=$('br');if(b)b.style.width='0'}));const h=setInterval(()=>{t--;if(t<=0){clearInterval(h);scr(`<div class="cd c"><p class="mu">انتهى الوقت وتغطّت البطاقات</p></div><button class="b1" onclick="eyeNext()">التالي ➔</button>`,'cards')}else if($('cn'))$('cn').textContent=t},1000)}
-function nextP(){md();S.i++;S.i<n()?hand():(S.eq=S.cards.map((c,p)=>c.id=='eye'?p:-1).filter(p=>p>=0),eyeNext())}
+function nextP(){gameModal();S.i++;S.i<n()?hand():(S.eq=S.cards.map((c,p)=>c.id=='eye'?p:-1).filter(p=>p>=0),eyeNext())}
 
 function board(){scr(`<div class="cd"><h2>🎴 نشرة الكروت</h2>${S.pl.map((p,i)=>`<div class="rw"><span>${esc(p)}</span><b class="${S.cards[i].t=='v'?'y':''}">${S.cards[i].t=='v'?S.cards[i].n:'كرت مخفي'}</b></div>`).join('')}</div><p class="mu c">كل لاعب يسأل سؤالين لمن يبغى، واللعبة تدير الأدوار.</p><button class="b1" onclick="S.tl=[];for(let q=0;q<2;q++)S.pl.forEach((_,p)=>{if(S.cards[p].id!='noask')S.tl.push(p)});if(!S.tl.length)S.tl=S.pl.map((_,p)=>p);S.t=0;turn()">ابدأ النقاش</button>`,'cards')}
 function turn(){if(S.t>=S.tl.length)return opq();const p=S.tl[S.t],c=S.cards[p].id,bd=c=='refuse'?'يحق له رفض الإجابة على سؤال':c=='flash'?'معه سؤال خاطف':'';scr(`<div class="cd c"><span class="bg" style="align-self:center">${S.t+1} / ${S.tl.length}</span><div class="mu">الدور على</div><div class="big" style="font-size:34px">${nm(p)}</div><p class="mu" style="color:var(--tx)">اسأل من تبغى سؤالاً واحداً</p>${bd?`<span class="tg v" style="align-self:center">${bd}</span>`:''}</div><button class="b1" onclick="S.t++;turn()">التالي ➔</button>`,'cards')}
@@ -211,6 +249,90 @@ document.addEventListener('dragstart',e=>e.preventDefault());
 document.addEventListener('copy',e=>{if(!ok(e))e.preventDefault()});
 window.addEventListener('keydown',e=>{const c=e.code,m=e.ctrlKey||e.metaKey;if(e.key==='F12'||(e.shiftKey&&['F5','F7','F9'].includes(e.key))||(m&&['KeyU','KeyS'].includes(c))||(m&&e.shiftKey&&['KeyI','KeyJ','KeyC','KeyK','KeyE','KeyM'].includes(c))||(e.metaKey&&e.altKey&&['KeyI','KeyJ','KeyC','KeyU'].includes(c))||(m&&['KeyC','KeyA'].includes(c)&&!ok(e))){e.preventDefault();e.stopPropagation()}},true)})();
 onbeforeunload=e=>{if(S.sc&&S.r!=null)e.preventDefault()};
+/* Prayer reminder: independent of game state. Requires HTTPS and network for updates.
+ * Providers: https://aladhan.com/prayer-times-api
+ * Only notification IDs are stored; coordinates remain in memory, and are sent to Aladhan.
+ */
+const Prayer = (() => {
+  const names = {Fajr:'الفجر',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+  const cool = {text:'مَنْ صَلَّى الْبَرْدَيْنِ دَخَلَ الْجَنَّةَ',narrator:'أبو موسى الأشعري رضي الله عنه',source:'صحيح البخاري 574، وصحيح مسلم 635',url:'https://sunnah.com/bukhari:574',note:'البردان: الفجر والعصر.'};
+  const onTime = {intro:'سأل عبد الله بن مسعود رضي الله عنه النبي ﷺ: «أي العمل أحب إلى الله؟» فقال:',text:'الصَّلَاةُ عَلَى وَقْتِهَا',narrator:'عبد الله بن مسعود رضي الله عنه',source:'صحيح البخاري 527؛ وأخرجه مسلم 85 بلفظ «الصلاة لوقتها»',url:'https://sunnah.com/bukhari:527',note:'فضل الصلاة على وقتها يشمل جميع الصلوات.'};
+  const hadiths = {Fajr:[cool],Dhuhr:[onTime],Asr:[cool,{text:'لَنْ يَلِجَ النَّارَ أَحَدٌ صَلَّى قَبْلَ طُلُوعِ الشَّمْسِ وَقَبْلَ غُرُوبِهَا',narrator:'عمارة بن رؤيبة رضي الله عنه',source:'صحيح مسلم 634',url:'https://sunnah.com/muslim:634a',note:'يعني الفجر والعصر.'}],Maghrib:[onTime],Isha:[{text:'مَنْ صَلَّى الْعِشَاءَ فِي جَمَاعَةٍ فَكَأَنَّمَا قَامَ نِصْفَ اللَّيْلِ، وَمَنْ صَلَّى الصُّبْحَ فِي جَمَاعَةٍ فَكَأَنَّمَا صَلَّى اللَّيْلَ كُلَّهُ',narrator:'عثمان بن عفان رضي الله عنه',source:'صحيح مسلم 656',url:'https://sunnah.com/muslim:656a',note:''}]};
+  let enabled=false,busy=false,location=null,events=[],zone='Asia/Riyadh',lastCheck=Date.now(),refreshAt=0,retryAt=0,hideTimer=null,agreed=false;
+  let seen=new Set(),iqamaMinutes=20,locating=false;
+  try{const saved=Number(localStorage.getItem('saydhum-iqama-minutes'));if(Number.isInteger(saved)&&saved>=1&&saved<=60)iqamaMinutes=saved;}catch(_){}
+  try {seen=new Set(JSON.parse(sessionStorage.getItem('saydhum-prayer-seen')||'[]'));} catch (_) {}
+  const el=id=>document.getElementById(id);
+  const safe=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+  function message(text){el('prayer-status').textContent=text;el('prayer-status').hidden=!text;}
+  async function json(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);try{const r=await fetch(url,{signal:controller.signal,credentials:'omit',referrerPolicy:'no-referrer'});if(!r.ok)throw Error('HTTP '+r.status);return await r.json();}finally{clearTimeout(timer);}}
+  function dateKey(time,tz=zone){const p=new Intl.DateTimeFormat('en-GB',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(time),v=t=>p.find(x=>x.type===t).value;return `${v('day')}-${v('month')}-${v('year')}`;}
+  function validLocation(lat,lon){return typeof lat==='number'&&typeof lon==='number'&&Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180;}
+  function parseDay(data){
+    if(!data||!data.timings||!data.meta?.timezone)throw Error('Invalid timings');
+    new Intl.DateTimeFormat('en',{timeZone:data.meta.timezone});
+    return Object.entries(names).map(([key,name])=>{const raw=data.timings[key];if(typeof raw!=='string'||!/^\d{4}-\d{2}-\d{2}T.*(?:Z|[+-]\d{2}:\d{2})$/.test(raw))throw Error('Expected ISO8601 timings');const at=Date.parse(raw);if(!Number.isFinite(at))throw Error('Invalid date');return {key,name,at,id:key+':'+at};});
+  }
+  async function day(date){const q=new URLSearchParams({latitude:location.lat,longitude:location.lon,method:'4',iso8601:'true'}),r=await json(`https://api.aladhan.com/v1/timings/${date}?${q}`);if(r.code!==200)throw Error('Timings unavailable');return r.data;}
+  async function refresh(){
+    if(busy||!location)return;
+    busy=true;
+    try {
+      let today=await day(dateKey(Date.now()));zone=today.meta.timezone;
+      const actual=dateKey(Date.now());if(today.date.gregorian.date!==actual)today=await day(actual);
+      const [d,m,y]=actual.split('-').map(Number),tomorrowKey=dateKey(Date.UTC(y,m-1,d+1,12),'UTC');
+      const tomorrow=await day(tomorrowKey),next=[...parseDay(today),...parseDay(tomorrow)].sort((a,b)=>a.at-b.at);
+      if(!next.some(x=>x.at>Date.now()))throw Error('Expired timings');
+      events=next;refreshAt=Date.now()+6*3600000;retryAt=0;el('prayer-manual').hidden=true;tick();
+    }catch(_){retryAt=Date.now()+60000;message(events.some(x=>x.at>Date.now())?'تعذّر التحديث؛ نستخدم المواقيت المحمّلة مؤقتًا.':'تعذّر تحميل المواقيت. تأكد من اتصال الإنترنت؛ سنعيد المحاولة تلقائيًا.');}
+    finally{busy=false;}
+  }
+  function manual(){el('prayer-manual').hidden=!el('prayer-manual').hidden;}
+  function setIqama(value){const minutes=Number(value);if(!Number.isInteger(minutes)||minutes<1||minutes>60)return;iqamaMinutes=minutes;try{localStorage.setItem('saydhum-iqama-minutes',String(minutes));}catch(_){}tick();}
+  function phase(now){const previous=events.filter(e=>e.at<=now).pop(),next=events.find(e=>e.at>now);if(previous&&now<previous.at+iqamaMinutes*60000&&(!next||now<next.at))return {event:previous,iqama:true,until:Math.min(previous.at+iqamaMinutes*60000,next?.at??Infinity)};return next?{event:next,iqama:false,until:next.at}:null;}
+  async function activate(){return allowLocation();}
+  async function allowLocation(){
+    if(locating||enabled)return;
+    agreed=true;locating=true;
+    const button=el('prayer-location-button'),status=el('prayer-permission-status');
+    if(button)button.disabled=true;
+    if(status)status.textContent='جارٍ طلب الموقع… اختر «السماح» في نافذة المتصفح.';
+    try {
+      const p=await new Promise((resolve,reject)=>{if(!navigator.geolocation)return reject(Error('Unavailable'));navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:true,timeout:15000,maximumAge:300000});});
+      if(!validLocation(p.coords.latitude,p.coords.longitude))throw Error('Invalid coordinates');
+      location={lat:p.coords.latitude,lon:p.coords.longitude,label:'حسب موقع الجهاز'};
+      enabled=true;lastCheck=Date.now();gameModal();el('prayer-panel').hidden=false;
+      message('جارٍ تحميل مواقيت الصلاة حسب موقعك…');await refresh();
+    } catch (error) {
+      const reason=error.code===1?'لم يُسمح بالوصول للموقع. فعّل إذن الموقع لهذه الصفحة من إعدادات المتصفح، ثم أعد المحاولة.':'تعذّر تحديد الموقع. تأكد من تشغيل خدمة الموقع وافتح رابط اللعبة الآمن في متصفحك، ثم أعد المحاولة.';
+      if(status)status.textContent=reason;
+    } finally {locating=false;if(button)button.disabled=false;}
+  }
+  function announce(event,iqama=false){
+    seen.add(iqama?'iqama:'+event.id:event.id);seen=new Set([...seen].slice(-30));try{sessionStorage.setItem('saydhum-prayer-seen',JSON.stringify([...seen]));}catch(_){}
+    const list=hadiths[event.key],h=list[new Date(event.at).getUTCDate()%list.length],box=el('prayer-notice');
+    box.innerHTML=`<button type="button" class="prayer-close" aria-label="إغلاق تنبيه الصلاة" onclick="Prayer.close()">✕</button><b>🕌 ${iqama?'حان موعد الإقامة التقديري لصلاة':'دخل وقت صلاة'} ${safe(event.name)}</b>${iqama?'<p>حسب المدة التي حددتها؛ تأكد من موعد إقامة مسجدك.</p>':''}<p class="prayer-hadith">${h.intro?safe(h.intro):'قال رسول الله ﷺ:'}<br><strong>«${safe(h.text)}»</strong></p><small>الراوي: ${safe(h.narrator)}<br><a href="${h.url}" target="_blank" rel="noopener noreferrer">${safe(h.source)}</a>${h.note?'<br>'+safe(h.note):''}</small><p class="prayer-call">صلاتكم أولًا 🤍 خذوا وقفة للصلاة وكملوا بعدها. اتركوا الصفحة مفتوحة للحفاظ على الجولة.</p>`;
+    box.hidden=false;clearTimeout(hideTimer);hideTimer=setTimeout(close,90000);
+  }
+  function close(){el('prayer-notice').hidden=true;clearTimeout(hideTimer);}
+  function tick(){
+    if(!enabled)return;const now=Date.now();
+    if(!document.hidden){const due=events.flatMap(e=>[{event:e,at:e.at,iqama:false,id:e.id},{event:e,at:e.at+iqamaMinutes*60000,iqama:true,id:'iqama:'+e.id}]).filter(e=>e.at>lastCheck&&e.at<=now&&!seen.has(e.id)).sort((a,b)=>a.at-b.at);if(due.length){const last=due[due.length-1];announce(last.event,last.iqama);}lastCheck=now;}
+    const next=events.find(e=>e.at>now),current=phase(now);
+    if(current){const {event,iqama,until}=current,minutes=Math.max(1,Math.ceil((until-now)/60000)),hours=Math.floor(minutes/60),mins=minutes%60,remaining=`باقي ${hours?hours+' س'+(mins?' و ':''):''}${mins?mins+' د':''}`,time=new Intl.DateTimeFormat('ar-SA',{timeZone:zone,hour:'numeric',minute:'2-digit'}).format(iqama?until:event.at),showTime=Math.floor(now/5000)%2===1;el('prayer-next').textContent=`${iqama?'إقامة ':''}${event.name}`;el('prayer-countdown').textContent=showTime?'الموعد '+time:remaining;el('prayer-approx').hidden=!iqama;el('prayer-place').textContent=location.label;el('prayer-panel').title=location.label+(iqama?' · إقامة تقديرية':'');el('prayer-panel').setAttribute('aria-label',`${location.label}، ${iqama?'إقامة تقديرية':'صلاة'} ${event.name}، ${remaining}، الموعد ${time}`);message('');}
+    else if(events.length){el('prayer-next').textContent='المواقيت تحتاج تحديثًا';el('prayer-countdown').textContent='';}
+    if(location&&!busy&&now>=retryAt&&(now>=refreshAt||!next))void refresh();
+  }
+  function consentHTML(){return `<p class="mu">لتذكيركم بالصلاة، يلزم السماح بموقع الجهاز قبل بدء اللعب.</p><button class="b1" id="prayer-location-button" onclick="Prayer.allowLocation()">📍 السماح بالموقع وبدء اللعب</button><p id="prayer-permission-status" class="mu" role="status"></p><p class="mu">يُستخدم موقعك لحساب المواقيت عبر خدمة خارجية. نرسل الإحداثيات لهذا الغرض ولا نحفظها في جهازك بعد إغلاق الصفحة.</p>`;}
+  function init(){
+    el('prayer-iqama').value=String(iqamaMinutes);
+    setInterval(tick,1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick();});window.addEventListener('pageshow',tick);window.addEventListener('online',()=>{retryAt=0;if(enabled)void refresh();});
+  }
+  return {init,activate,manual,close,consentHTML,setIqama,allowLocation,get enabled(){return enabled;}};
+})();
+Prayer.init();
+
+
 home();how();
 </script>
 </body>
